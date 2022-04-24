@@ -9,8 +9,8 @@ on:
       - main
       - dev
 jobs:
-  build:
-    name: Build
+  sonar:
+    name: SonarQube report
     runs-on: ubuntu-latest
     steps:
       - name: Pull project
