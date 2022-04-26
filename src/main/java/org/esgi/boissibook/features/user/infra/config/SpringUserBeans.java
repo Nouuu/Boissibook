@@ -1,9 +1,9 @@
 package org.esgi.boissibook.features.user.infra.config;
 
 import org.esgi.boissibook.features.user.domain.UserService;
-import org.esgi.boissibook.features.user.domain.UserStore;
+import org.esgi.boissibook.features.user.domain.UserRepository;
 import org.esgi.boissibook.features.user.infra.repository.JPAUserRepository;
-import org.esgi.boissibook.features.user.infra.repository.JPAUserStore;
+import org.esgi.boissibook.features.user.infra.repository.SpringDataUserRepository;
 import org.esgi.boissibook.kernel.event.EventService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringUserBeans {
     @Bean
-    UserStore userJPAStore(JPAUserRepository userRepository) {
-        return new JPAUserStore(userRepository);
+    UserRepository userJPAStore(JPAUserRepository userRepository) {
+        return new SpringDataUserRepository(userRepository);
     }
 
     @Bean
-    public UserService userService(UserStore userStore, EventService eventService) {
-        return new UserService(userStore, eventService);
+    public UserService userService(UserRepository userRepository, EventService eventService) {
+        return new UserService(userRepository, eventService);
     }
 }

@@ -1,8 +1,8 @@
-package org.esgi.boissibook.kernel.store;
+package org.esgi.boissibook.kernel.repository;
 
 import java.util.List;
 
-public interface Store<T>{
+public interface Repository<T>{
     String save(T entity);
 
     long count();

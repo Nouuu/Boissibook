@@ -6,11 +6,11 @@ import org.esgi.boissibook.kernel.event.EventService;
 import java.util.List;
 
 public class UserService {
-    private final UserStore userStore;
+    private final UserRepository userRepository;
     private final EventService eventService;
 
-    public UserService(UserStore userStore, EventService eventService) {
-        this.userStore = userStore;
+    public UserService(UserRepository userRepository, EventService eventService) {
+        this.userRepository = userRepository;
         this.eventService = eventService;
     }
 
@@ -26,7 +26,7 @@ public class UserService {
      * @return The userId is being returned.
      */
     public String createUser(User user) {
-        String userId = userStore.save(user);
+        String userId = userRepository.save(user);
         user.setId(userId);
         eventService.publish(UserAddedEvent.of(user));
         return userId;
@@ -40,7 +40,7 @@ public class UserService {
      * @return A user object
      */
     public User getUser(String id) {
-        return userStore.find(id);
+        return userRepository.find(id);
     }
 
     /**
@@ -49,7 +49,7 @@ public class UserService {
      * @param user The user object that is to be updated.
      */
     public void updateUser(User user) {
-        userStore.save(user);
+        userRepository.save(user);
     }
 
     /**
@@ -58,6 +58,6 @@ public class UserService {
      * @return A list of all users in the database.
      */
     public List<User> getUsers() {
-        return userStore.findAll();
+        return userRepository.findAll();
     }
 }

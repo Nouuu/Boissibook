@@ -1,14 +1,15 @@
 package org.esgi.boissibook.features.user.infra.repository;
 
 import org.esgi.boissibook.features.user.domain.User;
-import org.esgi.boissibook.features.user.domain.UserStore;
+import org.esgi.boissibook.features.user.domain.UserRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public class JPAUserStore implements UserStore {
-    private final JPAUserRepository userRepository;
+public class SpringDataUserRepository implements UserRepository {
+    private final JpaRepository<UserEntity, String> userRepository;
 
-    public JPAUserStore(JPAUserRepository userRepository) {
+    public SpringDataUserRepository(JPAUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
