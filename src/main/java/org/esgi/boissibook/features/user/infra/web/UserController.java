@@ -1,7 +1,8 @@
 package org.esgi.boissibook.features.user.infra.web;
 
 import org.esgi.boissibook.features.user.domain.User;
-import org.esgi.boissibook.features.user.domain.UserService;
+import org.esgi.boissibook.features.user.domain.UserCommandHandler;
+import org.esgi.boissibook.features.user.domain.UserQueryHandler;
 import org.esgi.boissibook.features.user.infra.web.request.CreateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.request.UpdateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.response.UserIdResponse;
@@ -17,10 +18,12 @@ import java.util.List;
 @RequestMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
-    private final UserService userService;
+    private final UserCommandHandler userCommandHandler;
+    private final UserQueryHandler userQueryHandler;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserCommandHandler userCommandHandler, UserQueryHandler userQueryHandler) {
+        this.userCommandHandler = userCommandHandler;
+        this.userQueryHandler = userQueryHandler;
     }
 
     /**
@@ -30,7 +33,7 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<List<UserResponse>> getUsers() {
-        var users = userService.getUsers();
+        var users = userQueryHandler.getUsers();
         return ResponseEntity.ok(
                 users.stream().map(UserResponse::fromUser).toList()
         );
@@ -44,7 +47,7 @@ public class UserController {
      */
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") String id) {
-        var user = userService.getUser(id);
+        var user = userQueryHandler.getUser(id);
         return ResponseEntity.ok(UserResponse.fromUser(user));
     }
 
@@ -60,7 +63,7 @@ public class UserController {
                 .setEmail(createUserRequest.email())
                 .setName(createUserRequest.name())
                 .setPassword(createUserRequest.password());
-        var userId = userService.createUser(createUser);
+        var userId = userCommandHandler.createUser(createUser);
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(new UserIdResponse(userId));
     }
 
@@ -78,7 +81,7 @@ public class UserController {
                 .setEmail(updateUserRequest.email())
                 .setName(updateUserRequest.name())
                 .setPassword(updateUserRequest.password());
-        userService.updateUser(updateUser);
+        userCommandHandler.updateUser(updateUser);
         return ResponseEntity.ok().build();
     }
 }

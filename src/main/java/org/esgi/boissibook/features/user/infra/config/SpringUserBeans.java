@@ -1,6 +1,7 @@
 package org.esgi.boissibook.features.user.infra.config;
 
-import org.esgi.boissibook.features.user.domain.UserService;
+import org.esgi.boissibook.features.user.domain.UserCommandHandler;
+import org.esgi.boissibook.features.user.domain.UserQueryHandler;
 import org.esgi.boissibook.features.user.domain.UserRepository;
 import org.esgi.boissibook.features.user.infra.repository.JPAUserRepository;
 import org.esgi.boissibook.features.user.infra.repository.SpringDataUserRepository;
@@ -16,7 +17,11 @@ public class SpringUserBeans {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository, EventService eventService) {
-        return new UserService(userRepository, eventService);
+    public UserCommandHandler userCommandHandler(UserRepository userRepository, EventService eventService) {
+        return new UserCommandHandler(userRepository, eventService);
+    }
+    @Bean
+    public UserQueryHandler userQueryHandler(UserRepository userRepository) {
+        return new UserQueryHandler(userRepository);
     }
 }
