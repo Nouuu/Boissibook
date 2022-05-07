@@ -2,9 +2,12 @@ package org.esgi.boissibook.features.user.infra.repository;
 
 import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.features.user.domain.UserRepository;
+import org.esgi.boissibook.features.user.kernel.exception.UserExceptionMessage;
+import org.esgi.boissibook.features.user.kernel.exception.UserNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 public class SpringDataUserRepository implements UserRepository {
     private final JpaRepository<UserEntity, String> userRepository;
@@ -21,10 +24,7 @@ public class SpringDataUserRepository implements UserRepository {
      */
     @Override
     public String save(User user) {
-        var userEntity = new UserEntity()
-                .setName(user.name())
-                .setEmail(user.email())
-                .setPassword(user.password());
+        var userEntity = UserEntityMapper.toUserEntity(user);
         return userRepository.save(userEntity).id();
     }
 
@@ -48,7 +48,7 @@ public class SpringDataUserRepository implements UserRepository {
     public List<User> findAll() {
         return userRepository.findAll()
                 .stream()
-                .map(UserEntity::toUser)
+                .map(UserEntityMapper::toUser)
                 .toList();
     }
 
@@ -60,7 +60,8 @@ public class SpringDataUserRepository implements UserRepository {
      */
     @Override
     public User find(String id) {
-        return userRepository.findById(id).orElseThrow().toUser();
+        return UserEntityMapper.toUser(userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id))));
     }
 
     /**
@@ -71,7 +72,8 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public void delete(User user) {
         userRepository.delete(
-                userRepository.findById(user.id()).orElseThrow()
+                userRepository.findById(user.id())
+                        .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, user.id())))
         );
     }
 
@@ -81,5 +83,10 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public void deleteAll() {
         userRepository.deleteAll();
+    }
+
+    @Override
+    public String nextId() {
+        return UUID.randomUUID().toString();
     }
 }
