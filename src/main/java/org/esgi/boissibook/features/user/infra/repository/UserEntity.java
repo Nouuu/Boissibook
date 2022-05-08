@@ -1,10 +1,9 @@
 package org.esgi.boissibook.features.user.infra.repository;
 
-import org.esgi.boissibook.features.user.domain.User;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +14,8 @@ public class UserEntity {
     private String email;
     private String password;
 
-    public UserEntity() {}
+    public UserEntity() {
+    }
 
     public UserEntity(String id, String name, String email, String password) {
         this.id = id;
@@ -63,11 +63,6 @@ public class UserEntity {
         this.password = password;
         return this;
     }
-
-    public User toUser() {
-        return new User(id, name, email, password);
-    }
-
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -76,5 +71,18 @@ public class UserEntity {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(password, that.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, password);
     }
 }
