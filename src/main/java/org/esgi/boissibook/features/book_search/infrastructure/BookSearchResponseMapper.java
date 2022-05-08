@@ -7,6 +7,9 @@ import java.util.List;
 
 public final class BookSearchResponseMapper {
 
+    private BookSearchResponseMapper() {
+    }
+
     public static List<Book> toBookList(BookSearchResponse response) {
         return response.items()
                 .stream()

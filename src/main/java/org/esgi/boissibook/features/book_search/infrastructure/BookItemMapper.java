@@ -7,6 +7,8 @@ import org.esgi.boissibook.features.book_search.infrastructure.models.IndustryId
 import java.util.List;
 
 public final class BookItemMapper {
+    private BookItemMapper() {
+    }
 
     static Book toBook(BookItem bookItem) {
         return new Book(
@@ -18,9 +20,16 @@ public final class BookItemMapper {
                 bookItem.volumeInfo().description(),
                 findISBN(bookItem.volumeInfo().industryIdentifiers()),
                 bookItem.volumeInfo().language(),
-                bookItem.volumeInfo().imageLinks().thumbnail(),
+                getThumbnail(bookItem),
                 bookItem.volumeInfo().pageCount()
         );
+    }
+
+    private static String getThumbnail(BookItem bookItem) {
+        if (bookItem.volumeInfo().imageLinks() != null) {
+            return bookItem.volumeInfo().imageLinks().thumbnail();
+        }
+        return null;
     }
 
     private static String findISBN(List<IndustryIdentifier> industryIdentifiers) {
