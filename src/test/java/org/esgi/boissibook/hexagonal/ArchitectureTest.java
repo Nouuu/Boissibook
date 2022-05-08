@@ -2,6 +2,7 @@ package org.esgi.boissibook.hexagonal;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.core.importer.ImportOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,9 @@ class ArchitectureTest {
 
     @BeforeEach
     void setup() {
-        projectClasses = new ClassFileImporter().importPackages("org.esgi.boissibook");
+        projectClasses = new ClassFileImporter()
+                .withImportOption(new ImportOption.DoNotIncludeTests())
+                .importPackages("org.esgi.boissibook");
     }
 
     @Test
