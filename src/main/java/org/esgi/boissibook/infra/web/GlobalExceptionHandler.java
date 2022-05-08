@@ -20,6 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<UnhandledExceptionResponse> onUnhandled(RuntimeException ex) {
+        ex.printStackTrace();
         return ResponseEntity.internalServerError()
                 .body(new UnhandledExceptionResponse(
                         Arrays.toString(ex.getStackTrace()),
