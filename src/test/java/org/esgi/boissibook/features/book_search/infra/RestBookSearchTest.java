@@ -1,9 +1,8 @@
-package org.esgi.boissibook.features.book_search.infrastructure;
+package org.esgi.boissibook.features.book_search.infra;
 
 import org.esgi.boissibook.features.book_search.domain.Book;
-import org.esgi.boissibook.features.book_search.infrastructure.models.*;
-import org.esgi.boissibook.features.book_search.infrastructure.search_engine.RestSearchEngine;
-import org.esgi.boissibook.features.book_search.infrastructure.web.BooksResponse;
+import org.esgi.boissibook.features.book_search.infra.models.*;
+import org.esgi.boissibook.features.book_search.infra.search_engine.RestSearchEngine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

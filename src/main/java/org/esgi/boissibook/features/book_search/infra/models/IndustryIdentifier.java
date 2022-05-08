@@ -1,4 +1,4 @@
-package org.esgi.boissibook.features.book_search.infrastructure.models;
+package org.esgi.boissibook.features.book_search.infra.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

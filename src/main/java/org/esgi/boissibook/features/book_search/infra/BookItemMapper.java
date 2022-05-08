@@ -1,8 +1,8 @@
-package org.esgi.boissibook.features.book_search.infrastructure;
+package org.esgi.boissibook.features.book_search.infra;
 
 import org.esgi.boissibook.features.book_search.domain.Book;
-import org.esgi.boissibook.features.book_search.infrastructure.models.BookItem;
-import org.esgi.boissibook.features.book_search.infrastructure.models.IndustryIdentifier;
+import org.esgi.boissibook.features.book_search.infra.models.BookItem;
+import org.esgi.boissibook.features.book_search.infra.models.IndustryIdentifier;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package org.esgi.boissibook.features.book_search.infrastructure.search_engine;
+package org.esgi.boissibook.features.book_search.infra.search_engine;
 
-import org.esgi.boissibook.features.book_search.infrastructure.models.BookItem;
-import org.esgi.boissibook.features.book_search.infrastructure.models.BookSearchResponse;
+import org.esgi.boissibook.features.book_search.infra.models.BookItem;
+import org.esgi.boissibook.features.book_search.infra.models.BookSearchResponse;
 import org.esgi.boissibook.features.book_search.kernel.exception.GoogleBookNotfoundException;
 import org.esgi.boissibook.features.book_search.kernel.exception.GoogleBookSearchException;
 import org.springframework.http.HttpStatus;

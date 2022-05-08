@@ -1,7 +1,7 @@
-package org.esgi.boissibook.features.book_search.infrastructure;
+package org.esgi.boissibook.features.book_search.infra;
 
 import org.esgi.boissibook.features.book_search.domain.Book;
-import org.esgi.boissibook.features.book_search.infrastructure.models.BookSearchResponse;
+import org.esgi.boissibook.features.book_search.infra.models.BookSearchResponse;
 
 import java.util.List;
 

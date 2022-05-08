@@ -1,8 +1,8 @@
-package org.esgi.boissibook.features.book_search.infrastructure;
+package org.esgi.boissibook.features.book_search.infra;
 
 import org.esgi.boissibook.features.book_search.domain.Book;
 import org.esgi.boissibook.features.book_search.domain.BookSearch;
-import org.esgi.boissibook.features.book_search.infrastructure.search_engine.RestSearchEngine;
+import org.esgi.boissibook.features.book_search.infra.search_engine.RestSearchEngine;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package org.esgi.boissibook.features.book_search.infrastructure.config;
+package org.esgi.boissibook.features.book_search.infra.config;
 
 import org.esgi.boissibook.features.book_search.domain.BookSearch;
 import org.esgi.boissibook.features.book_search.domain.BookSearchQueryHandler;
-import org.esgi.boissibook.features.book_search.infrastructure.RestBookSearch;
-import org.esgi.boissibook.features.book_search.infrastructure.search_engine.GoogleBookRestSearchEngine;
-import org.esgi.boissibook.features.book_search.infrastructure.search_engine.RestSearchEngine;
+import org.esgi.boissibook.features.book_search.infra.RestBookSearch;
+import org.esgi.boissibook.features.book_search.infra.search_engine.GoogleBookRestSearchEngine;
+import org.esgi.boissibook.features.book_search.infra.search_engine.RestSearchEngine;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

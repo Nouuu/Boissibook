@@ -1,4 +1,4 @@
-package org.esgi.boissibook.features.book_search.infrastructure.web;
+package org.esgi.boissibook.features.book_search.infra.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.book_search.domain.BookSearchQueryHandler;
-import org.esgi.boissibook.features.book_search.infrastructure.models.BookSearchResponse;
+import org.esgi.boissibook.features.book_search.infra.models.BookSearchResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -1,16 +1,15 @@
-package org.esgi.boissibook.features.book_search.infrastructure;
+package org.esgi.boissibook.features.book_search.infra;
 
 import org.esgi.boissibook.features.book_search.domain.Book;
-import org.esgi.boissibook.features.book_search.infrastructure.models.BookItem;
-import org.esgi.boissibook.features.book_search.infrastructure.models.ImageLinks;
-import org.esgi.boissibook.features.book_search.infrastructure.models.IndustryIdentifier;
-import org.esgi.boissibook.features.book_search.infrastructure.models.VolumeInfo;
+import org.esgi.boissibook.features.book_search.infra.models.BookItem;
+import org.esgi.boissibook.features.book_search.infra.models.ImageLinks;
+import org.esgi.boissibook.features.book_search.infra.models.IndustryIdentifier;
+import org.esgi.boissibook.features.book_search.infra.models.VolumeInfo;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BookItemMapperTest {
 
