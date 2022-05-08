@@ -4,14 +4,14 @@ public enum UserExceptionMessage {
     USER_NOT_FOUND("User not found"),
     ;
 
-    private final String s;
+    private final String message;
 
-    UserExceptionMessage(String s) {
-        this.s = s;
+    UserExceptionMessage(String message) {
+        this.message = message;
     }
 
     @Override
     public String toString() {
-        return s;
+        return message;
     }
 }
