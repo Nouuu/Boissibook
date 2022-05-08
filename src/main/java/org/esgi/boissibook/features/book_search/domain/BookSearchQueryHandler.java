@@ -1,8 +1,5 @@
 package org.esgi.boissibook.features.book_search.domain;
 
-import org.esgi.boissibook.features.book_search.infrastructure.BookItemMapper;
-import org.esgi.boissibook.features.book_search.infrastructure.BookSearchResponseMapper;
-
 import java.util.List;
 
 public class BookSearchQueryHandler {
