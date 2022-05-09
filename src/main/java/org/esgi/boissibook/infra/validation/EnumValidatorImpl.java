@@ -1,4 +1,4 @@
-package org.esgi.boissibook.infra.web;
+package org.esgi.boissibook.infra.validation;
 
 import java.util.ArrayList;
 import java.util.List;

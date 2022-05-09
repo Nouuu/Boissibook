@@ -7,109 +7,116 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.readlist.infra.web.request.*;
-import org.esgi.boissibook.features.readlist.infra.web.response.BookProgressionIdResponse;
-import org.esgi.boissibook.features.readlist.infra.web.response.BookProgressionResponse;
+import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
+import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
+import javax.validation.Valid;
 import java.util.List;
 
 @Tag(name = "Readlist controller", description = "Readlist features")
 @RestController
-@RequestMapping(value = "BookProgression", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "book-review", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReadlistController {
-    @Operation(summary = "Get progression by book progression id")
+    @Operation(summary = "Get progression by book review id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = BookProgressionResponse.class))
-            ),
-            @ApiResponse(responseCode = "404", description = "book progression not found",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-            )
+        @ApiResponse(responseCode = "200", description = "Successful operation",
+            content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
+        ),
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        )
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BookProgressionResponse> getBookProgressionById(@PathVariable("id") String id) {
+    public ResponseEntity<BookReviewResponse> getBookReviewById(@PathVariable("id") String id) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    @Operation(summary = "Get progression by book id and user id")
+    @Operation(summary = "Get review by book id and user id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = BookProgressionResponse.class))
+                content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
             ),
-            @ApiResponse(responseCode = "404", description = "book progression not found",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+            @ApiResponse(responseCode = "404", description = "book review not found",
+                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
             )
     })
     @GetMapping(value = "/{bookId}/{userId}")
-    public ResponseEntity<BookProgressionResponse> getBookProgressionByBookIdAndUserId(
+    public ResponseEntity<BookReviewResponse> getBookReviewProgressionByBookIdAndUserId(
             @PathVariable("bookId") String bookId,
             @PathVariable("userId") String userId
     ) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    @Operation(summary = "Get all progression by user id")
+    @Operation(summary = "Get all review by user id")
     @ApiResponse(responseCode = "200", description = "Successful operation")
     @GetMapping(value = "/{userId}")
-    public ResponseEntity<List<BookProgressionResponse>> getAllBookProgressionForAUser(@PathVariable("userId") String userId) {
+    public ResponseEntity<List<BookReviewResponse>> getAllReviewOfAUser(@PathVariable("userId") String userId) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    @Operation(summary = "Create a new book progression")
+    @Operation(summary = "Create a new book review")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Successful operation",
-                content = @Content(schema = @Schema(implementation = BookProgressionIdResponse.class))
+            content = @Content(schema = @Schema(implementation = BookReviewIdResponse.class))
         ),
-        @ApiResponse(responseCode = "400", description = "invalid book progression",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        @ApiResponse(responseCode = "400", description = "invalid book review",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         )
     })
     @PostMapping
-    public ResponseEntity<BookProgressionIdResponse> createBookProgression(@RequestBody CreateBookProgressionRequest createBookProgressionRequest) {
+    public ResponseEntity<BookReviewIdResponse> createBookReview(
+            @Valid  @RequestBody CreateBookReviewRequest createBookProgressionRequest
+    ) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    @Operation(summary = "Update a book progression")
+    @Operation(summary = "Update a book review")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
-        @ApiResponse(responseCode = "400", description = "invalid book progression",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        @ApiResponse(responseCode = "400", description = "invalid book review",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         ),
-        @ApiResponse(responseCode = "404", description = "book progression not found",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         )
     })
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> updateBookProgression(@PathParam("id") String id, @RequestBody UpdateBookProgressionRequest updateBookProgressionRequest) {
+    public ResponseEntity<Void> updateBookProgression(
+        @PathVariable("id") String id,
+        @RequestBody UpdateBookReviewRequest updateBookReviewRequest
+    ) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Operation(summary = "Delete a book progression")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Successful operation"),
-        @ApiResponse(responseCode = "404", description = "book progression not found")
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        )
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteBookProgression(@PathParam("id") String id) {
+    public ResponseEntity<Void> deleteBookReview(@PathVariable("id") String id) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    @Operation(summary = "Update comment for a book progression")
+    @Operation(summary = "Update comment for a book review")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400", description = "invalid comment",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         ),
-        @ApiResponse(responseCode = "404", description = "book progression not found",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         )
     })
     @PatchMapping(value = "/{id}/comment")
-    public ResponseEntity<Void> updateComment(@PathParam("id") String id, @RequestBody CommentRequest newComment) {
+    public ResponseEntity<Void> updateComment(@PathVariable("id") String id, @Valid @RequestBody CommentRequest newComment) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -117,29 +124,29 @@ public class ReadlistController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400", description = "invalid status",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         ),
-        @ApiResponse(responseCode = "404", description = "book progression not found",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         )
     })
     @PatchMapping(value = "/{id}/status")
-    public ResponseEntity<Void> updateStatus(@PathParam("id") String id, @RequestBody StatusRequest newStatus) {
+    public ResponseEntity<Void> updateStatus(@PathVariable("id") String id, @Valid @RequestBody StatusRequest newStatus) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    @Operation(summary = "Update progress for a book progression")
+    @Operation(summary = "Update progress for a book review")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400", description = "invalid progress",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         ),
-        @ApiResponse(responseCode = "404", description = "book progression not found",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         )
     })
     @PatchMapping(value = "/{id}/progress")
-    public ResponseEntity<Void> updateProgress(@PathParam("id") String id, @RequestBody ProgressRequest newProgress) {
+    public ResponseEntity<Void> updateProgress(@PathVariable("id") String id, @Valid @RequestBody ProgressRequest newProgress) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -147,14 +154,14 @@ public class ReadlistController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400", description = "invalid review",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         ),
-        @ApiResponse(responseCode = "404", description = "book progression not found",
-                content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
         )
     })
     @PatchMapping(value = "/{id}/review")
-    public ResponseEntity<Void> updateReview(@PathParam("id") String id, @RequestBody ReviewRequest newReview) {
+    public ResponseEntity<Void> updateReview(@PathVariable("id") String id, @Valid @RequestBody ReviewRequest newReview) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }

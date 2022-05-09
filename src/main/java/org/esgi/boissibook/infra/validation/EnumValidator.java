@@ -1,4 +1,4 @@
-package org.esgi.boissibook.infra.web;
+package org.esgi.boissibook.infra.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
