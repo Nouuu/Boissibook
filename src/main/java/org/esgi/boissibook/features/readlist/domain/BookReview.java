@@ -1,6 +1,6 @@
 package org.esgi.boissibook.features.readlist.domain;
 
-public class BookProgression {
+public class BookReview {
     private final String bookProgressionId;
     private final String bookId;
     private final String userId;
@@ -10,7 +10,7 @@ public class BookProgression {
     private final int note;
     private final String comment;
 
-    public BookProgression(String bookProgressionId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
+    public BookReview(String bookProgressionId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
         this.bookProgressionId = bookProgressionId;
         this.bookId = bookId;
         this.userId = userId;

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "book_progression")
-public class BookProgressionEntity {
+public class BookReviewEntity {
     @Id
     private String bookProgressionId;
     private String bookId;
@@ -21,7 +21,7 @@ public class BookProgressionEntity {
     private int note;
     private String comment;
 
-    public BookProgressionEntity(String bookProgressionId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
+    public BookReviewEntity(String bookProgressionId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
         this.bookProgressionId = bookProgressionId;
         this.bookId = bookId;
         this.userId = userId;
@@ -32,7 +32,7 @@ public class BookProgressionEntity {
         this.comment = comment;
     }
 
-    public BookProgressionEntity() {
+    public BookReviewEntity() {
 
     }
 
