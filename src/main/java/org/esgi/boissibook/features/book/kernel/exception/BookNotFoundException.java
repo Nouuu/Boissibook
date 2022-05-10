@@ -1,6 +1,7 @@
 package org.esgi.boissibook.features.book.kernel.exception;
 
-import org.webjars.NotFoundException;
+
+import org.esgi.boissibook.kernel.exception.NotFoundException;
 
 public class BookNotFoundException extends NotFoundException {
     public BookNotFoundException(String message) {
