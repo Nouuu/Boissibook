@@ -2,9 +2,7 @@ package org.esgi.boissibook.features.book_file.domain;
 
 import java.io.IOException;
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true)
 public class BookFileQueryHandler {
     private final BookFileRepository bookFileRepository;
     private final FileCompression fileCompression;
@@ -18,7 +16,6 @@ public class BookFileQueryHandler {
         return bookFileRepository.findByBookId(bookId);
     }
 
-    @Transactional
     public BookFile getBookFileById(String id) {
         BookFile bookFile = bookFileRepository.find(id);
         bookFile.setDownloadCount(bookFile.downloadCount() + 1);
