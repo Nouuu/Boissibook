@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.book.domain;
 
 import org.esgi.boissibook.features.book.domain.event.BookCreatedEvent;
 import org.esgi.boissibook.features.book.domain.event.BookDeletedEvent;
+import org.esgi.boissibook.features.book.kernel.exception.BookConflictException;
 import org.esgi.boissibook.kernel.event.EventService;
 
 public class BookCommandHandler {
@@ -13,7 +14,7 @@ public class BookCommandHandler {
         this.eventService = eventService;
     }
 
-    public String addBook(Book book) {
+    public String addBook(Book book) throws BookConflictException {
         String bookId = bookRepository.nextId();
         book.setId(bookId);
         eventService.publish(BookCreatedEvent.of(book));
