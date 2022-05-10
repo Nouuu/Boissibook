@@ -3,7 +3,7 @@ package org.esgi.boissibook.features.book_search.infra.search_engine;
 import org.esgi.boissibook.features.book_search.infra.models.BookItem;
 import org.esgi.boissibook.features.book_search.infra.models.BookSearchResponse;
 import org.esgi.boissibook.features.book_search.kernel.exception.GoogleBookGetException;
-import org.esgi.boissibook.features.book_search.kernel.exception.GoogleBookNotfoundException;
+import org.esgi.boissibook.features.book_search.kernel.exception.GoogleBookNotFoundException;
 import org.esgi.boissibook.features.book_search.kernel.exception.GoogleBookSearchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -46,7 +46,7 @@ public class GoogleBookRestSearchEngine implements RestSearchEngine {
                     .block();
         } catch (WebClientResponseException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                throw new GoogleBookNotfoundException(String.format("%s", e.getMessage()));
+                throw new GoogleBookNotFoundException(String.format("%s", e.getMessage()));
             }
             throw new GoogleBookGetException(
                     String.format("%s : %s", e.getStatusCode(), e.getMessage())

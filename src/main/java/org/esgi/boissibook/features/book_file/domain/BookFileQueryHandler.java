@@ -19,11 +19,15 @@ public class BookFileQueryHandler {
     }
 
     @Transactional
-    public BookFile getBookFileById(String id) throws IOException {
+    public BookFile getBookFileById(String id) {
         BookFile bookFile = bookFileRepository.find(id);
         bookFile.setDownloadCount(bookFile.downloadCount() + 1);
         bookFileRepository.save(bookFile);
-        bookFile.setContent(fileCompression.decompress(bookFile.name(), bookFile.content()));
+        try {
+            bookFile.setContent(fileCompression.decompress(bookFile.name(), bookFile.content()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return bookFile;
     }
 

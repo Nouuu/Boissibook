@@ -5,7 +5,9 @@ import java.util.UUID;
 import org.esgi.boissibook.features.book_file.domain.BookFile;
 import org.esgi.boissibook.features.book_file.domain.BookFileRepository;
 import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
-import org.webjars.NotFoundException;
+import org.esgi.boissibook.features.book_file.kernel.exception.BookFileExceptionMessage;
+import org.esgi.boissibook.features.book_file.kernel.exception.BookFileNotFoundException;
+import org.esgi.boissibook.features.user.kernel.exception.UserExceptionMessage;
 
 public class SpringDataBookFileRepository implements BookFileRepository {
     private final JPABookFileRepository bookFileRepository;
@@ -30,13 +32,13 @@ public class SpringDataBookFileRepository implements BookFileRepository {
     }
 
     @Override
-    public BookFile find(String id) throws NotFoundException {
+    public BookFile find(String id) throws BookFileNotFoundException {
         return BookFileMapper.mapEntityBookFileToBookFile(bookFileRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("BookFile not found")));
+            .orElseThrow(() -> new BookFileNotFoundException(String.format("%s : %s", BookFileExceptionMessage.BOOK_FILE_NOT_FOUND, id))));
     }
 
     @Override
-    public void delete(BookFile bookFile) throws NotFoundException {
+    public void delete(BookFile bookFile) {
         bookFileRepository.delete(BookFileMapper.mapBookFileToBookFileEntity(bookFile));
     }
 

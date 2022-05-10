@@ -36,7 +36,7 @@ public class BookFileQueryController {
     }
 
     @GetMapping(value = "/{bookFileId}/download", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ByteArrayResource> downloadBookFile(@PathVariable("bookFileId") String bookFileId) throws IOException {
+    public ResponseEntity<ByteArrayResource> downloadBookFile(@PathVariable("bookFileId") String bookFileId) {
         var bookFile = bookFileQueryHandler.getBookFileById(bookFileId);
         ByteArrayResource resource = new ByteArrayResource(bookFile.content());
 
