@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.book_file.infra.web;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
+import javax.validation.Valid;
 import org.esgi.boissibook.features.book_file.domain.BookFileCommandHandler;
 import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
 import org.esgi.boissibook.features.book_file.infra.web.request.BookFileUploadRequest;
@@ -23,7 +24,7 @@ public class BookFileCommandController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadBookFile(@ModelAttribute BookFileUploadRequest request) throws IOException {
+    public ResponseEntity<String> uploadBookFile(@Valid @ModelAttribute BookFileUploadRequest request) throws IOException {
         var newBookFile = BookFileMapper.mapWebBookFileToBookFile(request.bookId(), request.userId(), request.file());
         String bookFileId = bookFileCommandHandler.createBookFile(newBookFile);
         return ResponseEntity.ok()
