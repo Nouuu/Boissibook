@@ -1,6 +1,7 @@
 package org.esgi.boissibook.kernel.repository;
 
-import org.webjars.NotFoundException;
+
+import org.esgi.boissibook.kernel.exception.NotfoundException;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public interface Repository<T> {
 
     List<T> findAll();
 
-    T find(String id) throws NotFoundException;
+    T find(String id) throws NotfoundException;
 
-    void delete(T entity) throws NotFoundException;
+    void delete(T entity) throws NotfoundException;
 
     void deleteAll();
 

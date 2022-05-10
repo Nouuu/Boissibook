@@ -1,5 +1,6 @@
 package org.esgi.boissibook.infra.web;
 
+import org.esgi.boissibook.kernel.exception.NotfoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.webjars.NotFoundException;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -20,6 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<UnhandledExceptionResponse> onUnhandled(RuntimeException ex) {
+        ex.printStackTrace();
         return ResponseEntity.internalServerError()
                 .body(new UnhandledExceptionResponse(
                         Arrays.toString(ex.getStackTrace()),
@@ -48,8 +49,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ));
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<HandledExceptionResponse> onNotFound(NotFoundException ex) {
+    @ExceptionHandler(NotfoundException.class)
+    public ResponseEntity<HandledExceptionResponse> onNotFound(NotfoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new HandledExceptionResponse(
                         ZonedDateTime.now(),

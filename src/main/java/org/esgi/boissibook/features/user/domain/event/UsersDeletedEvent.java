@@ -1,6 +1,5 @@
 package org.esgi.boissibook.features.user.domain.event;
 
-import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.kernel.event.Event;
 import org.esgi.boissibook.kernel.event.EventId;
 
