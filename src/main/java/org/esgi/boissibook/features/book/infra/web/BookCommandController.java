@@ -38,7 +38,8 @@ public class BookCommandController {
 
     @Operation(summary = "Add book", description = "Add a book with an id provided")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))),
         @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

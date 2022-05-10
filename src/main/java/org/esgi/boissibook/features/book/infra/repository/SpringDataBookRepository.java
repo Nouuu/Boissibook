@@ -5,8 +5,10 @@ import java.util.UUID;
 import org.esgi.boissibook.features.book.domain.Book;
 import org.esgi.boissibook.features.book.domain.BookRepository;
 import org.esgi.boissibook.features.book.infra.BookMapper;
+import org.esgi.boissibook.features.book.kernel.exception.BookConflictException;
 import org.esgi.boissibook.features.book.kernel.exception.BookExceptionMessage;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public class SpringDataBookRepository implements BookRepository {
@@ -17,9 +19,13 @@ public class SpringDataBookRepository implements BookRepository {
     }
 
     @Override
-    public String save(Book book) {
+    public String save(Book book) throws BookConflictException {
         BookEntity bookEntity = BookMapper.mapBookToBookEntity(book);
-        return bookRepository.save(bookEntity).id();
+        try {
+            return bookRepository.save(bookEntity).id();
+        } catch (DataIntegrityViolationException e) {
+            throw new BookConflictException(String.format("%s : %s", BookExceptionMessage.BOOK_CONFLICT, book.apiId()));
+        }
     }
 
     @Override
