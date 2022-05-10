@@ -6,4 +6,5 @@ import org.esgi.boissibook.kernel.repository.Repository;
 public interface BookFileRepository extends Repository<BookFile> {
     List<BookFile> findByBookId(String bookId);
 
+    long countAllByBookId(String bookId);
 }
