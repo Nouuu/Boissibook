@@ -87,13 +87,13 @@ public class BookFile {
     @Override
     public String toString() {
         return "BookFile{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", bookId='" + bookId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", downloadCount=" + downloadCount +
-                ", content=" + Arrays.toString(content) +
-                '}';
+            "id='" + id + '\'' +
+            ", name='" + name + '\'' +
+            ", type='" + type + '\'' +
+            ", bookId='" + bookId + '\'' +
+            ", userId='" + userId + '\'' +
+            ", downloadCount=" + downloadCount +
+            ", content=" + Arrays.toString(content) +
+            '}';
     }
 }

@@ -19,7 +19,7 @@ public final class BookFileCommandHandler {
     public String createBookFile(BookFile bookFile) throws IOException {
         String bookFileId = bookFileRepository.nextId();
         bookFile.setId(bookFileId);
-        bookFile.setContent(fileCompression.compress(bookFile.name(),bookFile.content()));
+        bookFile.setContent(fileCompression.compress(bookFile.name(), bookFile.content()));
         bookFileRepository.save(bookFile);
         eventService.publish(BookFileAddedEvent.of(bookFile));
         return bookFileId;

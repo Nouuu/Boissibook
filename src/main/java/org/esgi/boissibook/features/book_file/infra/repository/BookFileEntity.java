@@ -110,10 +110,10 @@ public class BookFileEntity {
     @Override
     public String toString() {
         return "BookFileEntity{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", bookId='" + bookId + '\'' +
-                ", content=" + Arrays.toString(content) +
-                '}';
+            "id='" + id + '\'' +
+            ", name='" + name + '\'' +
+            ", bookId='" + bookId + '\'' +
+            ", content=" + Arrays.toString(content) +
+            '}';
     }
 }
