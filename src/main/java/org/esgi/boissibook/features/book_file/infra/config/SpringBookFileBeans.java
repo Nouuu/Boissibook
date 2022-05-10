@@ -1,12 +1,12 @@
-package org.esgi.boissibook.features.bookfile.infra.config;
+package org.esgi.boissibook.features.book_file.infra.config;
 
-import org.esgi.boissibook.features.bookfile.domain.BookFileCommandHandler;
-import org.esgi.boissibook.features.bookfile.domain.BookFileQueryHandler;
-import org.esgi.boissibook.features.bookfile.domain.BookFileRepository;
-import org.esgi.boissibook.features.bookfile.domain.FileCompression;
-import org.esgi.boissibook.features.bookfile.infra.repository.JPABookFileRepository;
-import org.esgi.boissibook.features.bookfile.infra.repository.SpringDataBookFileRepository;
-import org.esgi.boissibook.features.bookfile.infra.ZipFileCompression;
+import org.esgi.boissibook.features.book_file.domain.BookFileCommandHandler;
+import org.esgi.boissibook.features.book_file.domain.BookFileQueryHandler;
+import org.esgi.boissibook.features.book_file.domain.BookFileRepository;
+import org.esgi.boissibook.features.book_file.domain.FileCompression;
+import org.esgi.boissibook.features.book_file.infra.repository.JPABookFileRepository;
+import org.esgi.boissibook.features.book_file.infra.repository.SpringDataBookFileRepository;
+import org.esgi.boissibook.features.book_file.infra.ZipFileCompression;
 import org.esgi.boissibook.kernel.event.EventService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

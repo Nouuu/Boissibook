@@ -1,8 +1,8 @@
-package org.esgi.boissibook.features.bookfile.domain;
+package org.esgi.boissibook.features.book_file.domain;
 
 import java.io.IOException;
-import org.esgi.boissibook.features.bookfile.domain.event.BookFileAddedEvent;
-import org.esgi.boissibook.features.bookfile.domain.event.BookFileDeletedEvent;
+import org.esgi.boissibook.features.book_file.domain.event.BookFileAddedEvent;
+import org.esgi.boissibook.features.book_file.domain.event.BookFileDeletedEvent;
 import org.esgi.boissibook.kernel.event.EventService;
 
 public final class BookFileCommandHandler {

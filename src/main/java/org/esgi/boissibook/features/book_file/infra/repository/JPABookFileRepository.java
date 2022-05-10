@@ -1,4 +1,4 @@
-package org.esgi.boissibook.features.bookfile.infra.repository;
+package org.esgi.boissibook.features.book_file.infra.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
