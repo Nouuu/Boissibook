@@ -1,11 +1,11 @@
-package org.esgi.boissibook.features.bookfile.infra.repository;
+package org.esgi.boissibook.features.book_file.infra.repository;
 
 import java.util.Arrays;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import org.esgi.boissibook.features.bookfile.domain.BookFile;
+import org.esgi.boissibook.features.book_file.domain.BookFile;
 
 @Entity
 @Table(name = "book_file")

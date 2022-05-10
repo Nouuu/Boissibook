@@ -1,9 +1,9 @@
-package org.esgi.boissibook.features.bookfile.infra;
+package org.esgi.boissibook.features.book_file.infra;
 
 import java.io.IOException;
-import org.esgi.boissibook.features.bookfile.domain.BookFile;
-import org.esgi.boissibook.features.bookfile.infra.repository.BookFileEntity;
-import org.esgi.boissibook.features.bookfile.infra.web.response.BookFileResponse;
+import org.esgi.boissibook.features.book_file.domain.BookFile;
+import org.esgi.boissibook.features.book_file.infra.repository.BookFileEntity;
+import org.esgi.boissibook.features.book_file.infra.web.response.BookFileResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 public final class BookFileMapper {

@@ -1,10 +1,10 @@
-package org.esgi.boissibook.features.bookfile.infra.web;
+package org.esgi.boissibook.features.book_file.infra.web;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
-import org.esgi.boissibook.features.bookfile.domain.BookFileCommandHandler;
-import org.esgi.boissibook.features.bookfile.infra.BookFileMapper;
-import org.esgi.boissibook.features.bookfile.infra.web.request.BookFileUploadRequest;
+import org.esgi.boissibook.features.book_file.domain.BookFileCommandHandler;
+import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
+import org.esgi.boissibook.features.book_file.infra.web.request.BookFileUploadRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;

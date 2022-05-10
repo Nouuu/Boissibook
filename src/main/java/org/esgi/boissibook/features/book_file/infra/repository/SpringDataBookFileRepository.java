@@ -1,10 +1,10 @@
-package org.esgi.boissibook.features.bookfile.infra.repository;
+package org.esgi.boissibook.features.book_file.infra.repository;
 
 import java.util.List;
 import java.util.UUID;
-import org.esgi.boissibook.features.bookfile.domain.BookFile;
-import org.esgi.boissibook.features.bookfile.domain.BookFileRepository;
-import org.esgi.boissibook.features.bookfile.infra.BookFileMapper;
+import org.esgi.boissibook.features.book_file.domain.BookFile;
+import org.esgi.boissibook.features.book_file.domain.BookFileRepository;
+import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
 import org.webjars.NotFoundException;
 
 public class SpringDataBookFileRepository implements BookFileRepository {

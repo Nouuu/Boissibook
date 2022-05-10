@@ -1,4 +1,4 @@
-package org.esgi.boissibook.features.bookfile.infra.web.request;
+package org.esgi.boissibook.features.book_file.infra.web.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.NotBlank;

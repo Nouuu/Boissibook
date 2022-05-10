@@ -1,4 +1,4 @@
-package org.esgi.boissibook.features.bookfile.domain;
+package org.esgi.boissibook.features.book_file.domain;
 
 import java.io.IOException;
 import java.util.List;

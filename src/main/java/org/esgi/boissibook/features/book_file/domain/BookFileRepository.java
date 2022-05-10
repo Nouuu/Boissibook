@@ -1,4 +1,4 @@
-package org.esgi.boissibook.features.bookfile.domain;
+package org.esgi.boissibook.features.book_file.domain;
 
 import java.util.List;
 import org.esgi.boissibook.kernel.repository.Repository;
