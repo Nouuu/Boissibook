@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import org.esgi.boissibook.features.book_file.domain.BookFile;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "book_file")
@@ -18,6 +19,7 @@ public class BookFileEntity {
     private String userId;
     private int downloadCount;
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] content;
 
     public BookFileEntity() {
