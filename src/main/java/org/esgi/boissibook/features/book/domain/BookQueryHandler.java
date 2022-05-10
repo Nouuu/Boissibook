@@ -1,9 +1,7 @@
 package org.esgi.boissibook.features.book.domain;
 
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true)
 public class BookQueryHandler {
     private final BookRepository bookRepository;
 
