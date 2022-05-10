@@ -7,7 +7,6 @@ import org.esgi.boissibook.features.book_file.domain.BookFileRepository;
 import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
 import org.esgi.boissibook.features.book_file.kernel.exception.BookFileExceptionMessage;
 import org.esgi.boissibook.features.book_file.kernel.exception.BookFileNotFoundException;
-import org.esgi.boissibook.features.user.kernel.exception.UserExceptionMessage;
 
 public class SpringDataBookFileRepository implements BookFileRepository {
     private final JPABookFileRepository bookFileRepository;
@@ -55,7 +54,7 @@ public class SpringDataBookFileRepository implements BookFileRepository {
     @Override
     public List<BookFile> findByBookId(String bookId) {
         return bookFileRepository.findByBookId(bookId).stream()
-                .map(BookFileMapper::mapEntityBookFileToBookFile)
-                .toList();
+            .map(BookFileMapper::mapEntityBookFileToBookFile)
+            .toList();
     }
 }
