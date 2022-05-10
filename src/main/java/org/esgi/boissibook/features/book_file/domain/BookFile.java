@@ -1,6 +1,7 @@
 package org.esgi.boissibook.features.book_file.domain;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class BookFile {
     private String id;
@@ -95,5 +96,18 @@ public class BookFile {
             ", downloadCount=" + downloadCount +
             ", content=" + Arrays.toString(content) +
             '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookFile bookFile = (BookFile) o;
+        return Objects.equals(id, bookFile.id) && Objects.equals(name, bookFile.name) && Objects.equals(type, bookFile.type) && Objects.equals(bookId, bookFile.bookId) && Objects.equals(userId, bookFile.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, type, bookId, userId);
     }
 }
