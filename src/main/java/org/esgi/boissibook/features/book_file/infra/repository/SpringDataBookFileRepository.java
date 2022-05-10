@@ -57,4 +57,9 @@ public class SpringDataBookFileRepository implements BookFileRepository {
             .map(BookFileMapper::mapEntityBookFileToBookFile)
             .toList();
     }
+
+    @Override
+    public long countAllByBookId(String bookId) {
+        return bookFileRepository.countAllByBookId(bookId);
+    }
 }

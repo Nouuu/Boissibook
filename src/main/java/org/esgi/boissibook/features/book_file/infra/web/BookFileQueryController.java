@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.book_file.domain.BookFileQueryHandler;
 import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
+import org.esgi.boissibook.features.book_file.infra.web.response.BookFilesCountResponse;
 import org.esgi.boissibook.features.book_file.infra.web.response.BookFilesResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.core.io.ByteArrayResource;
@@ -57,5 +58,17 @@ public class BookFileQueryController {
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + bookFile.name())
             .body(resource);
+    }
+
+    @Operation(summary = "Count book files by book id", description = "Get the amount of available book files for a given book id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BookFilesCountResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
+    })
+    @GetMapping(value = "/book/{bookId}/count", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BookFilesCountResponse> getBookFileCount(@PathVariable("bookId") String bookId) {
+        var count = bookFileQueryHandler.countBookFiles(bookId);
+        return ResponseEntity.ok()
+            .body(new BookFilesCountResponse(count));
     }
 }

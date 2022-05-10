@@ -1,6 +1,5 @@
 package org.esgi.boissibook.features.book_file.domain;
 
-import java.io.IOException;
 import java.util.List;
 
 public class BookFileQueryHandler {
@@ -20,15 +19,11 @@ public class BookFileQueryHandler {
         BookFile bookFile = bookFileRepository.find(id);
         bookFile.setDownloadCount(bookFile.downloadCount() + 1);
         bookFileRepository.save(bookFile);
-        try {
-            bookFile.setContent(fileCompression.decompress(bookFile.name(), bookFile.content()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        bookFile.setContent(fileCompression.decompress(bookFile.name(), bookFile.content()));
         return bookFile;
     }
 
-    public long countBookFiles() {
-        return bookFileRepository.count();
+    public long countBookFiles(String bookId) {
+        return bookFileRepository.countAllByBookId(bookId);
     }
 }

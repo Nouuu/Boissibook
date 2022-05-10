@@ -15,9 +15,6 @@ public class Book {
     private String imgUrl;
     private int pages;
 
-    public Book() {
-    }
-
     public Book(String id, String apiId, String title, List<String> authors, String publisher, String publishedDate, String description, String isbn13, String language, String imgUrl, int pages) {
         this.id = id;
         this.apiId = apiId;

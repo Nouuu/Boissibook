@@ -1,6 +1,5 @@
 package org.esgi.boissibook.features.book_file.domain;
 
-import java.io.IOException;
 import org.esgi.boissibook.features.book_file.domain.event.BookFileAddedEvent;
 import org.esgi.boissibook.features.book_file.domain.event.BookFileDeletedEvent;
 import org.esgi.boissibook.kernel.event.EventService;
@@ -16,7 +15,7 @@ public final class BookFileCommandHandler {
         this.fileCompression = fileCompression;
     }
 
-    public String createBookFile(BookFile bookFile) throws IOException {
+    public String createBookFile(BookFile bookFile) {
         String bookFileId = bookFileRepository.nextId();
         bookFile.setId(bookFileId);
         bookFile.setContent(fileCompression.compress(bookFile.name(), bookFile.content()));
