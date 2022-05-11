@@ -69,4 +69,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ex.getMessage()
             ));
     }
+
+    @ExceptionHandler(SearchException.class)
+    public ResponseEntity<HandledExceptionResponse> onNotBadRequest(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new HandledExceptionResponse(
+                        ZonedDateTime.now(),
+                        ex.getMessage()
+                ));
+    }
 }

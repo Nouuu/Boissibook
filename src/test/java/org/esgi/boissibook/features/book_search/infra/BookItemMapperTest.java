@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.book_search.infra;
 
 import org.esgi.boissibook.features.book_search.domain.Book;
 import org.esgi.boissibook.features.book_search.infra.models.BookItem;
+import org.esgi.boissibook.features.book_search.infra.models.BookSearchResponse;
 import org.esgi.boissibook.features.book_search.infra.models.ImageLinks;
 import org.esgi.boissibook.features.book_search.infra.models.IndustryIdentifier;
 import org.esgi.boissibook.features.book_search.infra.models.VolumeInfo;
@@ -34,5 +35,12 @@ class BookItemMapperTest {
     @Test
     void toBook2() {
         assertThat(BookItemMapper.toBook(bookItem2)).isEqualTo(book2);
+    }
+
+    @Test
+    void toBookList() {
+        assertThat(BookItemMapper.toBookList(new BookSearchResponse(2, List.of(bookItem1, bookItem2))))
+                .hasSize(2)
+                .containsOnly(book1, book2);
     }
 }

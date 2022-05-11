@@ -16,7 +16,7 @@ public class RestBookSearch implements BookSearch {
 
     @Override
     public List<Book> searchBooks(String query) {
-        return BookSearchResponseMapper.toBookList(searchEngine.search(query));
+        return BookItemMapper.toBookList(searchEngine.search(query));
     }
 
     @Override

@@ -2,12 +2,20 @@ package org.esgi.boissibook.features.book_search.infra;
 
 import org.esgi.boissibook.features.book_search.domain.Book;
 import org.esgi.boissibook.features.book_search.infra.models.BookItem;
+import org.esgi.boissibook.features.book_search.infra.models.BookSearchResponse;
 import org.esgi.boissibook.features.book_search.infra.models.IndustryIdentifier;
 
 import java.util.List;
 
 public final class BookItemMapper {
     private BookItemMapper() {
+    }
+
+    public static List<Book> toBookList(BookSearchResponse response) {
+        return response.items()
+                .stream()
+                .map(BookItemMapper::toBook)
+                .toList();
     }
 
     static Book toBook(BookItem bookItem) {
