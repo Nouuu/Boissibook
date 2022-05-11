@@ -2,9 +2,9 @@ FROM maven:3-amazoncorretto-17 as builder
 
 WORKDIR /app
 
-COPY src /app/src
-COPY pom.xml /app/pom.xml
-RUN mvn -f /app/pom.xml clean install
+COPY src ./src
+COPY pom.xml ./pom.xml
+RUN mvn clean install
 
 FROM openjdk:17-alpine as runner
 
