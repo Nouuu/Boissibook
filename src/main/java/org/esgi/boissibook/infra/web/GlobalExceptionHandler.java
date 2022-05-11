@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.esgi.boissibook.kernel.exception.ConflictException;
 import org.esgi.boissibook.kernel.exception.NotFoundException;
+import org.esgi.boissibook.kernel.exception.SearchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
