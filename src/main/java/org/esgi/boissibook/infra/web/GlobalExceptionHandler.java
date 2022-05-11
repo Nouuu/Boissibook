@@ -1,6 +1,7 @@
 package org.esgi.boissibook.infra.web;
 
 import org.esgi.boissibook.kernel.exception.NotfoundException;
+import org.esgi.boissibook.kernel.exception.SearchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +53,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotfoundException.class)
     public ResponseEntity<HandledExceptionResponse> onNotFound(NotfoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new HandledExceptionResponse(
+                        ZonedDateTime.now(),
+                        ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(SearchException.class)
+    public ResponseEntity<HandledExceptionResponse> onNotBadRequest(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new HandledExceptionResponse(
                         ZonedDateTime.now(),
                         ex.getMessage()
