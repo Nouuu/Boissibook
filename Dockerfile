@@ -25,6 +25,7 @@ ENV H2_CONSOLE_ENABLED=true \
     DATASOURCE_PORT=5432 \
     DATASOURCE_DBNAME=postgres \
     DATASOURCE_USERNAME=postgres \
-    DATASOURCE_PASSWORD=password
+    DATASOURCE_PASSWORD=password \
+    SWAGGER_UI_ENABLED=true
 
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=env", "/app/app.jar"]
