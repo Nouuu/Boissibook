@@ -1,8 +1,8 @@
 package org.esgi.boissibook.features.user.kernel.exception;
 
-import org.webjars.NotFoundException;
+import org.esgi.boissibook.kernel.exception.NotfoundException;
 
-public final class UserNotFoundException extends NotFoundException {
+public final class UserNotFoundException extends NotfoundException {
     public UserNotFoundException(String message) {
         super(message);
     }
