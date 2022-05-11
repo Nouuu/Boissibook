@@ -1,4 +1,4 @@
-name: Regular base image update check
+name: Docker image build and push
 on:
   push:
     branches:
