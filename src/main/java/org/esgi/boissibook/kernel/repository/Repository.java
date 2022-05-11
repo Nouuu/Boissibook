@@ -1,6 +1,7 @@
 package org.esgi.boissibook.kernel.repository;
 
-import org.webjars.NotFoundException;
+
+import org.esgi.boissibook.kernel.exception.NotFoundException;
 
 import java.util.List;
 

@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.esgi.boissibook.features.user.domain.UserCommandHandler;
 import org.esgi.boissibook.features.user.domain.UserQueryHandler;
 import org.esgi.boissibook.features.user.infra.web.response.UserResponse;
 import org.esgi.boissibook.features.user.infra.web.response.UsersCountResponse;
@@ -25,11 +24,9 @@ import java.util.List;
 @RequestMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRequestController {
 
-    private final UserCommandHandler userCommandHandler;
     private final UserQueryHandler userQueryHandler;
 
-    public UserRequestController(UserCommandHandler userCommandHandler, UserQueryHandler userQueryHandler) {
-        this.userCommandHandler = userCommandHandler;
+    public UserRequestController(UserQueryHandler userQueryHandler) {
         this.userQueryHandler = userQueryHandler;
     }
 
