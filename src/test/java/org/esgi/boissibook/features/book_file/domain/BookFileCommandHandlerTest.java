@@ -2,7 +2,6 @@ package org.esgi.boissibook.features.book_file.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
-import org.esgi.boissibook.features.user.infra.config.SpringUserBeans;
 import org.esgi.boissibook.infra.SpringEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,36 +22,36 @@ class BookFileCommandHandlerTest {
     @Autowired
     public BookFileRepository bookFileRepository;
 
-    BookFile book1;
-    BookFile book3;
-    BookFile book2;
+    BookFile bookFile1;
+    BookFile bookFile2;
+    BookFile bookFile3;
 
 
     @BeforeEach
     void setUp() {
-        book1 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
-        book2 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
-        book3 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
+        bookFile1 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
+        bookFile2 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
+        bookFile3 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
     }
 
     @Test
-    void createBook() {
-        var bookFileId = bookFileCommandHandler.createBookFile(book1);
+    void createBookFile() {
+        var bookFileId = bookFileCommandHandler.createBookFile(bookFile1);
 
-        assertThat(bookFileRepository.find(book1.id()))
+        assertThat(bookFileRepository.find(bookFile1.id()))
             .isNotNull()
-            .isEqualTo(book1.setId(bookFileId));
+            .isEqualTo(bookFile1.setId(bookFileId));
     }
 
     @Test
-    void deleteBook() {
-        bookFileRepository.save(book1.setId(bookFileRepository.nextId()));
-        bookFileRepository.save(book2.setId(bookFileRepository.nextId()));
+    void deleteBookFile() {
+        bookFileRepository.save(bookFile1.setId(bookFileRepository.nextId()));
+        bookFileRepository.save(bookFile2.setId(bookFileRepository.nextId()));
 
-        bookFileCommandHandler.deleteBookFile(book1.id());
+        bookFileCommandHandler.deleteBookFile(bookFile1.id());
 
         assertThat(bookFileRepository.findAll())
             .hasSize(1)
-            .containsOnly(book2);
+            .containsOnly(bookFile2);
     }
 }

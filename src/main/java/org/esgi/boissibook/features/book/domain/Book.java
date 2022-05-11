@@ -1,6 +1,7 @@
 package org.esgi.boissibook.features.book.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Book {
     private String id;
@@ -79,7 +80,6 @@ public class Book {
         return this;
     }
 
-
     public Book setApiId(String apiId) {
         this.apiId = apiId;
         return this;
@@ -145,5 +145,21 @@ public class Book {
             ", imgUrl='" + imgUrl + '\'' +
             ", pages=" + pages +
             '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return pages == book.pages && Objects.equals(id, book.id) && Objects.equals(apiId, book.apiId)
+            && Objects.equals(title, book.title) && Objects.equals(publisher, book.publisher) && Objects.equals(publishedDate, book.publishedDate)
+            && Objects.equals(description, book.description) && Objects.equals(isbn13, book.isbn13)
+            && Objects.equals(language, book.language) && Objects.equals(imgUrl, book.imgUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, apiId, title, authors, publisher, publishedDate, description, isbn13, language, imgUrl, pages);
     }
 }

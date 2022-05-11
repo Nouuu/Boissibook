@@ -1,12 +1,13 @@
 package org.esgi.boissibook.kernel.repository;
 
 
+import org.esgi.boissibook.kernel.exception.ConflictException;
 import org.esgi.boissibook.kernel.exception.NotFoundException;
 
 import java.util.List;
 
 public interface Repository<T> {
-    String save(T entity);
+    String save(T entity) throws ConflictException;
 
     long count();
 
