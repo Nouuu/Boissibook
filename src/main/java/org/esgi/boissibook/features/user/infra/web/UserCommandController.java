@@ -7,11 +7,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.user.domain.UserCommandHandler;
-import org.esgi.boissibook.features.user.domain.UserQueryHandler;
 import org.esgi.boissibook.features.user.infra.web.request.CreateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.request.UpdateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.response.UserIdResponse;
-import org.esgi.boissibook.features.user.infra.web.response.UserResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,10 +52,7 @@ public class UserCommandController {
 
     @Operation(summary = "Update existing user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",
-                    description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = UserIdResponse.class))
-            ),
+            @ApiResponse(responseCode = "201", description = "Successful operation"),
             @ApiResponse(
                     responseCode = "400",
                     description = "Invalid user form",
@@ -79,10 +74,7 @@ public class UserCommandController {
 
     @Operation(summary = "Delete user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204",
-                    description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = UserIdResponse.class))
-            ),
+            @ApiResponse(responseCode = "204", description = "Successful operation"),
             @ApiResponse(
                     responseCode = "404",
                     description = "User not found",
