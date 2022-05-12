@@ -1,17 +1,17 @@
 package org.esgi.boissibook.features.readlist.domain;
 
 public class BookReview {
-    private final String bookProgressionId;
-    private final String bookId;
-    private final String userId;
-    private final Visibility visibility;
-    private final ReadingStatus readingStatus;
-    private final int currentPage;
-    private final int note;
-    private final String comment;
+    private String bookReviewId;
+    private String bookId;
+    private String userId;
+    private Visibility visibility;
+    private ReadingStatus readingStatus;
+    private int currentPage;
+    private int note;
+    private String comment;
 
-    public BookReview(String bookProgressionId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
-        this.bookProgressionId = bookProgressionId;
+    public BookReview(String bookReviewId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
+        this.bookReviewId = bookReviewId;
         this.bookId = bookId;
         this.userId = userId;
         this.visibility = visibility;
@@ -21,8 +21,8 @@ public class BookReview {
         this.comment = comment;
     }
 
-    public String getBookProgressionId() {
-        return bookProgressionId;
+    public String getBookReviewId() {
+        return bookReviewId;
     }
 
     public String getBookId() {
@@ -51,5 +51,36 @@ public class BookReview {
 
     public String getComment() {
         return comment;
+    }
+    public void setBookReviewId(String bookReviewId) {
+        this.bookReviewId = bookReviewId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+    }
+
+    public void setReadingStatus(ReadingStatus readingStatus) {
+        this.readingStatus = readingStatus;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void setNote(int note) {
+        this.note = note;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
