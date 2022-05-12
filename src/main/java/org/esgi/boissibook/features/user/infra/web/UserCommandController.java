@@ -51,10 +51,7 @@ public class UserCommandController {
 
     @Operation(summary = "Update existing user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",
-                    description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = UserIdResponse.class))
-            ),
+            @ApiResponse(responseCode = "201", description = "Successful operation"),
             @ApiResponse(
                     responseCode = "400",
                     description = "Invalid user form",
@@ -76,10 +73,7 @@ public class UserCommandController {
 
     @Operation(summary = "Delete user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204",
-                    description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = UserIdResponse.class))
-            ),
+            @ApiResponse(responseCode = "204", description = "Successful operation"),
             @ApiResponse(
                     responseCode = "404",
                     description = "User not found",
