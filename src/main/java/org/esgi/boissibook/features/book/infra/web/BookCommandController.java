@@ -11,6 +11,7 @@ import org.esgi.boissibook.features.book.domain.BookCommandHandler;
 import org.esgi.boissibook.features.book.infra.BookMapper;
 import org.esgi.boissibook.features.book.infra.web.request.AddBookRequest;
 import org.esgi.boissibook.features.book.infra.web.response.BookIdResponse;
+import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.features.book_search.domain.Book;
 import org.esgi.boissibook.features.book_search.domain.BookSearchQueryHandler;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
@@ -49,12 +50,13 @@ public class BookCommandController {
             .body(new BookIdResponse(bookCommandHandler.addBook(BookMapper.mapBookSearchToBook(searchedBook))));
     }
 
-    @Operation(summary = "Add book", description = "Delete a book by its id")
+    @Operation(summary = "Delete book", description = "Delete a book by its id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = String.class)))
+        @ApiResponse(responseCode = "204", description = "No content", content = @Content(schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = BookNotFoundException.class)))
     })
     @DeleteMapping(value = "{bookId}")
-    public ResponseEntity<Void> addBook(@PathVariable("bookId") String bookId) {
+    public ResponseEntity<Void> deleteBook(@PathVariable("bookId") String bookId) {
         bookCommandHandler.deleteBook(bookId);
         return ResponseEntity.ok()
             .build();

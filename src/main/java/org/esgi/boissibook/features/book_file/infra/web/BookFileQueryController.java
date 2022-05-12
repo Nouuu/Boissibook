@@ -10,6 +10,7 @@ import org.esgi.boissibook.features.book_file.domain.BookFileQueryHandler;
 import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
 import org.esgi.boissibook.features.book_file.infra.web.response.BookFilesCountResponse;
 import org.esgi.boissibook.features.book_file.infra.web.response.BookFilesResponse;
+import org.esgi.boissibook.features.book_file.kernel.exception.BookFileNotFoundException;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -48,6 +49,7 @@ public class BookFileQueryController {
     @Operation(summary = "Download a book", description = "Return a list of books matching the query search")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = ByteArrayResource.class))),
+        @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = BookFileNotFoundException.class))),
         @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
     @GetMapping(value = "/{bookFileId}/download", produces = MediaType.MULTIPART_FORM_DATA_VALUE)

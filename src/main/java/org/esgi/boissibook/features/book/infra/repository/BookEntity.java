@@ -1,7 +1,6 @@
 package org.esgi.boissibook.features.book.infra.repository;
 
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -164,18 +163,5 @@ public class BookEntity {
             ", imgUrl='" + imgUrl + '\'' +
             ", pages=" + pages +
             '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookEntity that = (BookEntity) o;
-        return pages == that.pages && Objects.equals(id, that.id) && Objects.equals(apiId, that.apiId) && Objects.equals(title, that.title) && Objects.equals(authors, that.authors) && Objects.equals(publisher, that.publisher) && Objects.equals(publishedDate, that.publishedDate) && Objects.equals(description, that.description) && Objects.equals(isbn13, that.isbn13) && Objects.equals(language, that.language) && Objects.equals(imgUrl, that.imgUrl);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, apiId, title, authors, publisher, publishedDate, description, isbn13, language, imgUrl, pages);
     }
 }
