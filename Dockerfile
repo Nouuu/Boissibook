@@ -15,7 +15,7 @@ COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
 
 ENV H2_CONSOLE_ENABLED=true \
-    JPA_OPEN_IN_WIEW=false \
+    JPA_OPEN_IN_VIEW=false \
     JPA_GENERATE_DDL=true \
     JPA_HIBERNATE_DDL_AUTO=create \
     HIKARI_CONNECTION_TIMEOUT=20000 \
