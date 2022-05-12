@@ -9,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "book_progression")
+@Table(name = "book_review")
 public class BookReviewEntity {
     @Id
-    private String bookProgressionId;
+    private String bookReviewId;
     private String bookId;
     private String userId;
     private Visibility visibility;
@@ -22,7 +22,7 @@ public class BookReviewEntity {
     private String comment;
 
     public BookReviewEntity(String bookProgressionId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
-        this.bookProgressionId = bookProgressionId;
+        this.bookReviewId = bookProgressionId;
         this.bookId = bookId;
         this.userId = userId;
         this.visibility = visibility;
@@ -64,7 +64,7 @@ public class BookReviewEntity {
         return comment;
     }
 
-    public String getBookProgressionId() {
-        return bookProgressionId;
+    public String getBookReviewId() {
+        return bookReviewId;
     }
 }

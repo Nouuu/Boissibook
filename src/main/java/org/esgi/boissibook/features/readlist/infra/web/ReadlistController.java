@@ -9,13 +9,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.readlist.infra.web.request.*;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
+import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewsResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Tag(name = "Readlist controller", description = "Readlist features")
 @RestController
@@ -55,7 +55,7 @@ public class ReadlistController {
     @Operation(summary = "Get all review by user id")
     @ApiResponse(responseCode = "200", description = "Successful operation")
     @GetMapping(value = "/{userId}")
-    public ResponseEntity<List<BookReviewResponse>> getAllReviewOfAUser(@PathVariable("userId") String userId) {
+    public ResponseEntity<BookReviewsResponse> getAllReviewOfAUser(@PathVariable("userId") String userId) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
