@@ -19,6 +19,6 @@ spec:
           name: boissibook
           env:
             - name: DATASOURCE_HOST
-              value: "$(_DATASOURCE_HOST)"
+              value: "%_DATASOURCE_HOST%"
           ports:
             - containerPort: 8080
