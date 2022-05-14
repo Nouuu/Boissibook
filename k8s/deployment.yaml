@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: $(_APP_NAME)
+  name: $(_APP_NAME)
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: $(_APP_NAME)
+  template:
+    metadata:
+      labels:
+        run: $(_APP_NAME)
+    spec:
+      containers:
+        - image: $(_GCP_REGISTRY_URL)/$(PROJECT_ID)/$(_GCP_REGISTRY_NAME)/$(_IMAGE_NAME):$(_IMAGE_TAG)
+          name: $(_APP_NAME)
+          ports:
+            - containerPort: 8080
