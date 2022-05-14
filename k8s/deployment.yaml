@@ -2,20 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run: $(_APP_NAME)
-  name: $(_APP_NAME)
+    run: boissibook
+  name: boissibook
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      run: $(_APP_NAME)
+      run: boissibook
   template:
     metadata:
       labels:
-        run: $(_APP_NAME)
+        run: boissibook
     spec:
       containers:
-        - image: $(_GCP_REGISTRY_URL)/$(PROJECT_ID)/$(_GCP_REGISTRY_NAME)/$(_IMAGE_NAME):$(_IMAGE_TAG)
-          name: $(_APP_NAME)
+        - image: europe-west9-docker.pkg.dev/boissibook/boissi-registry/boissibook:latest
+          name: boissibook
+          env:
+            - name: DATASOURCE_HOST
+              value: "$(_DATASOURCE_HOST)"
           ports:
             - containerPort: 8080
