@@ -7,13 +7,13 @@ steps:
       'docker pull $_GCP_REGISTRY_URL/$PROJECT_ID/$_GCP_REGISTRY_NAME/$_IMAGE_NAME:$_IMAGE_TAG || exit 0'
     ]
   #step 2
-  - name: gcr.io/cloud-builders/docker
-    args: [
-      'build',
-      '-t',
-      '$_GCP_REGISTRY_URL/$PROJECT_ID/$_GCP_REGISTRY_NAME/$_IMAGE_NAME:$_IMAGE_TAG',
-      '.'
-    ]
+#  - name: gcr.io/cloud-builders/docker
+#    args: [
+#      'build',
+#      '-t',
+#      '$_GCP_REGISTRY_URL/$PROJECT_ID/$_GCP_REGISTRY_NAME/$_IMAGE_NAME:$_IMAGE_TAG',
+#      '.'
+#    ]
   #step 3
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: bash
@@ -21,6 +21,11 @@ steps:
       - '-c'
       - |
         sed -i 's/%_DATASOURCE_HOST%/'${_DATASOURCE_HOST}'/g' k8s/*.yaml
+        sed -i 's/%_DATASOURCE_DBNAME%/'${_DATASOURCE_DBNAME}'/g' k8s/*.yaml
+        sed -i 's/%_DATASOURCE_USERNAME%/'${_DATASOURCE_USERNAME}'/g' k8s/*.yaml
+        sed -i 's/%_DATASOURCE_PASSWORD%/'${_DATASOURCE_PASSWORD}'/g' k8s/*.yaml
+        sed -i 's/%_SWAGGER_UI_ENABLED%/'${_SWAGGER_UI_ENABLED}'/g' k8s/*.yaml
+        sed -i 's/%_JPA_HIBERNATE_DDL_AUTO%/'${_JPA_HIBERNATE_DDL_AUTO}'/g' k8s/*.yaml
 
   #step 4
   - name: 'gcr.io/cloud-builders/kubectl'

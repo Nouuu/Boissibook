@@ -20,5 +20,15 @@ spec:
           env:
             - name: DATASOURCE_HOST
               value: "%_DATASOURCE_HOST%"
+            - name: DATASOURCE_DBNAME
+              value: "%_DATASOURCE_DBNAME%"
+            - name: DATASOURCE_USERNAME
+              value: "%_DATASOURCE_USERNAME%"
+            - name: DATASOURCE_PASSWORD
+              value: "%_DATASOURCE_PASSWORD%"
+            - name: SWAGGER_UI_ENABLED
+              value: "%_SWAGGER_UI_ENABLED%"
+            - name: JPA_HIBERNATE_DDL_AUTO
+              value: "%_JPA_HIBERNATE_DDL_AUTO%"
           ports:
             - containerPort: 8080
