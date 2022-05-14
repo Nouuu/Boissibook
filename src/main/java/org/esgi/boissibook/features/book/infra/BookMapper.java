@@ -3,6 +3,7 @@ package org.esgi.boissibook.features.book.infra;
 import org.esgi.boissibook.features.book.domain.Book;
 import org.esgi.boissibook.features.book.infra.repository.BookEntity;
 import org.esgi.boissibook.features.book.infra.web.response.BookResponse;
+import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 
 public class BookMapper {
     private BookMapper() {
@@ -22,7 +23,7 @@ public class BookMapper {
         return new BookResponse(book.id(), book.apiId(), book.title(), book.authors(), book.publisher(), book.publishedDate(), book.description(), book.isbn13(), book.language(), book.imgUrl(), book.pages());
     }
 
-    public static Book mapBookSearchToBook(org.esgi.boissibook.features.book_search.domain.Book bookSearch) {
-        return new Book(null, bookSearch.id(), bookSearch.title(), bookSearch.authors(), bookSearch.publisher(), bookSearch.publishedDate(), bookSearch.description(), bookSearch.isbn13(), bookSearch.language(), bookSearch.imgUrl(), bookSearch.pages());
+    public static Book mapBookSearchToBook(BookSearchItem bookSearchItem) {
+        return new Book(null, bookSearchItem.id(), bookSearchItem.title(), bookSearchItem.authors(), bookSearchItem.publisher(), bookSearchItem.publishedDate(), bookSearchItem.description(), bookSearchItem.isbn13(), bookSearchItem.language(), bookSearchItem.imgUrl(), bookSearchItem.pages());
     }
 }

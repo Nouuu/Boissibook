@@ -19,9 +19,9 @@ class BookSearchQueryHandlerTest {
 
     BookSearchQueryHandler bookSearchQueryHandler;
 
-    Book book1 = new Book("1", "title1", List.of("author1"), "publisher1", "2001", "description1", "isbn1", "fr1", "imgUrl1", 101);
-    Book book2 = new Book("2", "title2", List.of("author2"), "publisher2", "2002", "description2", "isbn2", "fr2", "imgUrl2", 202);
-    Book book3 = new Book("3", "title3", List.of("author3"), "publisher3", "2003", "description3", "isbn3", "fr3", "imgUrl3", 303);
+    BookSearchItem bookSearchItem1 = new BookSearchItem("1", "title1", List.of("author1"), "publisher1", "2001", "description1", "isbn1", "fr1", "imgUrl1", 101);
+    BookSearchItem bookSearchItem2 = new BookSearchItem("2", "title2", List.of("author2"), "publisher2", "2002", "description2", "isbn2", "fr2", "imgUrl2", 202);
+    BookSearchItem bookSearchItem3 = new BookSearchItem("3", "title3", List.of("author3"), "publisher3", "2003", "description3", "isbn3", "fr3", "imgUrl3", 303);
 
 
     @BeforeEach
@@ -32,19 +32,19 @@ class BookSearchQueryHandlerTest {
     @Test
     void searchBooks() {
         Mockito.when(bookSearch.searchBooks(any()))
-                .thenReturn(List.of(book1, book2, book3));
+                .thenReturn(List.of(bookSearchItem1, bookSearchItem2, bookSearchItem3));
 
         assertThat(bookSearchQueryHandler.searchBooks("searchQuery"))
                 .hasSize(3)
-                .containsOnly(book1, book2, book3);
+                .containsOnly(bookSearchItem1, bookSearchItem2, bookSearchItem3);
     }
 
     @Test
     void getBook() {
         Mockito.when(bookSearch.getBook(any()))
-                .thenReturn(book1);
+                .thenReturn(bookSearchItem1);
 
         assertThat(bookSearchQueryHandler.getBook("id"))
-                .isEqualTo(book1);
+                .isEqualTo(bookSearchItem1);
     }
 }

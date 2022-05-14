@@ -12,7 +12,7 @@ import org.esgi.boissibook.features.book.infra.BookMapper;
 import org.esgi.boissibook.features.book.infra.web.request.AddBookRequest;
 import org.esgi.boissibook.features.book.infra.web.response.BookIdResponse;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
-import org.esgi.boissibook.features.book_search.domain.Book;
+import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 import org.esgi.boissibook.features.book_search.domain.BookSearchQueryHandler;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.HttpStatus;
@@ -45,7 +45,7 @@ public class BookCommandController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookIdResponse> addBook(@Valid @RequestBody AddBookRequest addBookRequest) {
-        Book searchedBook = bookSearchQueryHandler.getBook(addBookRequest.apiId());
+        BookSearchItem searchedBook = bookSearchQueryHandler.getBook(addBookRequest.apiId());
         return ResponseEntity.status(HttpStatus.CREATED.value())
             .body(new BookIdResponse(bookCommandHandler.addBook(BookMapper.mapBookSearchToBook(searchedBook))));
     }

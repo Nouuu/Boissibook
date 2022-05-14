@@ -1,6 +1,6 @@
 package org.esgi.boissibook.features.book_search.infra;
 
-import org.esgi.boissibook.features.book_search.domain.Book;
+import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 import org.esgi.boissibook.features.book_search.infra.models.*;
 import org.esgi.boissibook.features.book_search.infra.search_engine.RestSearchEngine;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,9 +37,9 @@ class RestBookSearchTest {
                     List.of(new IndustryIdentifier("ISBN_33", "978-3-56639-909-4")), 300, List.of("category3"),
                     4.5f, 325, new ImageLinks("imageUrl3", "imageUrl2"), "fr"));
 
-    Book book1 = BookItemMapper.toBook(bookItem1);
-    Book book2 = BookItemMapper.toBook(bookItem2);
-    Book book3 = BookItemMapper.toBook(bookItem3);
+    BookSearchItem bookSearchItem1 = BookItemMapper.toBook(bookItem1);
+    BookSearchItem bookSearchItem2 = BookItemMapper.toBook(bookItem2);
+    BookSearchItem bookSearchItem3 = BookItemMapper.toBook(bookItem3);
     BookSearchResponse bookSearchResponse = new BookSearchResponse(
             3,
             List.of(bookItem1, bookItem2, bookItem3)
@@ -57,7 +57,7 @@ class RestBookSearchTest {
 
         assertThat(restBookSearch.searchBooks("searchQuery"))
                 .hasSize(3)
-                .containsOnly(book1, book2, book3);
+                .containsOnly(bookSearchItem1, bookSearchItem2, bookSearchItem3);
     }
 
     @Test
@@ -66,6 +66,6 @@ class RestBookSearchTest {
                 .thenReturn(bookItem1);
 
         assertThat(restBookSearch.getBook("bookId"))
-                .isEqualTo(book1);
+                .isEqualTo(bookSearchItem1);
     }
 }
