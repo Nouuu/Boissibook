@@ -37,6 +37,8 @@ jobs:
       IMAGE_NAME: boissibook
       IMAGE_TAG: latest
       GCP_PROJECT_ID: boissibook
+      GCP_REGISTRY_URL: europe-west9-docker.pkg.dev
+      GCP_REGISTRY_NAME: boissi-registry
     steps:
       - uses: actions/checkout@v2
 
@@ -59,5 +61,5 @@ jobs:
 
       - name: Push Docker Image to GCR
         run: |-
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.GCP_REGISTRY_URL }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push ${{ env.GCP_REGISTRY_URL }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
