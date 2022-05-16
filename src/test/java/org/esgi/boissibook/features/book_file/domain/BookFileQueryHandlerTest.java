@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
 import org.esgi.boissibook.infra.SpringEventService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,8 +20,8 @@ class BookFileQueryHandlerTest {
     @Autowired
     public BookFileRepository bookFileRepository;
     BookFile book1;
-    BookFile book3;
     BookFile book2;
+    BookFile book3;
     String bookId1;
     String bookId2;
     @Autowired
@@ -48,8 +49,11 @@ class BookFileQueryHandlerTest {
     }
 
     @Test
+    @DisplayName("should return the book file increment the book file download count")
     void getBookFileById() {
-        bookFileQueryHandler.getBookFileById(book1.id());
+        assertThat(bookFileQueryHandler.getBookFileById(book1.id()))
+            .isNotNull()
+            .isEqualTo(book1);
 
         BookFile bookFile = bookFileRepository.find(book1.id());
         assertThat(bookFile.downloadCount())

@@ -103,11 +103,11 @@ public class BookFile {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookFile bookFile = (BookFile) o;
-        return Objects.equals(id, bookFile.id) && Objects.equals(name, bookFile.name) && Objects.equals(type, bookFile.type) && Objects.equals(bookId, bookFile.bookId) && Objects.equals(userId, bookFile.userId);
+        return Objects.equals(id, bookFile.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, bookId, userId);
+        return Objects.hash(id);
     }
 }

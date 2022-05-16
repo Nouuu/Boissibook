@@ -10,6 +10,7 @@ import org.esgi.boissibook.features.book.domain.BookQueryHandler;
 import org.esgi.boissibook.features.book.infra.BookMapper;
 import org.esgi.boissibook.features.book.infra.web.response.BookResponse;
 import org.esgi.boissibook.features.book.infra.web.response.BooksResponse;
+import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,14 +38,13 @@ public class BookQueryController {
         var books = new BooksResponse(bookQueryHandler.getBooks().stream()
             .map(BookMapper::mapBookToBookResponse)
             .toList());
-        System.out.println(books.books().size());
-        System.out.println(books);
         return ResponseEntity.ok(books);
     }
 
     @Operation(summary = "Get books by id", description = "Get a book by its id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BookResponse.class)))
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BookResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = BookNotFoundException.class)))
     })
     @GetMapping(value = "{bookId}")
     public ResponseEntity<BookResponse> getBookById(@PathVariable("bookId") String bookId) {

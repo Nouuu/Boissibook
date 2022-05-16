@@ -50,11 +50,12 @@ public class BookFileCommandController {
 
     @Operation(summary = "Delete book file", description = "Delete a book file by id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = BookFileIdResponse.class))),
+        @ApiResponse(responseCode = "204", description = "No content", content = @Content(schema = @Schema(implementation = BookFileIdResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))),
         @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
     @DeleteMapping(value = "{bookFileId}")
-    public ResponseEntity<Void> uploadBookFile(@PathVariable("bookFileId") String bookFileId) {
+    public ResponseEntity<Void> deleteBookFile(@PathVariable("bookFileId") String bookFileId) {
         bookFileCommandHandler.deleteBookFile(bookFileId);
         return ResponseEntity.noContent()
             .build();
