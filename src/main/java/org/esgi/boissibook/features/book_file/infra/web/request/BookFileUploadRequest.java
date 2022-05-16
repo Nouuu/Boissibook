@@ -13,9 +13,8 @@ public record BookFileUploadRequest(
     @NotBlank
     @NotNull
     String bookId,
-    @Schema(description = "The user's id", required = true)
+    @Schema(description = "The user's id")
     @NotBlank
-    @NotNull
     String userId
 ) {
 }
