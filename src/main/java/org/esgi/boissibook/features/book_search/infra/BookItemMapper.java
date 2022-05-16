@@ -1,35 +1,34 @@
 package org.esgi.boissibook.features.book_search.infra;
 
-import org.esgi.boissibook.features.book_search.domain.Book;
+import java.util.List;
+import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 import org.esgi.boissibook.features.book_search.infra.models.BookItem;
 import org.esgi.boissibook.features.book_search.infra.models.BookSearchResponse;
 import org.esgi.boissibook.features.book_search.infra.models.IndustryIdentifier;
-
-import java.util.List;
 
 public final class BookItemMapper {
     private BookItemMapper() {
     }
 
-    public static List<Book> toBookList(BookSearchResponse response) {
+    public static List<BookSearchItem> toBookList(BookSearchResponse response) {
         return response.items()
-                .stream()
-                .map(BookItemMapper::toBook)
-                .toList();
+            .stream()
+            .map(BookItemMapper::toBook)
+            .toList();
     }
 
-    static Book toBook(BookItem bookItem) {
-        return new Book(
-                bookItem.id(),
-                bookItem.volumeInfo().title(),
-                bookItem.volumeInfo().authors(),
-                bookItem.volumeInfo().publisher(),
-                bookItem.volumeInfo().publishedDate(),
-                bookItem.volumeInfo().description(),
-                findISBN(bookItem.volumeInfo().industryIdentifiers()),
-                bookItem.volumeInfo().language(),
-                getThumbnail(bookItem),
-                bookItem.volumeInfo().pageCount()
+    static BookSearchItem toBook(BookItem bookItem) {
+        return new BookSearchItem(
+            bookItem.id(),
+            bookItem.volumeInfo().title(),
+            bookItem.volumeInfo().authors(),
+            bookItem.volumeInfo().publisher(),
+            bookItem.volumeInfo().publishedDate(),
+            bookItem.volumeInfo().description(),
+            findISBN(bookItem.volumeInfo().industryIdentifiers()),
+            bookItem.volumeInfo().language(),
+            getThumbnail(bookItem),
+            bookItem.volumeInfo().pageCount()
         );
     }
 

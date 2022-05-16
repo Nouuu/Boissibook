@@ -1,20 +1,21 @@
 package org.esgi.boissibook.kernel.repository;
 
 
-import org.esgi.boissibook.kernel.exception.NotfoundException;
+import org.esgi.boissibook.kernel.exception.ConflictException;
+import org.esgi.boissibook.kernel.exception.NotFoundException;
 
 import java.util.List;
 
 public interface Repository<T> {
-    String save(T entity);
+    String save(T entity) throws ConflictException;
 
     long count();
 
     List<T> findAll();
 
-    T find(String id) throws NotfoundException;
+    T find(String id) throws NotFoundException;
 
-    void delete(T entity) throws NotfoundException;
+    void delete(T entity) throws NotFoundException;
 
     void deleteAll();
 

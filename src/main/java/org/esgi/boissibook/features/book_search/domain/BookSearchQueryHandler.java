@@ -10,11 +10,11 @@ public class BookSearchQueryHandler {
         this.bookSearch = bookSearch;
     }
 
-    public List<Book> searchBooks(String query) {
+    public List<BookSearchItem> searchBooks(String query) {
         return bookSearch.searchBooks(query);
     }
 
-    public Book getBook(String id) {
+    public BookSearchItem getBook(String id) {
         return bookSearch.getBook(id);
     }
 }

@@ -3,8 +3,8 @@ package org.esgi.boissibook.features.book_search.domain;
 import java.util.List;
 
 public interface BookSearch {
-    List<Book> searchBooks(String query);
+    List<BookSearchItem> searchBooks(String query);
 
-    Book getBook(String id);
+    BookSearchItem getBook(String id);
 
 }

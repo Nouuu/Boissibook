@@ -1,10 +1,9 @@
 package org.esgi.boissibook.features.book_search.infra;
 
-import org.esgi.boissibook.features.book_search.domain.Book;
-import org.esgi.boissibook.features.book_search.domain.BookSearch;
-import org.esgi.boissibook.features.book_search.infra.search_engine.RestSearchEngine;
-
 import java.util.List;
+import org.esgi.boissibook.features.book_search.domain.BookSearch;
+import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
+import org.esgi.boissibook.features.book_search.infra.search_engine.RestSearchEngine;
 
 public class RestBookSearch implements BookSearch {
 
@@ -15,12 +14,12 @@ public class RestBookSearch implements BookSearch {
     }
 
     @Override
-    public List<Book> searchBooks(String query) {
+    public List<BookSearchItem> searchBooks(String query) {
         return BookItemMapper.toBookList(searchEngine.search(query));
     }
 
     @Override
-    public Book getBook(String id) {
+    public BookSearchItem getBook(String id) {
         return BookItemMapper.toBook(searchEngine.getBookItem(id));
     }
 }

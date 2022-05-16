@@ -1,30 +1,29 @@
 package org.esgi.boissibook.features.book_search.infra.web;
 
-import org.esgi.boissibook.features.book_search.domain.Book;
-
 import java.util.List;
+import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 
 public class BookSearchWebMapper {
 
     private BookSearchWebMapper() {
     }
 
-    static BooksResponse toBooksResponse(List<Book> books) {
-        return new BooksResponse(books.stream().map(BookSearchWebMapper::toBookResponse).toList());
+    static BooksResponse toBooksResponse(List<BookSearchItem> bookSearchItems) {
+        return new BooksResponse(bookSearchItems.stream().map(BookSearchWebMapper::toBookResponse).toList());
     }
 
-    static BookResponse toBookResponse(Book book) {
+    static BookResponse toBookResponse(BookSearchItem bookSearchItem) {
         return new BookResponse(
-                book.id(),
-                book.title(),
-                book.authors(),
-                book.publisher(),
-                book.publishedDate(),
-                book.description(),
-                book.isbn13(),
-                book.language(),
-                book.imgUrl(),
-                book.pages()
+            bookSearchItem.id(),
+            bookSearchItem.title(),
+            bookSearchItem.authors(),
+            bookSearchItem.publisher(),
+            bookSearchItem.publishedDate(),
+            bookSearchItem.description(),
+            bookSearchItem.isbn13(),
+            bookSearchItem.language(),
+            bookSearchItem.imgUrl(),
+            bookSearchItem.pages()
         );
     }
 }
