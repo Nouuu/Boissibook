@@ -31,7 +31,7 @@ public class BookSearchRequestController {
             @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BooksResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<BooksResponse> search(@RequestParam(name = "searchQuery") String query) {
         var books = bookSearchQueryHandler.searchBooks(query);
         return ResponseEntity.ok(BookSearchWebMapper.toBooksResponse(books));
