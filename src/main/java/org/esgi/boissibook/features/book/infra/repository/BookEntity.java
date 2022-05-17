@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "book")
@@ -23,12 +22,10 @@ public class BookEntity {
     private String publisher;
     private String publishedDate;
     @Lob
-    @Type(type = "org.hibernate.type.StringType")
     private String description;
     private String isbn13;
     private String language;
     @Lob
-    @Type(type = "org.hibernate.type.StringType")
     private String imgUrl;
     private int pages;
 
