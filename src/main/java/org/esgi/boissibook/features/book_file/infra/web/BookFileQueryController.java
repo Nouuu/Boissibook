@@ -58,7 +58,7 @@ public class BookFileQueryController {
         ByteArrayResource resource = new ByteArrayResource(bookFile.content());
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + bookFile.name())
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + bookFile.name() + "\"")
             .body(resource);
     }
 
