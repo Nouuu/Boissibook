@@ -6,11 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.esgi.boissibook.features.readlist.domain.BookReviewCommandHandler;
 import org.esgi.boissibook.features.readlist.infra.web.request.*;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewsResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,12 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "book-review", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReadlistController {
+    private final BookReviewCommandHandler bookReviewCommandHandler;
+
+    public ReadlistController(BookReviewCommandHandler bookReviewCommandHandler) {
+        this.bookReviewCommandHandler = bookReviewCommandHandler;
+    }
+
     @Operation(summary = "Get progression by book review id")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation",
@@ -75,7 +83,9 @@ public class ReadlistController {
     public ResponseEntity<BookReviewIdResponse> createBookReview(
             @Valid  @RequestBody CreateBookReviewRequest createBookProgressionRequest
     ) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        var createReview = ReviewMapper.toReview(createBookProgressionRequest);
+        var bookReviewId = bookReviewCommandHandler.createReview(createReview);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new BookReviewIdResponse(bookReviewId));
     }
 
     @Operation(summary = "Update a book review")
