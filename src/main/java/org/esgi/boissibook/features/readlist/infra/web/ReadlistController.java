@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.readlist.domain.BookReviewCommandHandler;
+import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.infra.web.request.*;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
@@ -115,7 +116,8 @@ public class ReadlistController {
     })
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteBookReview(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        bookReviewCommandHandler.deleteReview(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Update comment for a book review")

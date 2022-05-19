@@ -8,4 +8,6 @@ public interface BookReviewRepository {
     void save(BookReview bookReview);
 
     Optional<BookReview> find(String bookReviewId);
+
+    void delete(BookReview bookReview);
 }
