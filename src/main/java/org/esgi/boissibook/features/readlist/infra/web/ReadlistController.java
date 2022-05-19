@@ -104,7 +104,9 @@ public class ReadlistController {
         @PathVariable("id") String id,
         @RequestBody UpdateBookReviewRequest updateBookReviewRequest
     ) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        var updateReview = ReviewMapper.toReview(updateBookReviewRequest);
+        bookReviewCommandHandler.updateReview(id, updateReview);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Delete a book progression")

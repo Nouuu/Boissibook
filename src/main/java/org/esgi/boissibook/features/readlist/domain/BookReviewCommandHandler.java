@@ -30,4 +30,14 @@ public class BookReviewCommandHandler {
         bookReviewRepository.delete(bookReview);
         eventService.publish(UserDeleteReviewEvent.of(bookReview));
     }
+
+    public void updateReview(String id, BookReview updateReview) {
+        var optionalBookReview = bookReviewRepository.find(id);
+        if (optionalBookReview.isEmpty()) {
+            throw new IllegalArgumentException("BookReview not found");
+        }
+        var bookReview = optionalBookReview.get();
+        updateReview.setBookReviewId(bookReview.getBookReviewId());
+        bookReviewRepository.save(updateReview);
+    }
 }
