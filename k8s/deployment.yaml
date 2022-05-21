@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: boissibook
+  name: boissibook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: boissibook
+  template:
+    metadata:
+      labels:
+        run: boissibook
+    spec:
+      containers:
+        - image: europe-west9-docker.pkg.dev/boissibook/boissi-registry/boissibook:latest
+          imagePullPolicy: Always
+          name: boissibook
+          env:
+            - name: DATASOURCE_HOST
+              value: "%_DATASOURCE_HOST%"
+            - name: DATASOURCE_DBNAME
+              value: "%_DATASOURCE_DBNAME%"
+            - name: DATASOURCE_USERNAME
+              value: "%_DATASOURCE_USERNAME%"
+            - name: DATASOURCE_PASSWORD
+              value: "%_DATASOURCE_PASSWORD%"
+            - name: SWAGGER_UI_ENABLED
+              value: "%_SWAGGER_UI_ENABLED%"
+            - name: JPA_HIBERNATE_DDL_AUTO
+              value: "%_JPA_HIBERNATE_DDL_AUTO%"
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "800m"
+              memory: "400Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
