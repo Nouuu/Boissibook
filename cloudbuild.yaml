@@ -14,6 +14,11 @@ steps:
       '$_GCP_REGISTRY_URL/$PROJECT_ID/$_GCP_REGISTRY_NAME/$_IMAGE_NAME:$_IMAGE_TAG',
       '.'
     ]
+  - name: gcr.io/cloud-builders/docker
+    args: [
+      'push',
+      '$_GCP_REGISTRY_URL/$PROJECT_ID/$_GCP_REGISTRY_NAME/$_IMAGE_NAME:$_IMAGE_TAG',
+    ]
   #step 3
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: bash
