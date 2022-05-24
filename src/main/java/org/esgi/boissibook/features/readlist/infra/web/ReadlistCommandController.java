@@ -10,8 +10,6 @@ import org.esgi.boissibook.features.readlist.domain.BookReviewCommandHandler;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.infra.web.request.*;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
-import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
-import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewsResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,50 +21,13 @@ import javax.validation.Valid;
 @Tag(name = "Readlist controller", description = "Readlist features")
 @RestController
 @RequestMapping(value = "book-review", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ReadlistController {
+public class ReadlistCommandController {
     private final BookReviewCommandHandler bookReviewCommandHandler;
 
-    public ReadlistController(BookReviewCommandHandler bookReviewCommandHandler) {
+    public ReadlistCommandController(BookReviewCommandHandler bookReviewCommandHandler) {
         this.bookReviewCommandHandler = bookReviewCommandHandler;
     }
 
-    @Operation(summary = "Get progression by book review id")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation",
-            content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
-        ),
-        @ApiResponse(responseCode = "404", description = "book review not found",
-            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-        ),
-    })
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<BookReviewResponse> getBookReviewById(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    @Operation(summary = "Get review by book id and user id")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successful operation",
-            content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
-        ),
-        @ApiResponse(responseCode = "404", description = "book review not found",
-            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-        )
-    })
-    @GetMapping(value = "/{bookId}/{userId}")
-    public ResponseEntity<BookReviewResponse> getBookReviewProgressionByBookIdAndUserId(
-            @PathVariable("bookId") String bookId,
-            @PathVariable("userId") String userId
-    ) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    @Operation(summary = "Get all review by user id")
-    @ApiResponse(responseCode = "200", description = "Successful operation")
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<BookReviewsResponse> getAllReviewOfAUser(@PathVariable("userId") String userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
 
     @Operation(summary = "Create a new book review")
     @ApiResponses(value = {
@@ -134,7 +95,8 @@ public class ReadlistController {
     })
     @PatchMapping(value = "/{id}/comment")
     public ResponseEntity<Void> updateComment(@PathVariable("id") String id, @Valid @RequestBody CommentRequest newComment) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        bookReviewCommandHandler.updateComment(id, newComment.comment());
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Update status for a book progression")
@@ -149,7 +111,8 @@ public class ReadlistController {
     })
     @PatchMapping(value = "/{id}/status")
     public ResponseEntity<Void> updateStatus(@PathVariable("id") String id, @Valid @RequestBody StatusRequest newStatus) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        bookReviewCommandHandler.updateStatus(id, newStatus.status());
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Update progress for a book review")
@@ -164,7 +127,8 @@ public class ReadlistController {
     })
     @PatchMapping(value = "/{id}/progress")
     public ResponseEntity<Void> updateProgress(@PathVariable("id") String id, @Valid @RequestBody ProgressRequest newProgress) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        bookReviewCommandHandler.updateCurrentPage(id, newProgress.currentPage());
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Update review for a book")
@@ -179,6 +143,7 @@ public class ReadlistController {
     })
     @PatchMapping(value = "/{id}/review")
     public ResponseEntity<Void> updateReview(@PathVariable("id") String id, @Valid @RequestBody ReviewRequest newReview) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        bookReviewCommandHandler.updateRating(id, newReview.note());
+        return ResponseEntity.ok().build();
     }
 }

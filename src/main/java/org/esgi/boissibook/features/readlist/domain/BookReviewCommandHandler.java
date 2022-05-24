@@ -40,4 +40,43 @@ public class BookReviewCommandHandler {
         updateReview.setBookReviewId(bookReview.getBookReviewId());
         bookReviewRepository.save(updateReview);
     }
+    public void updateComment(String id, String comment) {
+        var optionalBookReview = bookReviewRepository.find(id);
+        if (optionalBookReview.isEmpty()) {
+            throw new IllegalArgumentException("BookReview not found");
+        }
+        var bookReview = optionalBookReview.get();
+        bookReview.setComment(comment);
+        bookReviewRepository.save(bookReview);
+    }
+
+    public void updateStatus(String id, String status) {
+        var optionalBookReview = bookReviewRepository.find(id);
+        if (optionalBookReview.isEmpty()) {
+            throw new IllegalArgumentException("BookReview not found");
+        }
+        var bookReview = optionalBookReview.get();
+        bookReview.setReadingStatus(ReadingStatus.valueOf(status));
+        bookReviewRepository.save(bookReview);
+    }
+
+    public void updateCurrentPage(String id, int currentPage) {
+        var optionalBookReview = bookReviewRepository.find(id);
+        if (optionalBookReview.isEmpty()) {
+            throw new IllegalArgumentException("BookReview not found");
+        }
+        var bookReview = optionalBookReview.get();
+        bookReview.setCurrentPage(currentPage);
+        bookReviewRepository.save(bookReview);
+    }
+
+    public void updateRating(String id, int newNote) {
+        var optionalBookReview = bookReviewRepository.find(id);
+        if (optionalBookReview.isEmpty()) {
+            throw new IllegalArgumentException("BookReview not found");
+        }
+        var bookReview = optionalBookReview.get();
+        bookReview.setNote(newNote);
+        bookReviewRepository.save(bookReview);
+    }
 }
