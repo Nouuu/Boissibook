@@ -4,9 +4,7 @@ package org.esgi.boissibook.features.readlist.infra.repository;
 import org.esgi.boissibook.features.readlist.domain.ReadingStatus;
 import org.esgi.boissibook.features.readlist.domain.Visibility;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "book_review")
@@ -44,10 +42,12 @@ public class BookReviewEntity {
         return userId;
     }
 
+    @Enumerated(EnumType.STRING)
     public Visibility getVisibility() {
         return visibility;
     }
 
+    @Enumerated(EnumType.STRING)
     public ReadingStatus getReadingStatus() {
         return readingStatus;
     }

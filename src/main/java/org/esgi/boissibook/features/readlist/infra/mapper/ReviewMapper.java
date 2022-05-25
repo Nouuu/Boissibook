@@ -7,6 +7,10 @@ import org.esgi.boissibook.features.readlist.infra.repository.BookReviewEntity;
 import org.esgi.boissibook.features.readlist.infra.web.request.CreateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
+import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewExceptionMessage;
+import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
+
+import java.util.Optional;
 
 public class ReviewMapper {
     public static BookReview toReview(CreateBookReviewRequest createBookProgressionRequest) {
@@ -45,6 +49,15 @@ null,
             bookReview.getNote(),
             bookReview.getComment()
         );
+    }
+
+    public static BookReview fromEntity(Optional<BookReviewEntity> bookReviewEntity) {
+        if (bookReviewEntity.isEmpty()) {
+            throw new BookReviewNotFoundException(BookReviewExceptionMessage.REVIEW_NOT_FOUND.toString());
+        }
+        var review = bookReviewEntity.get();
+
+        return fromEntity(review);
     }
 
     public static BookReview fromEntity(BookReviewEntity bookReviewEntity) {

@@ -12,7 +12,7 @@ public interface BookReviewRepository {
 
     void delete(BookReview bookReview);
 
-    Optional<BookReview> findByBookIdAndUserId(String bookId, String userId);
+    BookReview findByBookIdAndUserId(String bookId, String userId);
 
     List<BookReview> findByUserId(String userId);
 }

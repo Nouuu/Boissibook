@@ -5,7 +5,6 @@ import org.esgi.boissibook.features.readlist.domain.BookReviewRepository;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,8 +27,8 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     }
 
     @Override
-    public Optional<BookReview> find(String bookReviewId) {
-        return Optional.empty();
+    public BookReview find(String bookReviewId) {
+        return ReviewMapper.fromEntity(bookReviewRepository.findById(bookReviewId));
     }
 
     @Override
@@ -39,8 +38,8 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     }
 
     @Override
-    public Optional<BookReview> findByBookIdAndUserId(String bookId, String userId) {
-        return bookReviewRepository.findByBookIdAndUserId(bookId, userId).map(ReviewMapper::fromEntity);
+    public BookReview findByBookIdAndUserId(String bookId, String userId) {
+        return ReviewMapper.fromEntity(bookReviewRepository.findByBookIdAndUserId(bookId, userId));
     }
 
     @Override
