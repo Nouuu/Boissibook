@@ -6,6 +6,7 @@ import org.esgi.boissibook.features.readlist.domain.Visibility;
 import org.esgi.boissibook.features.readlist.infra.repository.BookReviewEntity;
 import org.esgi.boissibook.features.readlist.infra.web.request.CreateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
+import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
 
 public class ReviewMapper {
     public static BookReview toReview(CreateBookReviewRequest createBookProgressionRequest) {
@@ -40,6 +41,32 @@ null,
             bookReview.getUserId(),
             bookReview.getVisibility(),
             bookReview.getReadingStatus(),
+            bookReview.getCurrentPage(),
+            bookReview.getNote(),
+            bookReview.getComment()
+        );
+    }
+
+    public static BookReview fromEntity(BookReviewEntity bookReviewEntity) {
+        return new BookReview(
+            bookReviewEntity.getBookReviewId(),
+            bookReviewEntity.getBookId(),
+            bookReviewEntity.getUserId(),
+            bookReviewEntity.getVisibility(),
+            bookReviewEntity.getReadingStatus(),
+            bookReviewEntity.getCurrentPage(),
+            bookReviewEntity.getNote(),
+            bookReviewEntity.getComment()
+        );
+    }
+
+    public static BookReviewResponse toResponse(BookReview bookReview) {
+        return new BookReviewResponse(
+            bookReview.getBookReviewId(),
+            bookReview.getBookId(),
+            bookReview.getUserId(),
+            bookReview.getVisibility().name(),
+            bookReview.getReadingStatus().name(),
             bookReview.getCurrentPage(),
             bookReview.getNote(),
             bookReview.getComment()

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.readlist.domain.BookReviewQueryHandler;
+import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewsResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.stream.Collectors;
 
 @Tag(name = "Readlist controller", description = "Readlist features")
 @RestController
@@ -38,7 +41,8 @@ public class ReadlistQueryController {
     })
     @GetMapping(value = "/{id}")
     public ResponseEntity<BookReviewResponse> getBookReviewById(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        var bookReview = bookReviewQueryHandler.getBookReviewById(id);
+        return ResponseEntity.ok(ReviewMapper.toResponse(bookReview));
     }
 
     @Operation(summary = "Get review by book id and user id")
@@ -55,13 +59,16 @@ public class ReadlistQueryController {
             @PathVariable("bookId") String bookId,
             @PathVariable("userId") String userId
     ) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        var bookReview = bookReviewQueryHandler.getBookReviewByBookIdAndUserId(bookId, userId);
+        return ResponseEntity.ok(ReviewMapper.toResponse(bookReview));
     }
 
     @Operation(summary = "Get all review by user id")
     @ApiResponse(responseCode = "200", description = "Successful operation")
-    @GetMapping(value = "/{userId}")
+    @GetMapping(value = "/user/{userId}")
     public ResponseEntity<BookReviewsResponse> getAllReviewOfAUser(@PathVariable("userId") String userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        var bookReviews = bookReviewQueryHandler.getAllReviewOfAUser(userId);
+        var listOfReviews = bookReviews.stream().map(ReviewMapper::toResponse).collect(Collectors.toList());
+        return ResponseEntity.ok(new BookReviewsResponse(listOfReviews));
     }
 }

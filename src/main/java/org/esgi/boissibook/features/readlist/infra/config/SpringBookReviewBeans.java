@@ -21,7 +21,7 @@ public class SpringBookReviewBeans {
         return new BookReviewQueryHandler(bookReviewRepository);
     }
     @Bean
-    BookReviewRepository bookRepository(JPABookReviewRepository jpaBookReviewRepository) {
+    BookReviewRepository bookReviewRepository(JPABookReviewRepository jpaBookReviewRepository) {
         return new SpringDataBookReviewRepository(jpaBookReviewRepository);
     }
 
