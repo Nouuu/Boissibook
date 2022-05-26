@@ -10,19 +10,11 @@ public class BookReviewQueryHandler {
     }
 
     public BookReview getBookReviewById(String id) {
-        var bookReview = bookReviewRepository.find(id);
-        if (bookReview.isEmpty()) {
-            throw new IllegalArgumentException(id);
-        }
-        return bookReview.get();
+        return bookReviewRepository.find(id);
     }
 
     public BookReview getBookReviewByBookIdAndUserId(String bookId, String userId) {
-        var bookReview = bookReviewRepository.findByBookIdAndUserId(bookId, userId);
-        if (bookReview.isEmpty()) {
-            throw new IllegalArgumentException(bookId + " " + userId);
-        }
-        return bookReview.get();
+        return bookReviewRepository.findByBookIdAndUserId(bookId, userId);
     }
 
     public List<BookReview> getAllReviewOfAUser(String userId) {

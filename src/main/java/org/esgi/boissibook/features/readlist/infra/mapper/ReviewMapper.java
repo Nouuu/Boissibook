@@ -51,15 +51,6 @@ null,
         );
     }
 
-    public static BookReview fromEntity(Optional<BookReviewEntity> bookReviewEntity) {
-        if (bookReviewEntity.isEmpty()) {
-            throw new BookReviewNotFoundException(BookReviewExceptionMessage.REVIEW_NOT_FOUND.toString());
-        }
-        var review = bookReviewEntity.get();
-
-        return fromEntity(review);
-    }
-
     public static BookReview fromEntity(BookReviewEntity bookReviewEntity) {
         return new BookReview(
             bookReviewEntity.getBookReviewId(),

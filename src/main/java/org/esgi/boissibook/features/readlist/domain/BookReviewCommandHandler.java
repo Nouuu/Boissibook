@@ -22,60 +22,36 @@ public class BookReviewCommandHandler {
     }
 
     public void deleteReview(String bookReviewId) {
-        var optionalBookReview = bookReviewRepository.find(bookReviewId);
-        if (optionalBookReview.isEmpty()) {
-            throw new IllegalArgumentException("BookReview not found");
-        }
-        var bookReview = optionalBookReview.get();
+        var bookReview = bookReviewRepository.find(bookReviewId);
         bookReviewRepository.delete(bookReview);
         eventService.publish(UserDeleteReviewEvent.of(bookReview));
     }
 
     public void updateReview(String id, BookReview updateReview) {
-        var optionalBookReview = bookReviewRepository.find(id);
-        if (optionalBookReview.isEmpty()) {
-            throw new IllegalArgumentException("BookReview not found");
-        }
-        var bookReview = optionalBookReview.get();
+        var bookReview = bookReviewRepository.find(id);
         updateReview.setBookReviewId(bookReview.getBookReviewId());
         bookReviewRepository.save(updateReview);
     }
     public void updateComment(String id, String comment) {
-        var optionalBookReview = bookReviewRepository.find(id);
-        if (optionalBookReview.isEmpty()) {
-            throw new IllegalArgumentException("BookReview not found");
-        }
-        var bookReview = optionalBookReview.get();
+        var bookReview = bookReviewRepository.find(id);
         bookReview.setComment(comment);
         bookReviewRepository.save(bookReview);
     }
 
     public void updateStatus(String id, String status) {
-        var optionalBookReview = bookReviewRepository.find(id);
-        if (optionalBookReview.isEmpty()) {
-            throw new IllegalArgumentException("BookReview not found");
-        }
-        var bookReview = optionalBookReview.get();
+        var bookReview = bookReviewRepository.find(id);
         bookReview.setReadingStatus(ReadingStatus.valueOf(status));
         bookReviewRepository.save(bookReview);
     }
 
     public void updateCurrentPage(String id, int currentPage) {
-        var optionalBookReview = bookReviewRepository.find(id);
-        if (optionalBookReview.isEmpty()) {
-            throw new IllegalArgumentException("BookReview not found");
-        }
-        var bookReview = optionalBookReview.get();
+        var bookReview = bookReviewRepository.find(id);
         bookReview.setCurrentPage(currentPage);
         bookReviewRepository.save(bookReview);
     }
 
     public void updateRating(String id, int newNote) {
-        var optionalBookReview = bookReviewRepository.find(id);
-        if (optionalBookReview.isEmpty()) {
-            throw new IllegalArgumentException("BookReview not found");
-        }
-        var bookReview = optionalBookReview.get();
+        var bookReview = bookReviewRepository.find(id);
         bookReview.setNote(newNote);
         bookReviewRepository.save(bookReview);
     }

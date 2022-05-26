@@ -1,8 +1,11 @@
 package org.esgi.boissibook.features.readlist.infra.repository;
 
+import org.esgi.boissibook.features.book.kernel.exception.BookExceptionMessage;
 import org.esgi.boissibook.features.readlist.domain.BookReview;
 import org.esgi.boissibook.features.readlist.domain.BookReviewRepository;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
+import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewExceptionMessage;
+import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +31,11 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
 
     @Override
     public BookReview find(String bookReviewId) {
-        return ReviewMapper.fromEntity(bookReviewRepository.findById(bookReviewId));
+        return ReviewMapper.fromEntity(bookReviewRepository.findById(bookReviewId)
+                .orElseThrow(() -> new BookReviewNotFoundException(
+                        String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookReviewId)
+                ))
+        );
     }
 
     @Override
@@ -39,7 +46,11 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
 
     @Override
     public BookReview findByBookIdAndUserId(String bookId, String userId) {
-        return ReviewMapper.fromEntity(bookReviewRepository.findByBookIdAndUserId(bookId, userId));
+        return ReviewMapper.fromEntity(bookReviewRepository.findByBookIdAndUserId(bookId, userId)
+                .orElseThrow(() -> new BookReviewNotFoundException(
+                        String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookId)
+                ))
+        );
     }
 
     @Override
