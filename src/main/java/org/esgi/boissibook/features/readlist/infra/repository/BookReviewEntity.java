@@ -1,10 +1,8 @@
 package org.esgi.boissibook.features.readlist.infra.repository;
 
 
-import org.esgi.boissibook.features.book.infra.repository.BookEntity;
 import org.esgi.boissibook.features.readlist.domain.ReadingStatus;
 import org.esgi.boissibook.features.readlist.domain.Visibility;
-import org.esgi.boissibook.features.user.infra.repository.UserEntity;
 
 import javax.persistence.*;
 
@@ -13,14 +11,8 @@ import javax.persistence.*;
 public class BookReviewEntity {
     @Id
     private String bookReviewId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private BookEntity book;
+    private String userId;
+    private String bookId;
     private Visibility visibility;
     private ReadingStatus readingStatus;
     private int currentPage;
@@ -33,8 +25,8 @@ public class BookReviewEntity {
 
     public BookReviewEntity(String bookReviewId, String userId, String bookId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
         this.bookReviewId = bookReviewId;
-        this.user = userId;
-        this.book = bookId;
+        this.userId = userId;
+        this.bookId = bookId;
         this.visibility = visibility;
         this.readingStatus = readingStatus;
         this.currentPage = currentPage;
@@ -42,12 +34,12 @@ public class BookReviewEntity {
         this.comment = comment;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public BookEntity getBook() {
-        return book;
+    public String getBookId() {
+        return bookId;
     }
 
 
