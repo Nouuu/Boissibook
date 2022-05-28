@@ -41,8 +41,8 @@ null,
     public static BookReviewEntity toEntity(BookReview bookReview) {
         return new BookReviewEntity(
             bookReview.getBookReviewId(),
-            bookReview.getBookId(),
             bookReview.getUserId(),
+            bookReview.getBookId(),
             bookReview.getVisibility(),
             bookReview.getReadingStatus(),
             bookReview.getCurrentPage(),

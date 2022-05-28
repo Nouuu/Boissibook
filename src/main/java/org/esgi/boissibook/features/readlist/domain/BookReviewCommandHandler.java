@@ -32,6 +32,7 @@ public class BookReviewCommandHandler {
         updateReview.setBookReviewId(bookReview.getBookReviewId());
         bookReviewRepository.save(updateReview);
     }
+
     public void updateComment(String id, String comment) {
         var bookReview = bookReviewRepository.find(id);
         bookReview.setComment(comment);

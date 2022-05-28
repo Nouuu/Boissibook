@@ -1,5 +1,7 @@
 package org.esgi.boissibook.features.readlist.domain;
 
+import java.util.Objects;
+
 public class BookReview {
     private String bookReviewId;
     private String bookId;
@@ -12,13 +14,13 @@ public class BookReview {
 
     public BookReview(String bookReviewId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
         this.bookReviewId = bookReviewId;
-        this.bookId = bookId;
-        this.userId = userId;
-        this.visibility = visibility;
-        this.readingStatus = readingStatus;
+        this.bookId = Objects.requireNonNull(bookId);
+        this.userId = Objects.requireNonNull(userId);
+        this.visibility = Objects.requireNonNull(visibility);
+        this.readingStatus = Objects.requireNonNull(readingStatus);
         this.currentPage = currentPage;
         this.note = note;
-        this.comment = comment;
+        this.comment = Objects.requireNonNull(comment);
     }
 
     public String getBookReviewId() {
@@ -52,35 +54,66 @@ public class BookReview {
     public String getComment() {
         return comment;
     }
-    public void setBookReviewId(String bookReviewId) {
+
+    public BookReview setBookReviewId(String bookReviewId) {
         this.bookReviewId = bookReviewId;
+        return this;
     }
 
-    public void setBookId(String bookId) {
+    public BookReview setBookId(String bookId) {
         this.bookId = bookId;
+        return this;
     }
 
-    public void setUserId(String userId) {
+    public BookReview setUserId(String userId) {
         this.userId = userId;
+        return this;
     }
 
-    public void setVisibility(Visibility visibility) {
+    public BookReview setVisibility(Visibility visibility) {
         this.visibility = visibility;
+        return this;
     }
 
-    public void setReadingStatus(ReadingStatus readingStatus) {
+    public BookReview setReadingStatus(ReadingStatus readingStatus) {
         this.readingStatus = readingStatus;
+        return this;
     }
 
-    public void setCurrentPage(int currentPage) {
+    public BookReview setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
+        return this;
     }
 
-    public void setNote(int note) {
+    public BookReview setNote(int note) {
         this.note = note;
+        return this;
     }
 
-    public void setComment(String comment) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BookReview that = (BookReview) o;
+
+        if (currentPage != that.currentPage) return false;
+        if (note != that.note) return false;
+        if (!bookReviewId.equals(that.bookReviewId)) return false;
+        if (!bookId.equals(that.bookId)) return false;
+        if (!userId.equals(that.userId)) return false;
+        if (visibility != that.visibility) return false;
+        if (readingStatus != that.readingStatus) return false;
+        return comment.equals(that.comment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookReviewId, bookId, userId, visibility, readingStatus, currentPage, note, comment);
+    }
+
+    public BookReview setComment(String comment) {
         this.comment = comment;
+        return this;
     }
 }
