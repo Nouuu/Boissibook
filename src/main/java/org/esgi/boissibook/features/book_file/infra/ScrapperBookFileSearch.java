@@ -11,12 +11,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 public class ScrapperBookFileSearch implements BookFileSearch {
-    private static final String SCRAPPER_API_URL = "http://localhost:3000/";
+    private final String scrapperApiUrl;
+
+    public ScrapperBookFileSearch(String scrapperApiUrl) {
+        this.scrapperApiUrl = scrapperApiUrl;
+    }
 
     @Override
     public BookFileSearchStatus searchBookFile(Book book) {
         BookFileSearchRequest request = new BookFileSearchRequest(book.id(), book.isbn13());
-        WebClient webClient = WebClient.builder().baseUrl(SCRAPPER_API_URL).build();
+        WebClient webClient = WebClient.builder().baseUrl(scrapperApiUrl).build();
         try {
             return webClient.post()
                 .uri(uriBuilder -> uriBuilder
