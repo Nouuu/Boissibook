@@ -1,6 +1,7 @@
 package org.esgi.boissibook.features.book_file.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
 import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
 import org.esgi.boissibook.infra.SpringEventService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
 
-@Import({SpringBookFileBeans.class, SpringEventService.class})
+@Import({SpringBookBeans.class, SpringBookFileBeans.class, SpringEventService.class})
 @DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
 @DataJpaTest
 class BookFileCommandHandlerTest {
