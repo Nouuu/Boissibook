@@ -1,8 +1,5 @@
 package org.esgi.boissibook.features.book_file.infra.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-@ConfigurationProperties(prefix = "scrapper")
 public class ScrapperConfigurationProperties {
     private String scrapperApiUrl;
 

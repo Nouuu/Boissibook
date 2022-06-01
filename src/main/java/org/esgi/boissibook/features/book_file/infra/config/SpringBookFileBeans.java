@@ -11,6 +11,7 @@ import org.esgi.boissibook.features.book_file.infra.ZipFileCompression;
 import org.esgi.boissibook.features.book_file.infra.repository.JPABookFileRepository;
 import org.esgi.boissibook.features.book_file.infra.repository.SpringDataBookFileRepository;
 import org.esgi.boissibook.kernel.event.EventService;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +19,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationPropertiesScan
 public class SpringBookFileBeans {
-    private final ScrapperConfigurationProperties scrapperConfigurationProperties;
-
-    public SpringBookFileBeans(ScrapperConfigurationProperties scrapperConfigurationProperties) {
-        this.scrapperConfigurationProperties = scrapperConfigurationProperties;
-    }
 
     @Bean
     BookFileRepository bookFileRepository(JPABookFileRepository jpaBookFileRepository) {
@@ -36,11 +32,11 @@ public class SpringBookFileBeans {
 
     @Bean
     public BookFileCommandHandler bookFileCommandHandler(
-        BookFileRepository bookFileRepository,
-        BookRepository bookRepository,
-        EventService eventService,
-        FileCompression fileCompression,
-        BookFileSearch bookFileSearch
+            BookFileRepository bookFileRepository,
+            BookRepository bookRepository,
+            EventService eventService,
+            FileCompression fileCompression,
+            BookFileSearch bookFileSearch
     ) {
         return new BookFileCommandHandler(bookFileRepository, bookRepository, eventService, fileCompression, bookFileSearch);
     }
@@ -52,6 +48,12 @@ public class SpringBookFileBeans {
 
     @Bean
     public BookFileSearch bookFileSearch() {
-        return new ScrapperBookFileSearch(scrapperConfigurationProperties.getScrapperApiUrl());
+        return new ScrapperBookFileSearch(scrapperConfigurationProperties().getScrapperApiUrl());
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "scrapper")
+    public ScrapperConfigurationProperties scrapperConfigurationProperties() {
+        return new ScrapperConfigurationProperties();
     }
 }
