@@ -26,6 +26,7 @@ ENV H2_CONSOLE_ENABLED=true \
     DATASOURCE_DBNAME=postgres \
     DATASOURCE_USERNAME=postgres \
     DATASOURCE_PASSWORD=password \
-    SWAGGER_UI_ENABLED=true
+    SWAGGER_UI_ENABLED=true \
+    SCRAPPER_API_URL=localhost:3000
 
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=env", "/app/app.jar"]
