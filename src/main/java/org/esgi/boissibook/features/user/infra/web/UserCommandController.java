@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.user.domain.UserCommandHandler;
+import org.esgi.boissibook.features.user.domain.UserQueryHandler;
 import org.esgi.boissibook.features.user.infra.web.request.CreateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.request.UpdateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.response.UserIdResponse;
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Tag(name = "User controller", description = "Users features")
 @RestController
@@ -46,7 +49,7 @@ public class UserCommandController {
     public ResponseEntity<UserIdResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         var createUser = UserWebMapper.toUser(createUserRequest);
         var userId = userCommandHandler.createUser(createUser);
-        return ResponseEntity.status(HttpStatus.CREATED.value()).body(new UserIdResponse(userId));
+        return ResponseEntity.created(linkTo(methodOn(UserQueryHandler.class).getUser(userId)).toUri()).build();
     }
 
     @Operation(summary = "Update existing user")
