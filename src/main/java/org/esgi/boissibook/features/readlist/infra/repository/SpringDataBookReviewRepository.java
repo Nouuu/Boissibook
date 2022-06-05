@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.readlist.infra.repository;
 
 import org.esgi.boissibook.features.book.kernel.exception.BookExceptionMessage;
 import org.esgi.boissibook.features.readlist.domain.BookReview;
+import org.esgi.boissibook.features.readlist.domain.BookReviewId;
 import org.esgi.boissibook.features.readlist.domain.BookReviewRepository;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewExceptionMessage;
@@ -19,8 +20,8 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     }
 
     @Override
-    public String nextId() {
-        return UUID.randomUUID().toString();
+    public BookReviewId nextId() {
+        return BookReviewId.of(UUID.randomUUID().toString());
     }
 
     @Override
@@ -30,10 +31,10 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     }
 
     @Override
-    public BookReview find(String bookReviewId) {
-        return ReviewMapper.fromEntity(bookReviewRepository.findById(bookReviewId)
+    public BookReview find(BookReviewId id) {
+        return ReviewMapper.fromEntity(bookReviewRepository.findById(id.reviewId())
                 .orElseThrow(() -> new BookReviewNotFoundException(
-                        String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookReviewId)
+                        String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, id)
                 ))
         );
     }

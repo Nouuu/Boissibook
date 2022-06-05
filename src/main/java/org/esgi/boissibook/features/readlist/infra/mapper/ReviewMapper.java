@@ -1,16 +1,13 @@
 package org.esgi.boissibook.features.readlist.infra.mapper;
 
 import org.esgi.boissibook.features.readlist.domain.BookReview;
+import org.esgi.boissibook.features.readlist.domain.BookReviewId;
 import org.esgi.boissibook.features.readlist.domain.ReadingStatus;
 import org.esgi.boissibook.features.readlist.domain.Visibility;
 import org.esgi.boissibook.features.readlist.infra.repository.BookReviewEntity;
 import org.esgi.boissibook.features.readlist.infra.web.request.CreateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
-import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewExceptionMessage;
-import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
-
-import java.util.Optional;
 
 public class ReviewMapper {
     public static BookReview toReview(CreateBookReviewRequest createBookProgressionRequest) {
@@ -40,7 +37,7 @@ null,
 
     public static BookReviewEntity toEntity(BookReview bookReview) {
         return new BookReviewEntity(
-            bookReview.getBookReviewId(),
+            bookReview.getBookReviewId().reviewId(),
             bookReview.getUserId(),
             bookReview.getBookId(),
             bookReview.getVisibility(),
@@ -53,7 +50,7 @@ null,
 
     public static BookReview fromEntity(BookReviewEntity bookReviewEntity) {
         return new BookReview(
-            bookReviewEntity.getBookReviewId(),
+            BookReviewId.of(bookReviewEntity.getBookReviewId()),
             bookReviewEntity.getBookId(),
             bookReviewEntity.getUserId(),
             bookReviewEntity.getVisibility(),
@@ -66,7 +63,7 @@ null,
 
     public static BookReviewResponse toResponse(BookReview bookReview) {
         return new BookReviewResponse(
-            bookReview.getBookReviewId(),
+            bookReview.getBookReviewId().reviewId(),
             bookReview.getBookId(),
             bookReview.getUserId(),
             bookReview.getVisibility().name(),

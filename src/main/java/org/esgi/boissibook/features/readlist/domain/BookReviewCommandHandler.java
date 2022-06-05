@@ -14,7 +14,7 @@ public class BookReviewCommandHandler {
     }
 
     public String createReview(BookReview bookReview) {
-        String bookId = bookReviewRepository.nextId();
+        BookReviewId bookId = bookReviewRepository.nextId();
         bookReview.setBookReviewId(bookId);
         bookReviewRepository.save(bookReview);
         eventService.publish(UserAddBookReviewEvent.of(bookReview));

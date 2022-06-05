@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 @Tag(name = "Readlist controller", description = "Readlist features")
 @RestController
@@ -47,7 +48,7 @@ public class ReadlistCommandController {
     ) {
         var createReview = ReviewMapper.toReview(createBookProgressionRequest);
         var bookReviewId = bookReviewCommandHandler.createReview(createReview);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new BookReviewIdResponse(bookReviewId));
+        return ResponseEntity.created(URI.create(bookReviewId)).body(new BookReviewIdResponse(bookReviewId));
     }
 
     @Operation(summary = "Update a book review")

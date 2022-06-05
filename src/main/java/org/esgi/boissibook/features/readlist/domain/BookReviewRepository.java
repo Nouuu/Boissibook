@@ -1,14 +1,13 @@
 package org.esgi.boissibook.features.readlist.domain;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BookReviewRepository {
-    String nextId();
+    BookReviewId nextId();
 
     void save(BookReview bookReview);
 
-    BookReview find(String bookReviewId);
+    BookReview find(BookReviewId id);
 
     void delete(BookReview bookReview);
 

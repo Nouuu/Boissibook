@@ -54,7 +54,7 @@ public class ReadlistQueryController {
                     content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
             )
     })
-    @GetMapping(value = "/{bookId}/{userId}")
+    @GetMapping(value = "/book/{bookId}/user/{userId}")
     public ResponseEntity<BookReviewResponse> getBookReviewProgressionByBookIdAndUserId(
             @PathVariable("bookId") String bookId,
             @PathVariable("userId") String userId

@@ -3,7 +3,7 @@ package org.esgi.boissibook.features.readlist.domain;
 import java.util.Objects;
 
 public class BookReview {
-    private String bookReviewId;
+    private BookReviewId bookReviewId;
     private String bookId;
     private String userId;
     private Visibility visibility;
@@ -12,7 +12,7 @@ public class BookReview {
     private int note;
     private String comment;
 
-    public BookReview(String bookReviewId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
+    public BookReview(BookReviewId bookReviewId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
         this.bookReviewId = bookReviewId;
         this.bookId = Objects.requireNonNull(bookId);
         this.userId = Objects.requireNonNull(userId);
@@ -23,7 +23,7 @@ public class BookReview {
         this.comment = Objects.requireNonNull(comment);
     }
 
-    public String getBookReviewId() {
+    public BookReviewId getBookReviewId() {
         return bookReviewId;
     }
 
@@ -55,7 +55,7 @@ public class BookReview {
         return comment;
     }
 
-    public BookReview setBookReviewId(String bookReviewId) {
+    public BookReview setBookReviewId(BookReviewId bookReviewId) {
         this.bookReviewId = bookReviewId;
         return this;
     }
