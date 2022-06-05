@@ -12,6 +12,7 @@ import org.esgi.boissibook.features.book_file.domain.BookFileCommandHandler;
 import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
 import org.esgi.boissibook.features.book_file.infra.web.request.BookFileUploadRequest;
 import org.esgi.boissibook.features.book_file.infra.web.response.BookFileIdResponse;
+import org.esgi.boissibook.features.book_file.infra.web.response.BookFileSearchResponse;
 import org.esgi.boissibook.features.book_file.kernel.exception.ZipCompressionException;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,20 @@ public class BookFileCommandController {
         String bookFileId = bookFileCommandHandler.createBookFile(newBookFile);
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(new BookFileIdResponse(bookFileId));
+    }
+
+    @Operation(summary = "Search book file", description = "Delete a book file by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "No content", content = @Content(schema = @Schema(implementation = BookFileIdResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
+    })
+    @PostMapping(value = "search/{bookId}")
+    public ResponseEntity<BookFileSearchResponse> searchBookFile(@PathVariable("bookId") String bookId) {
+        var bookFileSearchStatus = bookFileCommandHandler.searchBookFile(bookId);
+        var response = new BookFileSearchResponse(bookFileSearchStatus.status(), bookFileSearchStatus.data());
+        return ResponseEntity.ok()
+            .body(response);
     }
 
     @Operation(summary = "Delete book file", description = "Delete a book file by id")

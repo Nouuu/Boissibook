@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class SpringDataUserRepository implements UserRepository {
-    private final JpaRepository<UserEntity, String> userRepository;
+    private final JPAUserRepository userRepository;
 
     public SpringDataUserRepository(JPAUserRepository userRepository) {
         this.userRepository = userRepository;
@@ -88,5 +88,11 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public String nextId() {
         return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return UserEntityMapper.toUser(userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, email))));
     }
 }

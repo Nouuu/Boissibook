@@ -13,6 +13,10 @@ public final class UserQueryHandler {
         return userRepository.find(id);
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     public List<User> getUsers() {
         return userRepository.findAll();
     }
