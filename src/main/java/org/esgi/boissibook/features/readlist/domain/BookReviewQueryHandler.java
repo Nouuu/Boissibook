@@ -1,5 +1,7 @@
 package org.esgi.boissibook.features.readlist.domain;
 
+import org.esgi.boissibook.kernel.repository.BookReviewId;
+
 import java.util.List;
 
 public class BookReviewQueryHandler {
@@ -9,7 +11,7 @@ public class BookReviewQueryHandler {
         this.bookReviewRepository = bookReviewRepository;
     }
 
-    public BookReview getBookReviewById(String id) {
+    public BookReview getBookReviewById(BookReviewId id) {
         return bookReviewRepository.find(id);
     }
 

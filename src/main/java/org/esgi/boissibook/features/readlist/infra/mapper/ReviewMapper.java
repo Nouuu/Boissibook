@@ -1,7 +1,7 @@
 package org.esgi.boissibook.features.readlist.infra.mapper;
 
 import org.esgi.boissibook.features.readlist.domain.BookReview;
-import org.esgi.boissibook.features.readlist.domain.BookReviewId;
+import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.features.readlist.domain.ReadingStatus;
 import org.esgi.boissibook.features.readlist.domain.Visibility;
 import org.esgi.boissibook.features.readlist.infra.repository.BookReviewEntity;
@@ -37,7 +37,7 @@ null,
 
     public static BookReviewEntity toEntity(BookReview bookReview) {
         return new BookReviewEntity(
-            bookReview.getBookReviewId().reviewId(),
+            bookReview.getBookReviewId().value(),
             bookReview.getUserId(),
             bookReview.getBookId(),
             bookReview.getVisibility(),
@@ -63,7 +63,7 @@ null,
 
     public static BookReviewResponse toResponse(BookReview bookReview) {
         return new BookReviewResponse(
-            bookReview.getBookReviewId().reviewId(),
+            bookReview.getBookReviewId().value(),
             bookReview.getBookId(),
             bookReview.getUserId(),
             bookReview.getVisibility().name(),

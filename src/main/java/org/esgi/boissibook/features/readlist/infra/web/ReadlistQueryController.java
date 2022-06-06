@@ -11,6 +11,7 @@ import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewsResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +42,7 @@ public class ReadlistQueryController {
     })
     @GetMapping(value = "/{id}")
     public ResponseEntity<BookReviewResponse> getBookReviewById(@PathVariable("id") String id) {
-        var bookReview = bookReviewQueryHandler.getBookReviewById(id);
+        var bookReview = bookReviewQueryHandler.getBookReviewById(BookReviewId.of(id));
         return ResponseEntity.ok(ReviewMapper.toResponse(bookReview));
     }
 

@@ -6,11 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.esgi.boissibook.features.readlist.domain.BookReview;
 import org.esgi.boissibook.features.readlist.domain.BookReviewCommandHandler;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.infra.web.request.*;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,7 @@ public class ReadlistCommandController {
     ) {
         var createReview = ReviewMapper.toReview(createBookProgressionRequest);
         var bookReviewId = bookReviewCommandHandler.createReview(createReview);
-        return ResponseEntity.created(URI.create(bookReviewId)).body(new BookReviewIdResponse(bookReviewId));
+        return ResponseEntity.created(URI.create(bookReviewId.value())).body(new BookReviewIdResponse(bookReviewId.value()));
     }
 
     @Operation(summary = "Update a book review")
@@ -67,7 +69,7 @@ public class ReadlistCommandController {
         @RequestBody UpdateBookReviewRequest updateBookReviewRequest
     ) {
         var updateReview = ReviewMapper.toReview(updateBookReviewRequest);
-        bookReviewCommandHandler.updateReview(id, updateReview);
+        bookReviewCommandHandler.updateReview(BookReviewId.of(id), updateReview);
         return ResponseEntity.ok().build();
     }
 
@@ -80,7 +82,7 @@ public class ReadlistCommandController {
     })
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteBookReview(@PathVariable("id") String id) {
-        bookReviewCommandHandler.deleteReview(id);
+        bookReviewCommandHandler.deleteReview(BookReviewId.of(id));
         return ResponseEntity.noContent().build();
     }
 
@@ -96,7 +98,7 @@ public class ReadlistCommandController {
     })
     @PatchMapping(value = "/{id}/comment")
     public ResponseEntity<Void> updateComment(@PathVariable("id") String id, @Valid @RequestBody CommentRequest newComment) {
-        bookReviewCommandHandler.updateComment(id, newComment.comment());
+        bookReviewCommandHandler.updateComment(BookReviewId.of(id), newComment.comment());
         return ResponseEntity.ok().build();
     }
 
@@ -112,7 +114,7 @@ public class ReadlistCommandController {
     })
     @PatchMapping(value = "/{id}/status")
     public ResponseEntity<Void> updateStatus(@PathVariable("id") String id, @Valid @RequestBody StatusRequest newStatus) {
-        bookReviewCommandHandler.updateStatus(id, newStatus.status());
+        bookReviewCommandHandler.updateStatus(BookReviewId.of(id), newStatus.status());
         return ResponseEntity.ok().build();
     }
 
@@ -128,7 +130,7 @@ public class ReadlistCommandController {
     })
     @PatchMapping(value = "/{id}/progress")
     public ResponseEntity<Void> updateProgress(@PathVariable("id") String id, @Valid @RequestBody ProgressRequest newProgress) {
-        bookReviewCommandHandler.updateCurrentPage(id, newProgress.currentPage());
+        bookReviewCommandHandler.updateCurrentPage(BookReviewId.of(id), newProgress.currentPage());
         return ResponseEntity.ok().build();
     }
 
@@ -144,7 +146,7 @@ public class ReadlistCommandController {
     })
     @PatchMapping(value = "/{id}/review")
     public ResponseEntity<Void> updateReview(@PathVariable("id") String id, @Valid @RequestBody ReviewRequest newReview) {
-        bookReviewCommandHandler.updateRating(id, newReview.note());
+        bookReviewCommandHandler.updateRating(BookReviewId.of(id), newReview.note());
         return ResponseEntity.ok().build();
     }
 }
