@@ -1,21 +1,16 @@
 package org.esgi.boissibook.features.user.infra.validation;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordValidatorTest {
 
-    PasswordValidator validator = new PasswordValidator();
+    private final PasswordValidator validator = new PasswordValidator();
 
     private static Stream<Arguments> validatorData() {
         return Stream.of(
