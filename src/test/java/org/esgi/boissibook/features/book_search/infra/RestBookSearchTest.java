@@ -4,6 +4,7 @@ import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 import org.esgi.boissibook.features.book_search.infra.models.*;
 import org.esgi.boissibook.features.book_search.infra.search_engine.RestSearchEngine;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +35,7 @@ class RestBookSearchTest {
 
     BookItem bookItem3 = new BookItem("3", "title3",
             new VolumeInfo("title3", List.of("author3"), "publisher3", "2001", "imageUrl3",
-                    List.of(new IndustryIdentifier("ISBN_33", "978-3-56639-909-4")), 300, List.of("category3"),
+                    List.of(new IndustryIdentifier("ISBN_13", "978-3-56639-909-4")), 300, List.of("category3"),
                     4.5f, 325, new ImageLinks("imageUrl3", "imageUrl2"), "fr"));
 
     BookSearchItem bookSearchItem1 = BookItemMapper.toBook(bookItem1);
@@ -51,13 +52,14 @@ class RestBookSearchTest {
     }
 
     @Test
+    @DisplayName("Book with no isbn13 should not appear in results")
     void searchBooks() {
         Mockito.when(restSearchEngine.search(any()))
                 .thenReturn(bookSearchResponse);
 
         assertThat(restBookSearch.searchBooks("searchQuery"))
-                .hasSize(3)
-                .containsOnly(bookSearchItem1, bookSearchItem2, bookSearchItem3);
+                .hasSize(2)
+                .containsOnly(bookSearchItem1, bookSearchItem3);
     }
 
     @Test
