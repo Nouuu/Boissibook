@@ -44,7 +44,7 @@ public class BookCommandController {
         @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> addBook(@Valid @RequestBody AddBookRequest addBookRequest) {
+    public ResponseEntity<Void> addBook(@Valid @RequestBody AddBookRequest addBookRequest) {
         BookSearchItem searchedBook = bookSearchQueryHandler.getBook(addBookRequest.apiId());
         var bookId = bookCommandHandler.addBook(BookMapper.mapBookSearchToBook(searchedBook));
         return ResponseEntity.created(linkTo(methodOn(BookQueryController.class).getBookById(bookId)).toUri()).build();

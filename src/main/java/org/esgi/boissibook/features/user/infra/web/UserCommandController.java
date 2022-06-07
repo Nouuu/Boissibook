@@ -46,7 +46,7 @@ public class UserCommandController {
             )
     })
     @PostMapping
-    public ResponseEntity<UserIdResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<Void> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         var createUser = UserWebMapper.toUser(createUserRequest);
         var userId = userCommandHandler.createUser(createUser);
         return ResponseEntity.created(linkTo(methodOn(UserQueryHandler.class).getUser(userId)).toUri()).build();
