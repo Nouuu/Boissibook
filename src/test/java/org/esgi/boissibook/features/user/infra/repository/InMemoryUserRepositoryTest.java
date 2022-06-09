@@ -2,7 +2,6 @@ package org.esgi.boissibook.features.user.infra.repository;
 
 import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.features.user.kernel.exception.UserNotFoundException;
-import org.esgi.boissibook.kernel.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

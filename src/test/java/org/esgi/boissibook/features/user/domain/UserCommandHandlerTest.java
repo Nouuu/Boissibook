@@ -1,26 +1,16 @@
 package org.esgi.boissibook.features.user.domain;
 
-import org.esgi.boissibook.features.user.infra.config.SpringUserBeans;
-import org.esgi.boissibook.infra.SpringEventService;
+import org.esgi.boissibook.features.user.infra.repository.InMemoryUserRepository;
+import org.esgi.boissibook.kernel.event.VoidEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
-@Import({SpringUserBeans.class, SpringEventService.class})
-@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
-@DataJpaTest
 class UserCommandHandlerTest {
 
-    @Autowired
     public UserCommandHandler userCommandHandler;
 
-    @Autowired
     public UserRepository userRepository;
 
     User user1;
@@ -30,6 +20,9 @@ class UserCommandHandlerTest {
 
     @BeforeEach
     void setUp() {
+        userRepository = new InMemoryUserRepository();
+        userCommandHandler = new UserCommandHandler(userRepository, new VoidEventService());
+
         user1 = new User(null, "name", "email@example.com", "password");
         user2 = new User(null, "name", "email@example.com", "password");
         user3 = new User(null, "name", "email@example.com", "password");
