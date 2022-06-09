@@ -3,6 +3,8 @@ package org.esgi.boissibook.features.book_file.domain;
 import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
 import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
 import org.esgi.boissibook.infra.SpringEventService;
+import org.esgi.boissibook.kernel.repository.BookId;
+import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,9 @@ class BookFileCommandHandlerTest {
 
     @BeforeEach
     void setUp() {
-        bookFile1 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
-        bookFile2 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
-        bookFile3 = new BookFile(null, "Filename.pdf", "application/pdf", "book-id", "user-id", 0, new byte[]{});
+        bookFile1 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of("book-id"), UserId.of("user-id"), 0, new byte[]{});
+        bookFile2 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of("book-id"), UserId.of("user-id"), 0, new byte[]{});
+        bookFile3 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of("book-id"), UserId.of("user-id"), 0, new byte[]{});
     }
 
     @Test

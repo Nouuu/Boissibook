@@ -3,6 +3,8 @@ package org.esgi.boissibook.features.book_file.domain;
 import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
 import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
 import org.esgi.boissibook.infra.SpringEventService;
+import org.esgi.boissibook.kernel.repository.BookId;
+import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,9 +37,9 @@ class BookFileQueryHandlerTest {
         bookId1 = UUID.randomUUID().toString();
         bookId2 = UUID.randomUUID().toString();
 
-        book1 = new BookFile(null, "Filename.pdf", "application/pdf", bookId1, "user-id", 0, new byte[]{});
-        book2 = new BookFile(null, "Filename.pdf", "application/pdf", bookId2, "user-id", 0, new byte[]{});
-        book3 = new BookFile(null, "Filename.pdf", "application/pdf", bookId1, "user-id", 0, new byte[]{});
+        book1 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of(bookId1), UserId.of("user-id"), 0, new byte[]{});
+        book2 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of(bookId2), UserId.of("user-id"), 0, new byte[]{});
+        book3 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of(bookId1), UserId.of("user-id"), 0, new byte[]{});
 
         bookFileRepository.save(book1.setId(bookFileRepository.nextId()));
         bookFileRepository.save(book2.setId(bookFileRepository.nextId()));

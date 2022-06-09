@@ -43,7 +43,7 @@ class SpringDataUserRepositoryTest {
     void save() {
         springDataUserRepository.save(user1);
 
-        assertThat(userRepository.findById(user1.id()))
+        assertThat(userRepository.findById(user1.id().value()))
             .isPresent()
             .get()
             .isEqualTo(userEntity1);
@@ -94,7 +94,7 @@ class SpringDataUserRepositoryTest {
         userRepository.save(userEntity2);
 
         springDataUserRepository.delete(user1);
-        assertThat(userRepository.findById(user1.id()))
+        assertThat(userRepository.findById(user1.id().value()))
             .isNotPresent();
         assertThat(userRepository.count())
             .isEqualTo(1); //user2 is still in db

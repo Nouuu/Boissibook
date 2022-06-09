@@ -3,6 +3,7 @@ package org.esgi.boissibook.features.book.domain;
 import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.infra.SpringEventService;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class BookCommandHandlerTest {
     @Test
     @DisplayName("Should add a book")
     void addBook() {
-        String id = bookCommandHandler.addBook(book1);
+        BookId id = bookCommandHandler.addBook(book1);
         book1.setId(id);
 
         assertThat(bookRepository.find(id))
@@ -64,7 +65,7 @@ class BookCommandHandlerTest {
     @Test
     @DisplayName("Should throw book not found exception when deleting a book that doesn't exist")
     void throwBookNotFoundException() {
-        String id = bookRepository.nextId();
+        BookId id = bookRepository.nextId();
         bookRepository.save(book1.setId(bookRepository.nextId()));
         bookRepository.save(book2.setId(bookRepository.nextId()));
 
