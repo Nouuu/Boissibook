@@ -34,7 +34,6 @@ public class Book implements DomainEntity {
     }
 
 
-
     public String apiId() {
         return apiId;
     }
