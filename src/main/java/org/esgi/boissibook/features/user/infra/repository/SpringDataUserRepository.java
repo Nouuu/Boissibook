@@ -4,9 +4,9 @@ import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.features.user.domain.UserRepository;
 import org.esgi.boissibook.features.user.kernel.exception.UserExceptionMessage;
 import org.esgi.boissibook.features.user.kernel.exception.UserNotFoundException;
+import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
-import java.util.UUID;
 
 public class SpringDataUserRepository implements UserRepository {
     private final JPAUserRepository userRepository;
@@ -22,9 +22,10 @@ public class SpringDataUserRepository implements UserRepository {
      * @return The id of the user that was saved.
      */
     @Override
-    public String save(User user) {
+    public UserId save(User user) {
         var userEntity = UserEntityMapper.toUserEntity(user);
-        return userRepository.save(userEntity).id();
+        userRepository.save(userEntity);
+        return user.id();
     }
 
     /**
@@ -58,8 +59,8 @@ public class SpringDataUserRepository implements UserRepository {
      * @return User
      */
     @Override
-    public User find(String id) {
-        return UserEntityMapper.toUser(userRepository.findById(id)
+    public User find(UserId id) {
+        return UserEntityMapper.toUser(userRepository.findById(id.value())
             .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id))));
     }
 
@@ -71,7 +72,7 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public void delete(User user) {
         userRepository.delete(
-            userRepository.findById(user.id())
+            userRepository.findById(user.id().value())
                 .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, user.id())))
         );
     }
@@ -85,8 +86,8 @@ public class SpringDataUserRepository implements UserRepository {
     }
 
     @Override
-    public String nextId() {
-        return UUID.randomUUID().toString();
+    public UserId nextId() {
+        return UserId.nextId();
     }
 
     @Override
