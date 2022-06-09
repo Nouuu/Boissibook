@@ -6,12 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,13 +17,13 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFOR
 @DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
 @Testcontainers
 @SpringBootTest
-@AutoConfigureMockMvc
 @ActiveProfiles("test")
 class SpringDataUserRepositoryTest extends PostgresIntegrationTest {
 
     @Autowired
     JPAUserRepository userRepository;
 
+    @Autowired
     private SpringDataUserRepository springDataUserRepository;
 
     UserEntity userEntity1;

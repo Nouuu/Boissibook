@@ -80,9 +80,10 @@ class InMemoryUserRepositoryTest {
         inMemoryUserRepository.save(user2);
 
         inMemoryUserRepository.delete(user1);
-        assertThatThrownBy(() -> inMemoryUserRepository.find(user1.id()))
-            .isInstanceOf(NotFoundException.class)
-            .hasMessage("No entity for " + user1.id().value());
+        var user1Id = user1.id();
+        assertThatThrownBy(() -> inMemoryUserRepository.find(user1Id))
+            .isInstanceOf(UserNotFoundException.class)
+            .hasMessage("User not found : " + user1.id().value());
         assertThat(inMemoryUserRepository.count())
             .isEqualTo(1); //user2 is still in db
     }
