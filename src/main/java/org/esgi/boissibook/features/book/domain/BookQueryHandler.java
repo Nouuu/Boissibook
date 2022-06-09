@@ -1,5 +1,7 @@
 package org.esgi.boissibook.features.book.domain;
 
+import org.esgi.boissibook.kernel.repository.BookId;
+
 import java.util.List;
 
 public class BookQueryHandler {
@@ -13,7 +15,7 @@ public class BookQueryHandler {
         return bookRepository.findAll();
     }
 
-    public Book getBook(String bookId) {
+    public Book getBook(BookId bookId) {
         return bookRepository.find(bookId);
     }
 }
