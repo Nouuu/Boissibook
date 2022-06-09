@@ -1,5 +1,7 @@
 package org.esgi.boissibook.features.book_file.domain;
 
+import org.esgi.boissibook.kernel.repository.BookFileId;
+
 import java.util.List;
 
 public class BookFileQueryHandler {
@@ -15,7 +17,7 @@ public class BookFileQueryHandler {
         return bookFileRepository.findByBookId(bookId);
     }
 
-    public BookFile getBookFileById(String id) {
+    public BookFile getBookFileById(BookFileId id) {
         BookFile bookFile = bookFileRepository.find(id);
         bookFile.setDownloadCount(bookFile.downloadCount() + 1);
         bookFileRepository.save(bookFile);

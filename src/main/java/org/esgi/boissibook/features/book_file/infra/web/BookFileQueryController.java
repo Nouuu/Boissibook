@@ -12,6 +12,7 @@ import org.esgi.boissibook.features.book_file.infra.web.response.BookFilesCountR
 import org.esgi.boissibook.features.book_file.infra.web.response.BookFilesResponse;
 import org.esgi.boissibook.features.book_file.kernel.exception.BookFileNotFoundException;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.BookFileId;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -54,7 +55,7 @@ public class BookFileQueryController {
     })
     @GetMapping(value = "/{bookFileId}/download", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ByteArrayResource> downloadBookFile(@PathVariable("bookFileId") String bookFileId) {
-        var bookFile = bookFileQueryHandler.getBookFileById(bookFileId);
+        var bookFile = bookFileQueryHandler.getBookFileById(BookFileId.of(bookFileId));
         ByteArrayResource resource = new ByteArrayResource(bookFile.content());
 
         return ResponseEntity.ok()
