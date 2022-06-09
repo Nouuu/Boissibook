@@ -10,6 +10,7 @@ import org.esgi.boissibook.features.user.domain.UserQueryHandler;
 import org.esgi.boissibook.features.user.infra.web.response.UserResponse;
 import org.esgi.boissibook.features.user.infra.web.response.UsersCountResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.UserId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +55,7 @@ public class UserRequestController {
     })
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") String id) {
-        var user = userQueryHandler.getUser(id);
+        var user = userQueryHandler.getUser(UserId.of(id));
         return ResponseEntity.ok(UserWebMapper.toUserResponse(user));
     }
 

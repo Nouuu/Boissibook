@@ -6,6 +6,7 @@ import org.esgi.boissibook.features.user.domain.event.UserDeletedEvent;
 import org.esgi.boissibook.features.user.domain.event.UserUpdatedEvent;
 import org.esgi.boissibook.features.user.domain.event.UsersDeletedEvent;
 import org.esgi.boissibook.kernel.event.EventService;
+import org.esgi.boissibook.kernel.repository.UserId;
 
 public final class UserCommandHandler {
     private final UserRepository userRepository;
@@ -16,8 +17,8 @@ public final class UserCommandHandler {
         this.eventService = eventService;
     }
 
-    public String createUser(User user) {
-        String userId = userRepository.nextId();
+    public UserId createUser(User user) {
+        UserId userId = userRepository.nextId();
         user.setId(userId);
         userRepository.save(user);
         eventService.publish(UserAddedEvent.of(user));
@@ -37,7 +38,7 @@ public final class UserCommandHandler {
         eventService.publish(UserUpdatedEvent.of(user));
     }
 
-    public void deleteUser(String userId) {
+    public void deleteUser(UserId userId) {
         var user = userRepository.find(userId);
         userRepository.delete(user);
         eventService.publish(UserDeletedEvent.of(user));

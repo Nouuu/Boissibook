@@ -4,6 +4,7 @@ import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.features.user.infra.web.request.CreateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.request.UpdateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.response.UserResponse;
+import org.esgi.boissibook.kernel.repository.UserId;
 
 final class UserWebMapper {
 
@@ -15,10 +16,10 @@ final class UserWebMapper {
     }
 
     static User toUser(String id, UpdateUserRequest updateUserRequest) {
-        return new User(id, updateUserRequest.name(), updateUserRequest.email(), updateUserRequest.password());
+        return new User(UserId.of(id), updateUserRequest.name(), updateUserRequest.email(), updateUserRequest.password());
     }
 
     static UserResponse toUserResponse(User user) {
-        return new UserResponse(user.id(), user.name(), user.email());
+        return new UserResponse(user.id().value(), user.name(), user.email());
     }
 }
