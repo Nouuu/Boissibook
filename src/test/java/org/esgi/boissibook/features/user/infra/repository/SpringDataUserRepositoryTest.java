@@ -23,7 +23,6 @@ class SpringDataUserRepositoryTest extends PostgresIntegrationTest {
     @Autowired
     JPAUserRepository userRepository;
 
-    @Autowired
     private SpringDataUserRepository springDataUserRepository;
 
     UserEntity userEntity1;
