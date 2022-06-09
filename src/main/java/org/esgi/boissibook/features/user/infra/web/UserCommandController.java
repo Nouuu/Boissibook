@@ -15,9 +15,16 @@ import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -35,15 +42,15 @@ public class UserCommandController {
 
     @Operation(summary = "Register new user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",
-                    description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = UserIdResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid user form",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-            )
+        @ApiResponse(responseCode = "201",
+            description = "Successful operation",
+            content = @Content(schema = @Schema(implementation = UserIdResponse.class))
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid user form",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        )
     })
     @PostMapping
     public ResponseEntity<Void> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
@@ -54,17 +61,17 @@ public class UserCommandController {
 
     @Operation(summary = "Update existing user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successful operation"),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid user form",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "User not found",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-            )
+        @ApiResponse(responseCode = "201", description = "Successful operation"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid user form",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        )
     })
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable("id") String id,
@@ -76,12 +83,12 @@ public class UserCommandController {
 
     @Operation(summary = "Delete user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Successful operation"),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "User not found",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-            )
+        @ApiResponse(responseCode = "204", description = "Successful operation"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        )
     })
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
@@ -91,10 +98,10 @@ public class UserCommandController {
 
     @Operation(summary = "Delete all users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204",
-                    description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = UserIdResponse.class))
-            )
+        @ApiResponse(responseCode = "204",
+            description = "Successful operation",
+            content = @Content(schema = @Schema(implementation = UserIdResponse.class))
+        )
     })
     @DeleteMapping(value = "/")
     public ResponseEntity<Void> deleteAllUser() {

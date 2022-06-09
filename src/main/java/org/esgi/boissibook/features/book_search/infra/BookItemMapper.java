@@ -19,10 +19,10 @@ public final class BookItemMapper {
             return new ArrayList<>();
         }
         return response.items()
-                .stream()
-                .map(BookItemMapper::toBook)
-                .filter(Objects::nonNull)
-                .toList();
+            .stream()
+            .map(BookItemMapper::toBook)
+            .filter(Objects::nonNull)
+            .toList();
     }
 
     static BookSearchItem toBook(BookItem bookItem) {
@@ -32,16 +32,16 @@ public final class BookItemMapper {
             return null;
         }
         return new BookSearchItem(
-                bookItem.id(),
-                bookItem.volumeInfo().title(),
-                bookItem.volumeInfo().authors(),
-                bookItem.volumeInfo().publisher(),
-                bookItem.volumeInfo().publishedDate(),
-                bookItem.volumeInfo().description(),
-                isbn,
-                bookItem.volumeInfo().language(),
-                getThumbnail(bookItem.volumeInfo().imageLinks()),
-                bookItem.volumeInfo().pageCount()
+            bookItem.id(),
+            bookItem.volumeInfo().title(),
+            bookItem.volumeInfo().authors(),
+            bookItem.volumeInfo().publisher(),
+            bookItem.volumeInfo().publishedDate(),
+            bookItem.volumeInfo().description(),
+            isbn,
+            bookItem.volumeInfo().language(),
+            getThumbnail(bookItem.volumeInfo().imageLinks()),
+            bookItem.volumeInfo().pageCount()
         );
     }
 

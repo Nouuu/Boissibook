@@ -1,6 +1,5 @@
 package org.esgi.boissibook.features.book.infra.repository;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -8,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "book")

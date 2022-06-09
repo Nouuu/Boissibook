@@ -14,11 +14,11 @@ class PasswordValidatorTest {
 
     private static Stream<Arguments> validatorData() {
         return Stream.of(
-                Arguments.of("Test1", true),
-                Arguments.of("tTesT1", true),
-                Arguments.of("tTes|1", true),
-                Arguments.of("te2st", false),
-                Arguments.of("tEst", false)
+            Arguments.of("Test1", true),
+            Arguments.of("tTesT1", true),
+            Arguments.of("tTes|1", true),
+            Arguments.of("te2st", false),
+            Arguments.of("tEst", false)
         );
     }
 

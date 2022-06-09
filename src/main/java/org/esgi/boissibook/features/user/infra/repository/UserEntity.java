@@ -63,14 +63,15 @@ public class UserEntity {
         this.password = password;
         return this;
     }
+
     @Override
     public String toString() {
         return "UserEntity{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+            "id='" + id + '\'' +
+            ", name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            '}';
     }
 
     @Override

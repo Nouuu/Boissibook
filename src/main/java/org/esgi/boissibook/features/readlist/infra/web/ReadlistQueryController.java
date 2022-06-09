@@ -33,12 +33,12 @@ public class ReadlistQueryController {
 
     @Operation(summary = "Get progression by book review id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
-            ),
-            @ApiResponse(responseCode = "404", description = "book review not found",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-            ),
+        @ApiResponse(responseCode = "200", description = "Successful operation",
+            content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
+        ),
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        ),
     })
     @GetMapping(value = "/{id}")
     public ResponseEntity<BookReviewResponse> getBookReviewById(@PathVariable("id") String id) {
@@ -48,17 +48,17 @@ public class ReadlistQueryController {
 
     @Operation(summary = "Get review by book id and user id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation",
-                    content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
-            ),
-            @ApiResponse(responseCode = "404", description = "book review not found",
-                    content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
-            )
+        @ApiResponse(responseCode = "200", description = "Successful operation",
+            content = @Content(schema = @Schema(implementation = BookReviewResponse.class))
+        ),
+        @ApiResponse(responseCode = "404", description = "book review not found",
+            content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))
+        )
     })
     @GetMapping(value = "/book/{bookId}/user/{userId}")
     public ResponseEntity<BookReviewResponse> getBookReviewProgressionByBookIdAndUserId(
-            @PathVariable("bookId") String bookId,
-            @PathVariable("userId") String userId
+        @PathVariable("bookId") String bookId,
+        @PathVariable("userId") String userId
     ) {
         var bookReview = bookReviewQueryHandler.getBookReviewByBookIdAndUserId(bookId, userId);
         return ResponseEntity.ok(ReviewMapper.toResponse(bookReview));

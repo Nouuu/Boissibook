@@ -1,8 +1,5 @@
 package org.esgi.boissibook.infra.web;
 
-import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import org.esgi.boissibook.kernel.exception.ConflictException;
 import org.esgi.boissibook.kernel.exception.NotFoundException;
 import org.esgi.boissibook.kernel.exception.SearchException;
@@ -16,6 +13,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -74,9 +75,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SearchException.class)
     public ResponseEntity<HandledExceptionResponse> onNotBadRequest(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new HandledExceptionResponse(
-                        ZonedDateTime.now(),
-                        ex.getMessage()
-                ));
+            .body(new HandledExceptionResponse(
+                ZonedDateTime.now(),
+                ex.getMessage()
+            ));
     }
 }

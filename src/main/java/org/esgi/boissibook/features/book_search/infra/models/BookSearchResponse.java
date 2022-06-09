@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record BookSearchResponse(
-        @JsonProperty
-        int totalItems,
-        @JsonProperty
-        List<BookItem> items) {
+    @JsonProperty
+    int totalItems,
+    @JsonProperty
+    List<BookItem> items) {
 }

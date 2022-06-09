@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
 
 public class PasswordValidator implements ConstraintValidator<Password, String> {
     private static final List<Pattern> PATTERNS = List.of(
-            RegexPattern.UPPERCASE_REGEX.pattern(),
-            RegexPattern.ANY_REGEX.pattern(),
-            RegexPattern.DIGIT_REGEX.pattern()
+        RegexPattern.UPPERCASE_REGEX.pattern(),
+        RegexPattern.ANY_REGEX.pattern(),
+        RegexPattern.DIGIT_REGEX.pattern()
     );
 
 

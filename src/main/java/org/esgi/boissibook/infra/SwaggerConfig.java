@@ -12,10 +12,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .packagesToScan("org.esgi.boissibook.features")
-                .pathsToMatch("/**")
-                .group("Boissibook")
-                .build();
+            .packagesToScan("org.esgi.boissibook.features")
+            .pathsToMatch("/**")
+            .group("Boissibook")
+            .build();
     }
 
 }

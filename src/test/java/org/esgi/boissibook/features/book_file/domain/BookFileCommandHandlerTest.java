@@ -1,7 +1,6 @@
 package org.esgi.boissibook.features.book_file.domain;
 
 import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
-import org.esgi.boissibook.features.book_file.infra.config.ScrapperConfigurationProperties;
 import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
 import org.esgi.boissibook.infra.SpringEventService;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
@@ -43,8 +41,8 @@ class BookFileCommandHandlerTest {
         var bookFileId = bookFileCommandHandler.createBookFile(bookFile1);
 
         assertThat(bookFileRepository.find(bookFile1.id()))
-                .isNotNull()
-                .isEqualTo(bookFile1.setId(bookFileId));
+            .isNotNull()
+            .isEqualTo(bookFile1.setId(bookFileId));
     }
 
     @Test
@@ -55,7 +53,7 @@ class BookFileCommandHandlerTest {
         bookFileCommandHandler.deleteBookFile(bookFile1.id());
 
         assertThat(bookFileRepository.findAll())
-                .hasSize(1)
-                .containsOnly(bookFile2);
+            .hasSize(1)
+            .containsOnly(bookFile2);
     }
 }

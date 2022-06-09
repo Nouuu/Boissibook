@@ -41,8 +41,8 @@ class UserCommandHandlerTest {
 
         assertThat(userId).isNotNull();
         assertThat(userRepository.find(userId))
-                .isNotNull()
-                .isEqualTo(user1.setId(userId));
+            .isNotNull()
+            .isEqualTo(user1.setId(userId));
     }
 
     @Test
@@ -50,11 +50,11 @@ class UserCommandHandlerTest {
         userRepository.save(user1.setId(userRepository.nextId()));
 
         user1.setName("newName")
-                .setPassword(null);
+            .setPassword(null);
 
         userCommandHandler.updateUser(user1);
         assertThat(userRepository.find(user1.id()))
-                .isEqualTo(user1.setPassword("password"));
+            .isEqualTo(user1.setPassword("password"));
     }
 
     @Test
@@ -65,8 +65,8 @@ class UserCommandHandlerTest {
         userCommandHandler.deleteUser(user1.id());
 
         assertThat(userRepository.findAll())
-                .hasSize(1)
-                .containsOnly(user2);
+            .hasSize(1)
+            .containsOnly(user2);
     }
 
     @Test
@@ -78,6 +78,6 @@ class UserCommandHandlerTest {
         userCommandHandler.deleteAllUsers();
 
         assertThat(userRepository.findAll())
-                .isEmpty();
+            .isEmpty();
     }
 }

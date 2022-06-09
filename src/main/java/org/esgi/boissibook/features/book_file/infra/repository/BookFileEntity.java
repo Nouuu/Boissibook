@@ -1,12 +1,13 @@
 package org.esgi.boissibook.features.book_file.infra.repository;
 
-import java.util.Arrays;
+import org.esgi.boissibook.features.book_file.domain.BookFile;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import org.esgi.boissibook.features.book_file.domain.BookFile;
-import org.hibernate.annotations.Type;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "book_file")

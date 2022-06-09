@@ -1,7 +1,5 @@
 package org.esgi.boissibook.features.book.infra.repository;
 
-import java.util.List;
-import java.util.UUID;
 import org.esgi.boissibook.features.book.domain.Book;
 import org.esgi.boissibook.features.book.domain.BookRepository;
 import org.esgi.boissibook.features.book.infra.BookMapper;
@@ -10,6 +8,9 @@ import org.esgi.boissibook.features.book.kernel.exception.BookExceptionMessage;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.UUID;
 
 public class SpringDataBookRepository implements BookRepository {
     private final JpaRepository<BookEntity, String> bookRepository;

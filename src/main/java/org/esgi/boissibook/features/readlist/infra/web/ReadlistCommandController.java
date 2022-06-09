@@ -8,13 +8,25 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.readlist.domain.BookReviewCommandHandler;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
-import org.esgi.boissibook.features.readlist.infra.web.request.*;
+import org.esgi.boissibook.features.readlist.infra.web.request.CommentRequest;
+import org.esgi.boissibook.features.readlist.infra.web.request.CreateBookReviewRequest;
+import org.esgi.boissibook.features.readlist.infra.web.request.ProgressRequest;
+import org.esgi.boissibook.features.readlist.infra.web.request.ReviewRequest;
+import org.esgi.boissibook.features.readlist.infra.web.request.StatusRequest;
+import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -44,7 +56,7 @@ public class ReadlistCommandController {
     })
     @PostMapping
     public ResponseEntity<BookReviewIdResponse> createBookReview(
-            @Valid  @RequestBody CreateBookReviewRequest createBookProgressionRequest
+        @Valid @RequestBody CreateBookReviewRequest createBookProgressionRequest
     ) {
         var createReview = ReviewMapper.toReview(createBookProgressionRequest);
         var bookReviewId = bookReviewCommandHandler.createReview(createReview);

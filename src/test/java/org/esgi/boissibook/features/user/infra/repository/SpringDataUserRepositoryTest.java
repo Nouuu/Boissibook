@@ -4,11 +4,9 @@ import org.esgi.boissibook.features.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
@@ -46,27 +44,27 @@ class SpringDataUserRepositoryTest {
         springDataUserRepository.save(user1);
 
         assertThat(userRepository.findById(user1.id()))
-                .isPresent()
-                .get()
-                .isEqualTo(userEntity1);
+            .isPresent()
+            .get()
+            .isEqualTo(userEntity1);
     }
 
     @Test
     @DisplayName("should count users in db")
     void count() {
         assertThat(userRepository.count())
-                .isZero();
+            .isZero();
 
         springDataUserRepository.save(user1);
 
         assertThat(userRepository.count())
-                .isEqualTo(1);
+            .isEqualTo(1);
 
         springDataUserRepository.save(user2);
         springDataUserRepository.save(user3);
 
         assertThat(userRepository.count())
-                .isEqualTo(3);
+            .isEqualTo(3);
     }
 
     @Test
@@ -77,8 +75,8 @@ class SpringDataUserRepositoryTest {
         userRepository.save(userEntity3);
 
         assertThat(springDataUserRepository.findAll())
-                .hasSize(3)
-                .containsOnly(user1, user2, user3);
+            .hasSize(3)
+            .containsOnly(user1, user2, user3);
     }
 
     @Test
@@ -87,7 +85,7 @@ class SpringDataUserRepositoryTest {
         userRepository.save(userEntity2);
 
         assertThat(springDataUserRepository.find(user1.id()))
-                .isEqualTo(user1);
+            .isEqualTo(user1);
     }
 
     @Test
@@ -97,9 +95,9 @@ class SpringDataUserRepositoryTest {
 
         springDataUserRepository.delete(user1);
         assertThat(userRepository.findById(user1.id()))
-                .isNotPresent();
+            .isNotPresent();
         assertThat(userRepository.count())
-                .isEqualTo(1); //user2 is still in db
+            .isEqualTo(1); //user2 is still in db
     }
 
     @Test
@@ -110,6 +108,6 @@ class SpringDataUserRepositoryTest {
 
         springDataUserRepository.deleteAll();
         assertThat(userRepository.findAll())
-                .isEmpty();
+            .isEmpty();
     }
 }

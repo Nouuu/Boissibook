@@ -28,8 +28,8 @@ public class BookSearchRequestController {
 
     @Operation(summary = "Search book", description = "Return a list of books matching the query search")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BooksResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BooksResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
     @GetMapping
     public ResponseEntity<BooksResponse> search(@RequestParam(name = "searchQuery") String query) {
@@ -39,8 +39,8 @@ public class BookSearchRequestController {
 
     @Operation(summary = "Get book", description = "Return a book matching the id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BookResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))),
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BookResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class))),
         @ApiResponse(responseCode = "404", description = "BookSearchItem not found", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
     @GetMapping("/{bookId}")

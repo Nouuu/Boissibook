@@ -32,11 +32,11 @@ public class SpringBookFileBeans {
 
     @Bean
     public BookFileCommandHandler bookFileCommandHandler(
-            BookFileRepository bookFileRepository,
-            BookRepository bookRepository,
-            EventService eventService,
-            FileCompression fileCompression,
-            BookFileSearch bookFileSearch
+        BookFileRepository bookFileRepository,
+        BookRepository bookRepository,
+        EventService eventService,
+        FileCompression fileCompression,
+        BookFileSearch bookFileSearch
     ) {
         return new BookFileCommandHandler(bookFileRepository, bookRepository, eventService, fileCompression, bookFileSearch);
     }

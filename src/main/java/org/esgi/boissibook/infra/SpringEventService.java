@@ -12,6 +12,7 @@ public class SpringEventService implements EventService {
     public SpringEventService(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
+
     @Override
     public void publish(Event event) {
         eventPublisher.publishEvent(event);

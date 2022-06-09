@@ -32,19 +32,19 @@ class BookSearchQueryHandlerTest {
     @Test
     void searchBooks() {
         Mockito.when(bookSearch.searchBooks(any()))
-                .thenReturn(List.of(bookSearchItem1, bookSearchItem2, bookSearchItem3));
+            .thenReturn(List.of(bookSearchItem1, bookSearchItem2, bookSearchItem3));
 
         assertThat(bookSearchQueryHandler.searchBooks("searchQuery"))
-                .hasSize(3)
-                .containsOnly(bookSearchItem1, bookSearchItem2, bookSearchItem3);
+            .hasSize(3)
+            .containsOnly(bookSearchItem1, bookSearchItem2, bookSearchItem3);
     }
 
     @Test
     void getBook() {
         Mockito.when(bookSearch.getBook(any()))
-                .thenReturn(bookSearchItem1);
+            .thenReturn(bookSearchItem1);
 
         assertThat(bookSearchQueryHandler.getBook("id"))
-                .isEqualTo(bookSearchItem1);
+            .isEqualTo(bookSearchItem1);
     }
 }

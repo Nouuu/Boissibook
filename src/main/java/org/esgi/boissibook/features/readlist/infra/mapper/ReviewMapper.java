@@ -1,18 +1,18 @@
 package org.esgi.boissibook.features.readlist.infra.mapper;
 
 import org.esgi.boissibook.features.readlist.domain.BookReview;
-import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.features.readlist.domain.ReadingStatus;
 import org.esgi.boissibook.features.readlist.domain.Visibility;
 import org.esgi.boissibook.features.readlist.infra.repository.BookReviewEntity;
 import org.esgi.boissibook.features.readlist.infra.web.request.CreateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
+import org.esgi.boissibook.kernel.repository.BookReviewId;
 
 public class ReviewMapper {
     public static BookReview toReview(CreateBookReviewRequest createBookProgressionRequest) {
         return new BookReview(
-null,
+            null,
             createBookProgressionRequest.bookId(),
             createBookProgressionRequest.userId(),
             Visibility.valueOf(createBookProgressionRequest.visibility()),
@@ -22,9 +22,10 @@ null,
             createBookProgressionRequest.comment()
         );
     }
+
     public static BookReview toReview(UpdateBookReviewRequest updateBookProgressionRequest) {
         return new BookReview(
-null,
+            null,
             updateBookProgressionRequest.bookId(),
             updateBookProgressionRequest.userId(),
             Visibility.valueOf(updateBookProgressionRequest.visibility()),
