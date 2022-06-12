@@ -13,6 +13,7 @@ import org.esgi.boissibook.features.book_file.infra.web.response.BookFilesRespon
 import org.esgi.boissibook.features.book_file.kernel.exception.BookFileNotFoundException;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
 import org.esgi.boissibook.kernel.repository.BookFileId;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -40,7 +41,7 @@ public class BookFileQueryController {
     })
     @GetMapping(value = "/book/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookFilesResponse> getBookFiles(@PathVariable("bookId") String bookId) {
-        var bookFiles = bookFileQueryHandler.getBookFiles(bookId);
+        var bookFiles = bookFileQueryHandler.getBookFiles(BookId.of(bookId));
         return ResponseEntity.ok()
             .body(new BookFilesResponse(bookFiles.stream()
                 .map(BookFileMapper::mapBookFileToBookFileResponse)
@@ -70,7 +71,7 @@ public class BookFileQueryController {
     })
     @GetMapping(value = "/book/{bookId}/count", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookFilesCountResponse> getBookFileCount(@PathVariable("bookId") String bookId) {
-        var count = bookFileQueryHandler.countBookFiles(bookId);
+        var count = bookFileQueryHandler.countBookFiles(BookId.of(bookId));
         return ResponseEntity.ok()
             .body(new BookFilesCountResponse(count));
     }

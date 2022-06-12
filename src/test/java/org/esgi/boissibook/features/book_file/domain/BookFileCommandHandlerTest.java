@@ -1,30 +1,24 @@
 package org.esgi.boissibook.features.book_file.domain;
 
-import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
-import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
-import org.esgi.boissibook.infra.SpringEventService;
+import org.esgi.boissibook.features.book.domain.BookRepository;
+import org.esgi.boissibook.features.book.infra.repository.InMemoryBookRepository;
+import org.esgi.boissibook.features.book_file.infra.ScrapperBookFileSearch;
+import org.esgi.boissibook.features.book_file.infra.ZipFileCompression;
+import org.esgi.boissibook.features.book_file.infra.repository.InMemoryBookFileRepository;
+import org.esgi.boissibook.kernel.event.VoidEventService;
 import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
 
-@Import({SpringBookBeans.class, SpringBookFileBeans.class, SpringEventService.class})
-@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
-@DataJpaTest
 class BookFileCommandHandlerTest {
-    @Autowired
-    public BookFileCommandHandler bookFileCommandHandler;
-
-    @Autowired
-    public BookFileRepository bookFileRepository;
+    private BookFileCommandHandler bookFileCommandHandler;
+    private BookFileRepository bookFileRepository;
+    private BookRepository bookRepository;
+    private BookFileSearch bookFileSearch;
 
     BookFile bookFile1;
     BookFile bookFile2;
@@ -33,6 +27,11 @@ class BookFileCommandHandlerTest {
 
     @BeforeEach
     void setUp() {
+        bookFileRepository = new InMemoryBookFileRepository();
+        bookRepository = new InMemoryBookRepository();
+        bookFileSearch = new ScrapperBookFileSearch("https://www.google.fr/");
+        bookFileCommandHandler = new BookFileCommandHandler(bookFileRepository, bookRepository, new VoidEventService(), new ZipFileCompression(), bookFileSearch);
+
         bookFile1 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of("book-id"), UserId.of("user-id"), 0, new byte[]{});
         bookFile2 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of("book-id"), UserId.of("user-id"), 0, new byte[]{});
         bookFile3 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of("book-id"), UserId.of("user-id"), 0, new byte[]{});

@@ -1,45 +1,36 @@
 package org.esgi.boissibook.features.book_file.domain;
 
-import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
-import org.esgi.boissibook.features.book_file.infra.config.SpringBookFileBeans;
-import org.esgi.boissibook.infra.SpringEventService;
+import org.esgi.boissibook.features.book_file.infra.ZipFileCompression;
+import org.esgi.boissibook.features.book_file.infra.repository.InMemoryBookFileRepository;
 import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.DirtiesContext;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
-@Import({SpringBookBeans.class, SpringBookFileBeans.class, SpringEventService.class})
-@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
-@DataJpaTest
 class BookFileQueryHandlerTest {
-    @Autowired
-    public BookFileRepository bookFileRepository;
+    private BookFileRepository bookFileRepository;
+    private BookFileQueryHandler bookFileQueryHandler;
+
     BookFile book1;
     BookFile book2;
     BookFile book3;
-    String bookId1;
-    String bookId2;
-    @Autowired
-    private BookFileQueryHandler bookFileQueryHandler;
+    BookId bookId1;
+    BookId bookId2;
 
     @BeforeEach
     void setUp() {
-        bookId1 = UUID.randomUUID().toString();
-        bookId2 = UUID.randomUUID().toString();
+        bookFileRepository = new InMemoryBookFileRepository();
+        bookFileQueryHandler = new BookFileQueryHandler(bookFileRepository, new ZipFileCompression());
 
-        book1 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of(bookId1), UserId.of("user-id"), 0, new byte[]{});
-        book2 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of(bookId2), UserId.of("user-id"), 0, new byte[]{});
-        book3 = new BookFile(null, "Filename.pdf", "application/pdf", BookId.of(bookId1), UserId.of("user-id"), 0, new byte[]{});
+        bookId1 = BookId.nextId();
+        bookId2 = BookId.nextId();
+
+        book1 = new BookFile(null, "Filename.pdf", "application/pdf", bookId1, UserId.of("user-id"), 0, new byte[]{});
+        book2 = new BookFile(null, "Filename.pdf", "application/pdf", bookId2, UserId.of("user-id"), 0, new byte[]{});
+        book3 = new BookFile(null, "Filename.pdf", "application/pdf", bookId1, UserId.of("user-id"), 0, new byte[]{});
 
         bookFileRepository.save(book1.setId(bookFileRepository.nextId()));
         bookFileRepository.save(book2.setId(bookFileRepository.nextId()));
