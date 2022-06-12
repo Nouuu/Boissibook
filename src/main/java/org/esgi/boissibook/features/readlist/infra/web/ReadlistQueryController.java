@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.stream.Collectors;
-
 @Tag(name = "Readlist controller", description = "Readlist features")
 @RestController
 @RequestMapping(value = "book-review", produces = MediaType.APPLICATION_JSON_VALUE)
