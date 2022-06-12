@@ -1,6 +1,7 @@
 package org.esgi.boissibook.features.book.domain;
 
 import org.esgi.boissibook.features.book.infra.config.SpringBookBeans;
+import org.esgi.boissibook.features.book.infra.repository.InMemoryBookRepository;
 import org.esgi.boissibook.infra.SpringEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,20 +15,17 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
-@Import({SpringBookBeans.class, SpringEventService.class})
-@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
-@DataJpaTest
 class BookQueryHandlerTest {
     private Book book1;
     private Book book2;
     private Book book3;
-    @Autowired
     private BookRepository bookRepository;
-    @Autowired
     private BookQueryHandler bookQueryHandler;
 
     @BeforeEach
     void setUp() {
+        bookRepository = new InMemoryBookRepository();
+        bookQueryHandler = new BookQueryHandler(bookRepository);
 
         book1 = new Book(null, "1", "title1", List.of("author1"), "publisher1", "2001", "description1", "isbn1", "fr1", "imgUrl1", 101);
         book2 = new Book(null, "2", "title2", List.of("author2"), "publisher2", "2002", "description2", "isbn2", "fr2", "imgUrl2", 202);
