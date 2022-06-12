@@ -14,10 +14,10 @@ public class InMemoryUserRepository extends InMemoryRepository<User, UserId> imp
 
     @Override
     public User findByEmail(String email) {
-        return super.data.values().stream()
+        return data.values().stream()
             .filter(user -> user.email().equals(email))
             .findFirst()
-            .orElseThrow(() -> new UserNotFoundException(UserExceptionMessage.USER_NOT_FOUND.toString()));
+            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, email)));
     }
 
     @Override

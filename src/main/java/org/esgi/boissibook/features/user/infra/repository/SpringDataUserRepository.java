@@ -61,7 +61,7 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public User find(UserId id) {
         return UserEntityMapper.toUser(userRepository.findById(id.value())
-            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id))));
+            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id.value()))));
     }
 
     /**
