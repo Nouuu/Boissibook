@@ -17,7 +17,9 @@ public class BookReviewEntity {
     private String bookReviewId;
     private String userId;
     private String bookId;
+    @Enumerated(EnumType.STRING)
     private Visibility visibility;
+    @Enumerated(EnumType.STRING)
     private ReadingStatus readingStatus;
     private int currentPage;
     private int note;
@@ -46,13 +48,10 @@ public class BookReviewEntity {
         return bookId;
     }
 
-
-    @Enumerated(EnumType.STRING)
     public Visibility getVisibility() {
         return visibility;
     }
 
-    @Enumerated(EnumType.STRING)
     public ReadingStatus getReadingStatus() {
         return readingStatus;
     }
