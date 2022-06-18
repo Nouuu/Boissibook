@@ -18,16 +18,16 @@ public class GoogleBookRestSearchEngine implements RestSearchEngine {
         WebClient webClient = WebClient.builder().baseUrl(GOOGLE_BOOK_API_URL).build();
         try {
             return webClient.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .queryParam("q", query)
-                            .build()
-                    )
-                    .retrieve()
-                    .bodyToMono(BookSearchResponse.class)
-                    .block();
+                .uri(uriBuilder -> uriBuilder
+                    .queryParam("q", query)
+                    .build()
+                )
+                .retrieve()
+                .bodyToMono(BookSearchResponse.class)
+                .block();
         } catch (WebClientResponseException e) {
             throw new GoogleBookSearchException(
-                    String.format("%s : %s", e.getStatusCode(), e.getMessage())
+                String.format("%s : %s", e.getStatusCode(), e.getMessage())
             );
         }
     }
@@ -37,19 +37,19 @@ public class GoogleBookRestSearchEngine implements RestSearchEngine {
         WebClient webClient = WebClient.builder().baseUrl(GOOGLE_BOOK_API_URL).build();
         try {
             return webClient.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/{id}")
-                            .build(id)
-                    )
-                    .retrieve()
-                    .bodyToMono(BookItem.class)
-                    .block();
+                .uri(uriBuilder -> uriBuilder
+                    .path("/{id}")
+                    .build(id)
+                )
+                .retrieve()
+                .bodyToMono(BookItem.class)
+                .block();
         } catch (WebClientResponseException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
                 throw new GoogleBookNotFoundException(String.format("%s", e.getMessage()));
             }
             throw new GoogleBookGetException(
-                    String.format("%s : %s", e.getStatusCode(), e.getMessage())
+                String.format("%s : %s", e.getStatusCode(), e.getMessage())
             );
         }
     }

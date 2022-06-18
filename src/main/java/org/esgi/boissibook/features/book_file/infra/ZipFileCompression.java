@@ -1,13 +1,14 @@
 package org.esgi.boissibook.features.book_file.infra;
 
+import org.esgi.boissibook.features.book_file.domain.FileCompression;
+import org.esgi.boissibook.features.book_file.kernel.exception.ZipCompressionException;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-import org.esgi.boissibook.features.book_file.domain.FileCompression;
-import org.esgi.boissibook.features.book_file.kernel.exception.ZipCompressionException;
 
 public class ZipFileCompression implements FileCompression {
     @Override

@@ -1,11 +1,11 @@
 package org.esgi.boissibook.features.readlist.infra.repository;
 
 import org.esgi.boissibook.features.readlist.domain.BookReview;
-import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.features.readlist.domain.BookReviewRepository;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewExceptionMessage;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
+import org.esgi.boissibook.kernel.repository.BookReviewId;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,9 +31,9 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     @Override
     public BookReview find(BookReviewId bookReviewId) {
         return ReviewMapper.fromEntity(bookReviewRepository.findById(bookReviewId.value())
-                .orElseThrow(() -> new BookReviewNotFoundException(
-                        String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookReviewId)
-                ))
+            .orElseThrow(() -> new BookReviewNotFoundException(
+                String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookReviewId)
+            ))
         );
     }
 
@@ -46,17 +46,17 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     @Override
     public BookReview findByBookIdAndUserId(String bookId, String userId) {
         return ReviewMapper.fromEntity(bookReviewRepository.findByBookIdAndUserId(bookId, userId)
-                .orElseThrow(() -> new BookReviewNotFoundException(
-                        String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookId)
-                ))
+            .orElseThrow(() -> new BookReviewNotFoundException(
+                String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookId)
+            ))
         );
     }
 
     @Override
     public List<BookReview> findByUserId(String userId) {
-       return bookReviewRepository
-               .findByUserId(userId).stream()
-               .map(ReviewMapper::fromEntity)
-               .collect(Collectors.toList());
+        return bookReviewRepository
+            .findByUserId(userId).stream()
+            .map(ReviewMapper::fromEntity)
+            .collect(Collectors.toList());
     }
 }

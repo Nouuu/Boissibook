@@ -3,7 +3,11 @@ package org.esgi.boissibook.features.readlist.infra.web.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public record UpdateBookReviewRequest(
     @Schema(description = "The book id", example = "7bd1b206-833d-4378-8064-05b162d80764", required = true)

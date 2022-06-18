@@ -2,8 +2,10 @@
 .idea/
 .mvn/
 target/
+k8s/
+.editorconfig
 mvnw
 mvnw.cmd
-README.md
+*.md
 .gitignore
 LICENSE

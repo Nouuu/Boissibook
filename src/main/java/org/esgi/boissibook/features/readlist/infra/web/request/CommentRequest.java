@@ -7,10 +7,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public record CommentRequest(
-        @Schema(description = "The comment of the review", example = "I'm a good reader", required = true)
-        @JsonProperty
-        @NotBlank
-        @Size(min = 1, max = 255)
-        String comment
+    @Schema(description = "The comment of the review", example = "I'm a good reader", required = true)
+    @JsonProperty
+    @NotBlank
+    @Size(min = 1, max = 255)
+    String comment
 ) {
 }

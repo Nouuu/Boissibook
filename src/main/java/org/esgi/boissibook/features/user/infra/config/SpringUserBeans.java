@@ -20,6 +20,7 @@ public class SpringUserBeans {
     public UserCommandHandler userCommandHandler(UserRepository userRepository, EventService eventService) {
         return new UserCommandHandler(userRepository, eventService);
     }
+
     @Bean
     public UserQueryHandler userQueryHandler(UserRepository userRepository) {
         return new UserQueryHandler(userRepository);

@@ -1,7 +1,8 @@
 package org.esgi.boissibook.features.book_search.infra.web;
 
-import java.util.List;
 import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
+
+import java.util.List;
 
 public class BookSearchWebMapper {
 

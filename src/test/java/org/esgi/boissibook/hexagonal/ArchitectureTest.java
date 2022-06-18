@@ -15,15 +15,15 @@ class ArchitectureTest {
     @BeforeEach
     void setup() {
         projectClasses = new ClassFileImporter()
-                .withImportOption(new ImportOption.DoNotIncludeTests())
-                .importPackages("org.esgi.boissibook");
+            .withImportOption(new ImportOption.DoNotIncludeTests())
+            .importPackages("org.esgi.boissibook");
     }
 
     @Test
     void should_domain_never_be_linked_with_frameworks() {
         var ruleNoFramework = noClasses().that().resideInAPackage("..domain..")
-                .should().dependOnClassesThat().resideInAPackage("..springframework..")
-                .orShould().dependOnClassesThat().resideInAPackage("javax..");
+            .should().dependOnClassesThat().resideInAPackage("..springframework..")
+            .orShould().dependOnClassesThat().resideInAPackage("javax..");
 
         ruleNoFramework.check(projectClasses);
     }
@@ -31,8 +31,8 @@ class ArchitectureTest {
     @Test
     void should_kernel_never_be_linked_with_frameworks() {
         var ruleNoFramework = noClasses().that().resideInAPackage("..kernel..")
-                .should().dependOnClassesThat().resideInAPackage("..springframework..")
-                .orShould().dependOnClassesThat().resideInAPackage("javax..");
+            .should().dependOnClassesThat().resideInAPackage("..springframework..")
+            .orShould().dependOnClassesThat().resideInAPackage("javax..");
 
         ruleNoFramework.check(projectClasses);
     }
@@ -40,10 +40,10 @@ class ArchitectureTest {
     @Test
     void should_respect_hexagonal_architecture() {
         var ruleLayerAccess = layeredArchitecture()
-                .layer("domain").definedBy("..domain..")
-                .layer("infra").definedBy("..infra..")
+            .layer("domain").definedBy("..domain..")
+            .layer("infra").definedBy("..infra..")
 
-                .whereLayer("domain").mayOnlyBeAccessedByLayers("infra");
+            .whereLayer("domain").mayOnlyBeAccessedByLayers("infra");
 
         ruleLayerAccess.check(projectClasses);
     }

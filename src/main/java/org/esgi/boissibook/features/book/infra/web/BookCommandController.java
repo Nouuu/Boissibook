@@ -6,16 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import javax.validation.Valid;
 import org.esgi.boissibook.features.book.domain.BookCommandHandler;
 import org.esgi.boissibook.features.book.infra.BookMapper;
 import org.esgi.boissibook.features.book.infra.web.request.AddBookRequest;
-import org.esgi.boissibook.features.book.infra.web.response.BookIdResponse;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 import org.esgi.boissibook.features.book_search.domain.BookSearchQueryHandler;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Tag(name = "Book controller", description = "Book features")
 @RestController
@@ -44,10 +46,10 @@ public class BookCommandController {
         @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = HandledExceptionResponse.class)))
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BookIdResponse> addBook(@Valid @RequestBody AddBookRequest addBookRequest) {
+    public ResponseEntity<Void> addBook(@Valid @RequestBody AddBookRequest addBookRequest) {
         BookSearchItem searchedBook = bookSearchQueryHandler.getBook(addBookRequest.apiId());
-        return ResponseEntity.status(HttpStatus.CREATED.value())
-            .body(new BookIdResponse(bookCommandHandler.addBook(BookMapper.mapBookSearchToBook(searchedBook))));
+        var bookId = bookCommandHandler.addBook(BookMapper.mapBookSearchToBook(searchedBook));
+        return ResponseEntity.created(linkTo(methodOn(BookQueryController.class).getBookById(bookId)).toUri()).build();
     }
 
     @Operation(summary = "Delete book", description = "Delete a book by its id")

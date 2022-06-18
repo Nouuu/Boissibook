@@ -4,7 +4,6 @@ import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.features.user.domain.UserRepository;
 import org.esgi.boissibook.features.user.kernel.exception.UserExceptionMessage;
 import org.esgi.boissibook.features.user.kernel.exception.UserNotFoundException;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,9 +46,9 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public List<User> findAll() {
         return userRepository.findAll()
-                .stream()
-                .map(UserEntityMapper::toUser)
-                .toList();
+            .stream()
+            .map(UserEntityMapper::toUser)
+            .toList();
     }
 
     /**
@@ -61,7 +60,7 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public User find(String id) {
         return UserEntityMapper.toUser(userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id))));
+            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id))));
     }
 
     /**
@@ -72,8 +71,8 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public void delete(User user) {
         userRepository.delete(
-                userRepository.findById(user.id())
-                        .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, user.id())))
+            userRepository.findById(user.id())
+                .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, user.id())))
         );
     }
 
@@ -93,6 +92,6 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public User findByEmail(String email) {
         return UserEntityMapper.toUser(userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, email))));
+            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, email))));
     }
 }

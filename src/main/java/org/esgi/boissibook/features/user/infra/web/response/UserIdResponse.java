@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record UserIdResponse(
-        @Schema(description = "The user's id")
-        @JsonProperty
-        String userId
+    @Schema(description = "The user's id")
+    @JsonProperty
+    String userId
 ) {
 }
