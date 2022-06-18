@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.book.domain.BookRepository;
 import org.esgi.boissibook.features.readlist.domain.BookReviewCommandHandler;
+import org.esgi.boissibook.features.readlist.domain.BookReviewQueryHandler;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.infra.web.request.CommentRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.CreateBookReviewRequest;
@@ -16,8 +17,11 @@ import org.esgi.boissibook.features.readlist.infra.web.request.ReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.StatusRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
+import org.esgi.boissibook.features.readlist.kernel.exception.BookNotFoundException;
+import org.esgi.boissibook.features.readlist.kernel.exception.UserNotFoundException;
 import org.esgi.boissibook.features.user.domain.UserRepository;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.exception.NotFoundException;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import java.time.ZonedDateTime;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -40,14 +46,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping(value = "book-review", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReadlistCommandController {
     private final BookReviewCommandHandler bookReviewCommandHandler;
+    private final BookReviewQueryHandler bookReviewQueryHandler;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
     public ReadlistCommandController(BookReviewCommandHandler bookReviewCommandHandler,
          BookRepository bookRepository,
-         UserRepository userRepository
+         UserRepository userRepository,
+         BookReviewQueryHandler bookReviewQueryHandler
     ) {
         this.bookReviewCommandHandler = bookReviewCommandHandler;
+        this.bookReviewQueryHandler = bookReviewQueryHandler;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
     }
@@ -69,8 +78,20 @@ public class ReadlistCommandController {
         @Valid @RequestBody CreateBookReviewRequest createBookProgressionRequest
     ) {
         var createReview = ReviewMapper.toReview(createBookProgressionRequest);
-        bookRepository.find(createReview.getBookId());
-        userRepository.find(createReview.getUserId());
+        try {
+            bookRepository.find(createReview.getBookId());
+        } catch (NotFoundException exception) {
+           throw new BookNotFoundException("Book with id: " + createReview.getBookId() + " not found");
+        }
+        try {
+            userRepository.find(createReview.getUserId());
+        } catch (NotFoundException exception) {
+            throw new UserNotFoundException("User with id: " + createReview.getUserId() + " not found");
+        }
+        var actualReview = bookReviewQueryHandler.getBookReviewByBookIdAndUserId(
+            createReview.getBookId(),
+            createReview.getUserId()
+        );
         var bookReviewId = bookReviewCommandHandler.createReview(createReview);
         return ResponseEntity.created(linkTo(methodOn(ReadlistQueryController.class)
             .getBookReviewById(bookReviewId.toString())).toUri())

@@ -1,6 +1,7 @@
 package org.esgi.boissibook.infra.web;
 
 import org.esgi.boissibook.kernel.exception.ConflictException;
+import org.esgi.boissibook.kernel.exception.NotFoundBadRequestException;
 import org.esgi.boissibook.kernel.exception.NotFoundException;
 import org.esgi.boissibook.kernel.exception.SearchException;
 import org.springframework.http.HttpHeaders;
@@ -61,6 +62,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ZonedDateTime.now(),
                 ex.getMessage()
             ));
+    }
+
+    @ExceptionHandler(NotFoundBadRequestException.class)
+    public ResponseEntity<HandledExceptionResponse> notFoundBadRequest(NotFoundBadRequestException ex) {
+        return ResponseEntity.badRequest().body(
+            new HandledExceptionResponse(ZonedDateTime.now(), ex.getMessage())
+        );
     }
 
     @ExceptionHandler(ConflictException.class)
