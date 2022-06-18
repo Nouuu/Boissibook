@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.book.domain.BookRepository;
+import org.esgi.boissibook.features.readlist.domain.BookReview;
 import org.esgi.boissibook.features.readlist.domain.BookReviewCommandHandler;
 import org.esgi.boissibook.features.readlist.domain.BookReviewQueryHandler;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
@@ -18,6 +19,7 @@ import org.esgi.boissibook.features.readlist.infra.web.request.StatusRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookNotFoundException;
+import org.esgi.boissibook.features.readlist.kernel.exception.ReviewAlreadyExistException;
 import org.esgi.boissibook.features.readlist.kernel.exception.UserNotFoundException;
 import org.esgi.boissibook.features.user.domain.UserRepository;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
@@ -35,8 +37,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
-import java.time.ZonedDateTime;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -78,20 +78,7 @@ public class ReadlistCommandController {
         @Valid @RequestBody CreateBookReviewRequest createBookProgressionRequest
     ) {
         var createReview = ReviewMapper.toReview(createBookProgressionRequest);
-        try {
-            bookRepository.find(createReview.getBookId());
-        } catch (NotFoundException exception) {
-           throw new BookNotFoundException("Book with id: " + createReview.getBookId() + " not found");
-        }
-        try {
-            userRepository.find(createReview.getUserId());
-        } catch (NotFoundException exception) {
-            throw new UserNotFoundException("User with id: " + createReview.getUserId() + " not found");
-        }
-        var actualReview = bookReviewQueryHandler.getBookReviewByBookIdAndUserId(
-            createReview.getBookId(),
-            createReview.getUserId()
-        );
+        verifyReview(createReview);
         var bookReviewId = bookReviewCommandHandler.createReview(createReview);
         return ResponseEntity.created(linkTo(methodOn(ReadlistQueryController.class)
             .getBookReviewById(bookReviewId.toString())).toUri())
@@ -193,5 +180,28 @@ public class ReadlistCommandController {
     public ResponseEntity<Void> updateReview(@PathVariable("id") String id, @Valid @RequestBody ReviewRequest newReview) {
         bookReviewCommandHandler.updateRating(BookReviewId.of(id), newReview.note());
         return ResponseEntity.ok().build();
+    }
+
+    private void verifyReview(BookReview createReview) {
+        try {
+            bookRepository.find(createReview.getBookId());
+        } catch (NotFoundException exception) {
+            throw new BookNotFoundException("Book with id: " + createReview.getBookId() + " not found");
+        }
+        try {
+            userRepository.find(createReview.getUserId());
+        } catch (NotFoundException exception) {
+            throw new UserNotFoundException("User with id: " + createReview.getUserId() + " not found");
+        }
+
+        try {
+            bookReviewQueryHandler.getBookReviewByBookIdAndUserId(
+                createReview.getBookId(),
+                createReview.getUserId()
+            );
+        } catch (Exception exception) {
+            throw new ReviewAlreadyExistException("You have already review this book");
+        }
+
     }
 }
