@@ -13,6 +13,7 @@ import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.features.book_search.domain.BookSearchItem;
 import org.esgi.boissibook.features.book_search.domain.BookSearchQueryHandler;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,7 +50,7 @@ public class BookCommandController {
     public ResponseEntity<Void> addBook(@Valid @RequestBody AddBookRequest addBookRequest) {
         BookSearchItem searchedBook = bookSearchQueryHandler.getBook(addBookRequest.apiId());
         var bookId = bookCommandHandler.addBook(BookMapper.mapBookSearchToBook(searchedBook));
-        return ResponseEntity.created(linkTo(methodOn(BookQueryController.class).getBookById(bookId)).toUri()).build();
+        return ResponseEntity.created(linkTo(methodOn(BookQueryController.class).getBookById(bookId.value())).toUri()).build();
     }
 
     @Operation(summary = "Delete book", description = "Delete a book by its id")
@@ -59,7 +60,7 @@ public class BookCommandController {
     })
     @DeleteMapping(value = "{bookId}")
     public ResponseEntity<Void> deleteBook(@PathVariable("bookId") String bookId) {
-        bookCommandHandler.deleteBook(bookId);
+        bookCommandHandler.deleteBook(BookId.of(bookId));
         return ResponseEntity.ok()
             .build();
     }

@@ -1,5 +1,7 @@
 package org.esgi.boissibook.features.user.domain;
 
+import org.esgi.boissibook.kernel.repository.UserId;
+
 import java.util.List;
 
 public final class UserQueryHandler {
@@ -9,7 +11,7 @@ public final class UserQueryHandler {
         this.userRepository = userRepository;
     }
 
-    public User getUser(String id) {
+    public User getUser(UserId id) {
         return userRepository.find(id);
     }
 

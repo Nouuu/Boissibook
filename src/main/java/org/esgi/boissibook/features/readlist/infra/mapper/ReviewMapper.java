@@ -7,14 +7,16 @@ import org.esgi.boissibook.features.readlist.infra.repository.BookReviewEntity;
 import org.esgi.boissibook.features.readlist.infra.web.request.CreateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
+import org.esgi.boissibook.kernel.repository.UserId;
 
 public class ReviewMapper {
     public static BookReview toReview(CreateBookReviewRequest createBookProgressionRequest) {
         return new BookReview(
             null,
-            createBookProgressionRequest.bookId(),
-            createBookProgressionRequest.userId(),
+            BookId.of(createBookProgressionRequest.bookId()),
+            UserId.of(createBookProgressionRequest.userId()),
             Visibility.valueOf(createBookProgressionRequest.visibility()),
             ReadingStatus.valueOf(createBookProgressionRequest.readingStatus()),
             createBookProgressionRequest.currentPage(),
@@ -38,9 +40,9 @@ public class ReviewMapper {
 
     public static BookReviewEntity toEntity(BookReview bookReview) {
         return new BookReviewEntity(
-            bookReview.getBookReviewId().value(),
-            bookReview.getUserId(),
-            bookReview.getBookId(),
+            bookReview.id().value(),
+            bookReview.getUserId().value(),
+            bookReview.getBookId().value(),
             bookReview.getVisibility(),
             bookReview.getReadingStatus(),
             bookReview.getCurrentPage(),
@@ -52,8 +54,8 @@ public class ReviewMapper {
     public static BookReview fromEntity(BookReviewEntity bookReviewEntity) {
         return new BookReview(
             BookReviewId.of(bookReviewEntity.getBookReviewId()),
-            bookReviewEntity.getBookId(),
-            bookReviewEntity.getUserId(),
+            BookId.of(bookReviewEntity.getBookId()),
+            UserId.of(bookReviewEntity.getUserId()),
             bookReviewEntity.getVisibility(),
             bookReviewEntity.getReadingStatus(),
             bookReviewEntity.getCurrentPage(),
@@ -64,9 +66,9 @@ public class ReviewMapper {
 
     public static BookReviewResponse toResponse(BookReview bookReview) {
         return new BookReviewResponse(
-            bookReview.getBookReviewId().value(),
-            bookReview.getBookId(),
-            bookReview.getUserId(),
+            bookReview.id().value(),
+            bookReview.getBookId().value(),
+            bookReview.getUserId().value(),
             bookReview.getVisibility().name(),
             bookReview.getReadingStatus().name(),
             bookReview.getCurrentPage(),

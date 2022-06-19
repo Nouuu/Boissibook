@@ -11,15 +11,15 @@ import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewResponse;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewsResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
+import org.esgi.boissibook.kernel.repository.UserId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.stream.Collectors;
 
 @Tag(name = "Readlist controller", description = "Readlist features")
 @RestController
@@ -60,7 +60,10 @@ public class ReadlistQueryController {
         @PathVariable("bookId") String bookId,
         @PathVariable("userId") String userId
     ) {
-        var bookReview = bookReviewQueryHandler.getBookReviewByBookIdAndUserId(bookId, userId);
+        var bookReview = bookReviewQueryHandler.getBookReviewByBookIdAndUserId(
+            BookId.of(bookId),
+            UserId.of(userId)
+        );
         return ResponseEntity.ok(ReviewMapper.toResponse(bookReview));
     }
 
@@ -68,8 +71,8 @@ public class ReadlistQueryController {
     @ApiResponse(responseCode = "200", description = "Successful operation")
     @GetMapping(value = "/user/{userId}")
     public ResponseEntity<BookReviewsResponse> getAllReviewOfAUser(@PathVariable("userId") String userId) {
-        var bookReviews = bookReviewQueryHandler.getAllReviewOfAUser(userId);
-        var listOfReviews = bookReviews.stream().map(ReviewMapper::toResponse).collect(Collectors.toList());
+        var bookReviews = bookReviewQueryHandler.getAllReviewOfAUser(UserId.of(userId));
+        var listOfReviews = bookReviews.stream().map(ReviewMapper::toResponse).toList();
         return ResponseEntity.ok(new BookReviewsResponse(listOfReviews));
     }
 }

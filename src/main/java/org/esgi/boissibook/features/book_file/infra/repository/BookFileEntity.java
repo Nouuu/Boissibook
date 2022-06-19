@@ -1,6 +1,9 @@
 package org.esgi.boissibook.features.book_file.infra.repository;
 
 import org.esgi.boissibook.features.book_file.domain.BookFile;
+import org.esgi.boissibook.kernel.repository.BookFileId;
+import org.esgi.boissibook.kernel.repository.BookId;
+import org.esgi.boissibook.kernel.repository.UserId;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
@@ -105,7 +108,7 @@ public class BookFileEntity {
     }
 
     public BookFile toBookFile() {
-        return new BookFile(id, userId, type, name, bookId, downloadCount, content);
+        return new BookFile(BookFileId.of(id), name, type, BookId.of(bookId), UserId.of(userId), downloadCount, content);
     }
 
     @Override

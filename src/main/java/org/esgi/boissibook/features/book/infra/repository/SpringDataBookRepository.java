@@ -6,11 +6,11 @@ import org.esgi.boissibook.features.book.infra.BookMapper;
 import org.esgi.boissibook.features.book.kernel.exception.BookConflictException;
 import org.esgi.boissibook.features.book.kernel.exception.BookExceptionMessage;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 public class SpringDataBookRepository implements BookRepository {
     private final JpaRepository<BookEntity, String> bookRepository;
@@ -20,10 +20,11 @@ public class SpringDataBookRepository implements BookRepository {
     }
 
     @Override
-    public String save(Book book) throws BookConflictException {
+    public BookId save(Book book) throws BookConflictException {
         BookEntity bookEntity = BookMapper.mapBookToBookEntity(book);
         try {
-            return bookRepository.save(bookEntity).id();
+            bookRepository.save(bookEntity).id();
+            return book.id();
         } catch (DataIntegrityViolationException e) {
             throw new BookConflictException(String.format("%s : %s", BookExceptionMessage.BOOK_CONFLICT, book.apiId()));
         }
@@ -42,8 +43,8 @@ public class SpringDataBookRepository implements BookRepository {
     }
 
     @Override
-    public Book find(String id) throws BookNotFoundException {
-        return BookMapper.mapBookEntityToBook(bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, id))));
+    public Book find(BookId id) throws BookNotFoundException {
+        return BookMapper.mapBookEntityToBook(bookRepository.findById(id.value()).orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, id))));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class SpringDataBookRepository implements BookRepository {
     }
 
     @Override
-    public String nextId() {
-        return UUID.randomUUID().toString();
+    public BookId nextId() {
+        return BookId.nextId();
     }
 }

@@ -1,9 +1,12 @@
 package org.esgi.boissibook.features.user.domain;
 
+import org.esgi.boissibook.kernel.repository.DomainEntity;
+import org.esgi.boissibook.kernel.repository.UserId;
+
 import java.util.Objects;
 
-public final class User {
-    private String id;
+public final class User implements DomainEntity {
+    private UserId id;
     private String name;
     private String email;
     private String password;
@@ -11,14 +14,14 @@ public final class User {
     public User() {
     }
 
-    public User(String id, String name, String email, String password) {
+    public User(UserId id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public String id() {
+    public UserId id() {
         return id;
     }
 
@@ -34,7 +37,7 @@ public final class User {
         return password;
     }
 
-    public User setId(String id) {
+    public User setId(UserId id) {
         this.id = id;
         return this;
     }

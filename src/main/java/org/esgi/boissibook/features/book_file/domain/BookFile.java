@@ -1,18 +1,23 @@
 package org.esgi.boissibook.features.book_file.domain;
 
+import org.esgi.boissibook.kernel.repository.BookFileId;
+import org.esgi.boissibook.kernel.repository.BookId;
+import org.esgi.boissibook.kernel.repository.DomainEntity;
+import org.esgi.boissibook.kernel.repository.UserId;
+
 import java.util.Arrays;
 import java.util.Objects;
 
-public class BookFile {
-    private String id;
+public class BookFile implements DomainEntity {
+    private BookFileId id;
     private String name;
     private String type;
-    private String bookId;
-    private String userId;
+    private BookId bookId;
+    private UserId userId;
     private int downloadCount;
     private byte[] content;
 
-    public BookFile(String id, String name, String type, String bookId, String userId, int downloadCount, byte[] content) {
+    public BookFile(BookFileId id, String name, String type, BookId bookId, UserId userId, int downloadCount, byte[] content) {
         this.id = id;
         this.type = type;
         this.bookId = bookId;
@@ -22,15 +27,15 @@ public class BookFile {
         this.content = content;
     }
 
-    public String id() {
+    public BookFileId id() {
         return id;
     }
 
-    public String bookId() {
+    public BookId bookId() {
         return bookId;
     }
 
-    public String userId() {
+    public UserId userId() {
         return userId;
     }
 
@@ -50,17 +55,17 @@ public class BookFile {
         return downloadCount;
     }
 
-    public BookFile setId(String id) {
+    public BookFile setId(BookFileId id) {
         this.id = id;
         return this;
     }
 
-    public BookFile setBookId(String bookId) {
+    public BookFile setBookId(BookId bookId) {
         this.bookId = bookId;
         return this;
     }
 
-    public BookFile setUserId(String userId) {
+    public BookFile setUserId(UserId userId) {
         this.userId = userId;
         return this;
     }

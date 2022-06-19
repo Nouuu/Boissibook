@@ -11,6 +11,7 @@ import org.esgi.boissibook.features.book.infra.BookMapper;
 import org.esgi.boissibook.features.book.infra.web.response.BookResponse;
 import org.esgi.boissibook.features.book.infra.web.response.BooksResponse;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,6 @@ public class BookQueryController {
     })
     @GetMapping(value = "{bookId}")
     public ResponseEntity<BookResponse> getBookById(@PathVariable("bookId") String bookId) {
-        return ResponseEntity.ok(BookMapper.mapBookToBookResponse(bookQueryHandler.getBook(bookId)));
+        return ResponseEntity.ok(BookMapper.mapBookToBookResponse(bookQueryHandler.getBook(BookId.of(bookId))));
     }
 }

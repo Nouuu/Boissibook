@@ -12,6 +12,7 @@ import org.esgi.boissibook.features.user.infra.web.request.CreateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.request.UpdateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.response.UserIdResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.UserId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +93,7 @@ public class UserCommandController {
     })
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
-        userCommandHandler.deleteUser(id);
+        userCommandHandler.deleteUser(UserId.of(id));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

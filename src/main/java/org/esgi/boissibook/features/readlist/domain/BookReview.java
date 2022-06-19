@@ -1,20 +1,23 @@
 package org.esgi.boissibook.features.readlist.domain;
 
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
+import org.esgi.boissibook.kernel.repository.DomainEntity;
+import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.Objects;
 
-public class BookReview {
+public class BookReview implements DomainEntity {
     private BookReviewId bookReviewId;
-    private String bookId;
-    private String userId;
+    private BookId bookId;
+    private UserId userId;
     private Visibility visibility;
     private ReadingStatus readingStatus;
     private int currentPage;
     private int note;
     private String comment;
 
-    public BookReview(BookReviewId bookReviewId, String bookId, String userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
+    public BookReview(BookReviewId bookReviewId, BookId bookId, UserId userId, Visibility visibility, ReadingStatus readingStatus, int currentPage, int note, String comment) {
         this.bookReviewId = bookReviewId;
         this.bookId = Objects.requireNonNull(bookId);
         this.userId = Objects.requireNonNull(userId);
@@ -25,15 +28,15 @@ public class BookReview {
         this.comment = Objects.requireNonNull(comment);
     }
 
-    public BookReviewId getBookReviewId() {
+    public BookReviewId id() {
         return bookReviewId;
     }
 
-    public String getBookId() {
+    public BookId getBookId() {
         return bookId;
     }
 
-    public String getUserId() {
+    public UserId getUserId() {
         return userId;
     }
 
@@ -62,12 +65,12 @@ public class BookReview {
         return this;
     }
 
-    public BookReview setBookId(String bookId) {
+    public BookReview setBookId(BookId bookId) {
         this.bookId = bookId;
         return this;
     }
 
-    public BookReview setUserId(String userId) {
+    public BookReview setUserId(UserId userId) {
         this.userId = userId;
         return this;
     }

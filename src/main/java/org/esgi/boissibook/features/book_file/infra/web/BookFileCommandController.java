@@ -13,6 +13,8 @@ import org.esgi.boissibook.features.book_file.infra.web.response.BookFileIdRespo
 import org.esgi.boissibook.features.book_file.infra.web.response.BookFileSearchResponse;
 import org.esgi.boissibook.features.book_file.kernel.exception.ZipCompressionException;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
+import org.esgi.boissibook.kernel.repository.BookFileId;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +47,9 @@ public class BookFileCommandController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BookFileIdResponse> uploadBookFile(@Valid @ModelAttribute BookFileUploadRequest request) throws IOException {
         var newBookFile = BookFileMapper.mapWebBookFileToBookFile(request.bookId(), request.userId(), request.file());
-        String bookFileId = bookFileCommandHandler.createBookFile(newBookFile);
+        BookFileId bookFileId = bookFileCommandHandler.createBookFile(newBookFile);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(new BookFileIdResponse(bookFileId));
+            .body(new BookFileIdResponse(bookFileId.value()));
     }
 
     @Operation(summary = "Search book file", description = "Delete a book file by id")
@@ -58,7 +60,7 @@ public class BookFileCommandController {
     })
     @PostMapping(value = "search/{bookId}")
     public ResponseEntity<BookFileSearchResponse> searchBookFile(@PathVariable("bookId") String bookId) {
-        var bookFileSearchStatus = bookFileCommandHandler.searchBookFile(bookId);
+        var bookFileSearchStatus = bookFileCommandHandler.searchBookFile(BookId.of(bookId));
         var response = new BookFileSearchResponse(bookFileSearchStatus.status(), bookFileSearchStatus.data());
         return ResponseEntity.ok()
             .body(response);
@@ -72,7 +74,7 @@ public class BookFileCommandController {
     })
     @DeleteMapping(value = "{bookFileId}")
     public ResponseEntity<Void> deleteBookFile(@PathVariable("bookFileId") String bookFileId) {
-        bookFileCommandHandler.deleteBookFile(bookFileId);
+        bookFileCommandHandler.deleteBookFile(BookFileId.of(bookFileId));
         return ResponseEntity.noContent()
             .build();
     }

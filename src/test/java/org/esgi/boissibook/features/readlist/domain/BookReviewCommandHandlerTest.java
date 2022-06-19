@@ -1,25 +1,17 @@
 package org.esgi.boissibook.features.readlist.domain;
 
-import org.esgi.boissibook.features.readlist.infra.config.SpringBookReviewBeans;
-import org.esgi.boissibook.infra.SpringEventService;
+import org.esgi.boissibook.features.readlist.infra.repository.InMemoryBookReviewRepository;
+import org.esgi.boissibook.kernel.event.VoidEventService;
+import org.esgi.boissibook.kernel.repository.BookId;
+import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
-@Import({SpringBookReviewBeans.class, SpringEventService.class})
-@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
-@DataJpaTest
-public class BookReviewCommandHandlerTest {
+class BookReviewCommandHandlerTest {
 
-    @Autowired
     public BookReviewCommandHandler bookReviewCommandHandler;
-    @Autowired
     public BookReviewRepository bookReviewRepository;
 
     BookReview bookReview1;
@@ -28,14 +20,17 @@ public class BookReviewCommandHandlerTest {
     void setUp() {
         bookReview1 = new BookReview(
             null,
-            "book1",
-            "user1",
+            BookId.of("book1"),
+            UserId.of("user1"),
             Visibility.PUBLIC,
             ReadingStatus.COMPLETED,
             320,
             3,
             "review1"
         );
+
+        bookReviewRepository = new InMemoryBookReviewRepository();
+        bookReviewCommandHandler = new BookReviewCommandHandler(bookReviewRepository, new VoidEventService());
     }
 
     @Test

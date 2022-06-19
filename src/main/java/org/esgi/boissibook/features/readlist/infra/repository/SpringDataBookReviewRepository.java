@@ -5,10 +5,11 @@ import org.esgi.boissibook.features.readlist.domain.BookReviewRepository;
 import org.esgi.boissibook.features.readlist.infra.mapper.ReviewMapper;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewExceptionMessage;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
+import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SpringDataBookReviewRepository implements BookReviewRepository {
     private final JPABookReviewRepository bookReviewRepository;
@@ -23,9 +24,22 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     }
 
     @Override
-    public void save(BookReview bookReview) {
+    public BookReviewId save(BookReview bookReview) {
         var bookReviewEntity = ReviewMapper.toEntity(bookReview);
         bookReviewRepository.save(bookReviewEntity);
+        return bookReview.id();
+    }
+
+    @Override
+    public long count() {
+        return bookReviewRepository.count();
+    }
+
+    @Override
+    public List<BookReview> findAll() {
+        return bookReviewRepository.findAll().stream()
+            .map(ReviewMapper::fromEntity)
+            .toList();
     }
 
     @Override
@@ -39,24 +53,33 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
 
     @Override
     public void delete(BookReview bookReview) {
-        var bookReviewEntity = ReviewMapper.toEntity(bookReview);
-        bookReviewRepository.delete(bookReviewEntity);
+        bookReviewRepository.delete(
+            bookReviewRepository.findById(bookReview.id().value())
+                .orElseThrow(() -> new BookReviewNotFoundException(
+                    String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookReview.id())
+                ))
+        );
     }
 
     @Override
-    public BookReview findByBookIdAndUserId(String bookId, String userId) {
-        return ReviewMapper.fromEntity(bookReviewRepository.findByBookIdAndUserId(bookId, userId)
+    public void deleteAll() {
+        bookReviewRepository.deleteAll();
+    }
+
+    @Override
+    public BookReview findByBookIdAndUserId(BookId bookId, UserId userId) {
+        return ReviewMapper.fromEntity(bookReviewRepository.findByBookIdAndUserId(bookId.value(), userId.value())
             .orElseThrow(() -> new BookReviewNotFoundException(
-                String.format("%s : %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookId)
+                String.format("%s : %s, %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookId, userId)
             ))
         );
     }
 
     @Override
-    public List<BookReview> findByUserId(String userId) {
+    public List<BookReview> findByUserId(UserId userId) {
         return bookReviewRepository
-            .findByUserId(userId).stream()
+            .findByUserId(userId.value()).stream()
             .map(ReviewMapper::fromEntity)
-            .collect(Collectors.toList());
+            .toList();
     }
 }
