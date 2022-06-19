@@ -1,10 +1,13 @@
 package org.esgi.boissibook.features.book.domain;
 
+import org.esgi.boissibook.kernel.repository.BookId;
+import org.esgi.boissibook.kernel.repository.DomainEntity;
+
 import java.util.List;
 import java.util.Objects;
 
-public class Book {
-    private String id;
+public class Book implements DomainEntity {
+    private BookId id;
     private String apiId;
     private String title;
     private List<String> authors;
@@ -16,7 +19,7 @@ public class Book {
     private String imgUrl;
     private int pages;
 
-    public Book(String id, String apiId, String title, List<String> authors, String publisher, String publishedDate, String description, String isbn13, String language, String imgUrl, int pages) {
+    public Book(BookId id, String apiId, String title, List<String> authors, String publisher, String publishedDate, String description, String isbn13, String language, String imgUrl, int pages) {
         this.id = id;
         this.apiId = apiId;
         this.title = title;
@@ -30,10 +33,6 @@ public class Book {
         this.pages = pages;
     }
 
-
-    public String id() {
-        return id;
-    }
 
     public String apiId() {
         return apiId;
@@ -75,7 +74,12 @@ public class Book {
         return pages;
     }
 
-    public Book setId(String id) {
+
+    public BookId id() {
+        return id;
+    }
+
+    public Book setId(BookId id) {
         this.id = id;
         return this;
     }

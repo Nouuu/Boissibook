@@ -19,7 +19,7 @@ public class ScrapperBookFileSearch implements BookFileSearch {
 
     @Override
     public BookFileSearchStatus searchBookFile(Book book) {
-        BookFileSearchRequest request = new BookFileSearchRequest(book.id(), book.isbn13());
+        BookFileSearchRequest request = new BookFileSearchRequest(book.id().value(), book.isbn13());
         WebClient webClient = WebClient.builder().baseUrl(scrapperApiUrl).build();
         try {
             return webClient.post()

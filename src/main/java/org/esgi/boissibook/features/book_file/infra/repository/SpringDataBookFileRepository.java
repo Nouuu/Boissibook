@@ -5,9 +5,10 @@ import org.esgi.boissibook.features.book_file.domain.BookFileRepository;
 import org.esgi.boissibook.features.book_file.infra.BookFileMapper;
 import org.esgi.boissibook.features.book_file.kernel.exception.BookFileExceptionMessage;
 import org.esgi.boissibook.features.book_file.kernel.exception.BookFileNotFoundException;
+import org.esgi.boissibook.kernel.repository.BookFileId;
+import org.esgi.boissibook.kernel.repository.BookId;
 
 import java.util.List;
-import java.util.UUID;
 
 public class SpringDataBookFileRepository implements BookFileRepository {
     private final JPABookFileRepository bookFileRepository;
@@ -17,8 +18,9 @@ public class SpringDataBookFileRepository implements BookFileRepository {
     }
 
     @Override
-    public String save(BookFile bookFile) {
-        return bookFileRepository.save(BookFileMapper.mapBookFileToBookFileEntity(bookFile)).id();
+    public BookFileId save(BookFile bookFile) {
+        bookFileRepository.save(BookFileMapper.mapBookFileToBookFileEntity(bookFile)).id();
+        return bookFile.id();
     }
 
     @Override
@@ -32,8 +34,8 @@ public class SpringDataBookFileRepository implements BookFileRepository {
     }
 
     @Override
-    public BookFile find(String id) throws BookFileNotFoundException {
-        return BookFileMapper.mapEntityBookFileToBookFile(bookFileRepository.findById(id)
+    public BookFile find(BookFileId id) throws BookFileNotFoundException {
+        return BookFileMapper.mapEntityBookFileToBookFile(bookFileRepository.findById(id.value())
             .orElseThrow(() -> new BookFileNotFoundException(String.format("%s : %s", BookFileExceptionMessage.BOOK_FILE_NOT_FOUND, id))));
     }
 
@@ -48,19 +50,19 @@ public class SpringDataBookFileRepository implements BookFileRepository {
     }
 
     @Override
-    public String nextId() {
-        return UUID.randomUUID().toString();
+    public BookFileId nextId() {
+        return BookFileId.nextId();
     }
 
     @Override
-    public List<BookFile> findByBookId(String bookId) {
-        return bookFileRepository.findByBookId(bookId).stream()
+    public List<BookFile> findByBookId(BookId bookId) {
+        return bookFileRepository.findByBookId(bookId.value()).stream()
             .map(BookFileMapper::mapEntityBookFileToBookFile)
             .toList();
     }
 
     @Override
-    public long countAllByBookId(String bookId) {
-        return bookFileRepository.countAllByBookId(bookId);
+    public long countAllByBookId(BookId bookId) {
+        return bookFileRepository.countAllByBookId(bookId.value());
     }
 }

@@ -30,7 +30,7 @@ public class BookReviewCommandHandler {
 
     public void updateReview(BookReviewId id, BookReview updateReview) {
         var bookReview = bookReviewRepository.find(id);
-        updateReview.setBookReviewId(bookReview.getBookReviewId());
+        updateReview.setBookReviewId(bookReview.id());
         bookReviewRepository.save(updateReview);
     }
 

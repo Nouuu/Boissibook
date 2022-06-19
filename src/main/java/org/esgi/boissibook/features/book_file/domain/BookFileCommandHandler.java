@@ -5,6 +5,8 @@ import org.esgi.boissibook.features.book.domain.BookRepository;
 import org.esgi.boissibook.features.book_file.domain.event.BookFileAddedEvent;
 import org.esgi.boissibook.features.book_file.domain.event.BookFileDeletedEvent;
 import org.esgi.boissibook.kernel.event.EventService;
+import org.esgi.boissibook.kernel.repository.BookFileId;
+import org.esgi.boissibook.kernel.repository.BookId;
 
 public final class BookFileCommandHandler {
     private final BookFileRepository bookFileRepository;
@@ -21,8 +23,8 @@ public final class BookFileCommandHandler {
         this.bookFileSearch = bookFileSearch;
     }
 
-    public String createBookFile(BookFile bookFile) {
-        String bookFileId = bookFileRepository.nextId();
+    public BookFileId createBookFile(BookFile bookFile) {
+        BookFileId bookFileId = bookFileRepository.nextId();
         bookFile.setId(bookFileId);
         bookFile.setContent(fileCompression.compress(bookFile.name(), bookFile.content()));
         bookFileRepository.save(bookFile);
@@ -30,13 +32,13 @@ public final class BookFileCommandHandler {
         return bookFileId;
     }
 
-    public void deleteBookFile(String bookFileId) {
+    public void deleteBookFile(BookFileId bookFileId) {
         var bookFile = bookFileRepository.find(bookFileId);
         bookFileRepository.delete(bookFile);
         eventService.publish(BookFileDeletedEvent.of(bookFile));
     }
 
-    public BookFileSearchStatus searchBookFile(String bookId) {
+    public BookFileSearchStatus searchBookFile(BookId bookId) {
         Book book = bookRepository.find(bookId);
         return bookFileSearch.searchBookFile(book);
     }

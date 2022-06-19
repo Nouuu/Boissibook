@@ -1,6 +1,8 @@
 package org.esgi.boissibook.features.readlist.domain;
 
+import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
+import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
 
@@ -15,11 +17,11 @@ public class BookReviewQueryHandler {
         return bookReviewRepository.find(id);
     }
 
-    public BookReview getBookReviewByBookIdAndUserId(String bookId, String userId) {
+    public BookReview getBookReviewByBookIdAndUserId(BookId bookId, UserId userId) {
         return bookReviewRepository.findByBookIdAndUserId(bookId, userId);
     }
 
-    public List<BookReview> getAllReviewOfAUser(String userId) {
+    public List<BookReview> getAllReviewOfAUser(UserId userId) {
         return bookReviewRepository.findByUserId(userId);
     }
 }
