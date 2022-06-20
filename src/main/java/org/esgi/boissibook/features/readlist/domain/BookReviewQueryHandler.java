@@ -22,12 +22,12 @@ public class BookReviewQueryHandler {
         return bookReviewRepository.findByBookIdAndUserId(bookId, userId);
     }
 
-    public boolean isAlreadyReviewByUser(String bookId, String userId) {
+    public boolean isAlreadyReviewByUser(BookId bookId, UserId userId) {
         Optional<BookReview> review = bookReviewRepository.findByBookAndUserId(bookId, userId);
         return review.isPresent();
     }
 
-    public List<BookReview> getAllReviewOfAUser(String userId) {
+    public List<BookReview> getAllReviewOfAUser(UserId userId) {
         return bookReviewRepository.findByUserId(userId);
     }
 }

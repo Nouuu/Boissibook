@@ -12,6 +12,7 @@ import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class InMemoryBookReviewRepository extends InMemoryRepository<BookReview, BookReviewId> implements BookReviewRepository {
     @Override
@@ -29,6 +30,14 @@ public class InMemoryBookReviewRepository extends InMemoryRepository<BookReview,
             .stream()
             .filter(bookReview -> Objects.equals(bookReview.getUserId(), userId))
             .toList();
+    }
+
+    @Override
+    public Optional<BookReview> findByBookAndUserId(BookId bookId, UserId userId) {
+        return data.values()
+            .stream()
+            .filter(bookReview -> Objects.equals(bookReview.getBookId(), bookId) && Objects.equals(bookReview.getUserId(), userId))
+            .findFirst();
     }
 
     @Override
