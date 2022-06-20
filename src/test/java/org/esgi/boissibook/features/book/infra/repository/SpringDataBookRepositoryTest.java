@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.book.infra.repository;
 
 import org.esgi.boissibook.PostgresIntegrationTest;
 import org.esgi.boissibook.features.book.domain.Book;
+import org.esgi.boissibook.features.book.kernel.exception.BookConflictException;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.kernel.repository.BookId;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,6 +85,15 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
 
         assertThat(bookRepository.find(book1.id()))
             .isEqualTo(book1);
+    }
+
+    @Test
+    void saveExistingApiId() {
+        bookRepository.save(book1);
+        book2.setApiId(book1.apiId());
+
+        assertThatThrownBy(() -> bookRepository.save(book2))
+            .isInstanceOf(BookConflictException.class);
     }
 
     @Test
