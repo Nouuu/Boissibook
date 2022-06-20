@@ -13,5 +13,5 @@ public interface BookReviewRepository extends Repository<BookReview, BookReviewI
 
     List<BookReview> findByUserId(UserId userId);
 
-    Optional<BookReview> findByBookAndUserId(String bookId, String userId);
+    Optional<BookReview> tryFindByBookIdAndUserId(BookId bookId, UserId userId);
 }
