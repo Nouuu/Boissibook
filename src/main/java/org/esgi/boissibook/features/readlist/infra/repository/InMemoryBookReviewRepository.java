@@ -42,14 +42,6 @@ public class InMemoryBookReviewRepository extends InMemoryRepository<BookReview,
     }
 
     @Override
-    public Optional<BookReview> findByBookAndUserId(BookId bookId, UserId userId) {
-        return data.values()
-            .stream()
-            .filter(bookReview -> Objects.equals(bookReview.getBookId(), bookId) && Objects.equals(bookReview.getUserId(), userId))
-            .findFirst();
-    }
-
-    @Override
     public BookReview find(BookReviewId id) throws NotFoundException {
         var result = data.get(Objects.requireNonNull(id, "Id can't be null").value());
         if (result == null) {
