@@ -6,9 +6,12 @@ import org.esgi.boissibook.kernel.repository.Repository;
 import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookReviewRepository extends Repository<BookReview, BookReviewId> {
     BookReview findByBookIdAndUserId(BookId bookId, UserId userId);
 
     List<BookReview> findByUserId(UserId userId);
+
+    Optional<BookReview> findByBookAndUserId(String bookId, String userId);
 }

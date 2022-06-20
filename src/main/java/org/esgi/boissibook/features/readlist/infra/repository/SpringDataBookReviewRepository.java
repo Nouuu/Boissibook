@@ -10,6 +10,7 @@ import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SpringDataBookReviewRepository implements BookReviewRepository {
     private final JPABookReviewRepository bookReviewRepository;
@@ -76,7 +77,13 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     }
 
     @Override
-    public List<BookReview> findByUserId(UserId userId) {
+    public Optional<BookReview> findByBookAndUserId(String bookId, String userId) {
+        var review = bookReviewRepository.findByBookIdAndUserId(bookId, userId);
+        return review.map(ReviewMapper::fromEntity);
+    }
+
+    @Override
+    public List<BookReview> findByUserId(String userId) {
         return bookReviewRepository
             .findByUserId(userId.value()).stream()
             .map(ReviewMapper::fromEntity)

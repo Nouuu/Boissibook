@@ -5,6 +5,7 @@ import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BookReviewQueryHandler {
     private final BookReviewRepository bookReviewRepository;
@@ -21,7 +22,12 @@ public class BookReviewQueryHandler {
         return bookReviewRepository.findByBookIdAndUserId(bookId, userId);
     }
 
-    public List<BookReview> getAllReviewOfAUser(UserId userId) {
+    public boolean isAlreadyReviewByUser(String bookId, String userId) {
+        Optional<BookReview> review = bookReviewRepository.findByBookAndUserId(bookId, userId);
+        return review.isPresent();
+    }
+
+    public List<BookReview> getAllReviewOfAUser(String userId) {
         return bookReviewRepository.findByUserId(userId);
     }
 }
