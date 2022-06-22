@@ -10,6 +10,7 @@ import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.kernel.repository.UserId;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SpringDataBookReviewRepository implements BookReviewRepository {
     private final JPABookReviewRepository bookReviewRepository;
@@ -73,6 +74,12 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
                 String.format("%s : %s, %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookId, userId)
             ))
         );
+    }
+
+    @Override
+    public Optional<BookReview> tryFindByBookIdAndUserId(BookId bookId, UserId userId) {
+        var review = bookReviewRepository.findByBookIdAndUserId(bookId.value(), userId.value());
+        return review.map(ReviewMapper::fromEntity);
     }
 
     @Override

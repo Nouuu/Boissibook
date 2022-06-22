@@ -25,9 +25,9 @@ public class ReviewMapper {
         );
     }
 
-    public static BookReview toReview(UpdateBookReviewRequest updateBookProgressionRequest) {
+    public static BookReview toReview(BookReviewId id, UpdateBookReviewRequest updateBookProgressionRequest) {
         return new BookReview(
-            null,
+            id,
             BookId.of(updateBookProgressionRequest.bookId()),
             UserId.of(updateBookProgressionRequest.userId()),
             Visibility.valueOf(updateBookProgressionRequest.visibility()),
