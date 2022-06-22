@@ -1,6 +1,7 @@
 package org.esgi.boissibook.features.book.domain;
 
 import org.esgi.boissibook.features.book.infra.repository.InMemoryBookRepository;
+import org.esgi.boissibook.features.book.kernel.exception.BookConflictException;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.kernel.event.VoidEventService;
 import org.esgi.boissibook.kernel.repository.BookId;
@@ -65,16 +66,13 @@ class BookCommandHandlerTest {
             .isInstanceOf(BookNotFoundException.class);
     }
 
-   /* @Test
+    @Test
     @DisplayName("Should throw book conflict exception when adding a book already added")
     void throwBookConflictException() {
         bookRepository.save(book1.setId(bookRepository.nextId()));
         book2.setApiId(book1.apiId());
-        bookRepository.save(book2.setId(bookRepository.nextId()));
-        bookRepository.findAll(); // H2 Throws here ????????
 
         assertThatThrownBy(() -> bookCommandHandler.addBook(book2))
             .isInstanceOf(BookConflictException.class);
     }
-    */
 }
