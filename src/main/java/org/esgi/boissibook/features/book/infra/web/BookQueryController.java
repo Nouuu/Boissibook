@@ -8,10 +8,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.book.domain.BookQueryHandler;
 import org.esgi.boissibook.features.book.infra.BookMapper;
+import org.esgi.boissibook.features.book.infra.web.response.BookAverageRateResponse;
 import org.esgi.boissibook.features.book.infra.web.response.BookResponse;
 import org.esgi.boissibook.features.book.infra.web.response.BooksResponse;
+import org.esgi.boissibook.features.book.infra.web.response.CommentsResponse;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.kernel.repository.BookId;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,5 +53,27 @@ public class BookQueryController {
     @GetMapping(value = "{bookId}")
     public ResponseEntity<BookResponse> getBookById(@PathVariable("bookId") String bookId) {
         return ResponseEntity.ok(BookMapper.mapBookToBookResponse(bookQueryHandler.getBook(BookId.of(bookId))));
+    }
+
+    @Operation(summary = "Get book comments", description = "Get all comments for a book by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = CommentsResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = BookNotFoundException.class)))
+    })
+    @GetMapping(value = "{bookId}/comments")
+    public ResponseEntity<CommentsResponse> getBookComments(@PathVariable("bookId") String bookId) {
+        bookQueryHandler.getBook(BookId.of(bookId));
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    }
+
+    @Operation(summary = "Get book's average rate", description = "Get the average rating of a book")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BookAverageRateResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = BookNotFoundException.class)))
+    })
+    @GetMapping(value = "{bookId}/average-rate")
+    public ResponseEntity<BookAverageRateResponse> getBookAverageRate(@PathVariable("bookId") String bookId) {
+        bookQueryHandler.getBook(BookId.of(bookId));
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 }

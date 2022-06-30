@@ -8,5 +8,6 @@ import java.util.List;
 public record BooksResponse(
     @Schema(description = "List of books")
     @JsonProperty
-    List<BookResponse> books) {
+    List<BookResponse> books
+) {
 }
