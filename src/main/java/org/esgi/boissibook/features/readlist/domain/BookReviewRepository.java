@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface BookReviewRepository extends Repository<BookReview, BookReviewId> {
     BookReview findByBookIdAndUserId(BookId bookId, UserId userId);
 
+    List<BookReview> findByBookId(BookId bookId);
+
     List<BookReview> findByUserId(UserId userId);
 
     Optional<BookReview> tryFindByBookIdAndUserId(BookId bookId, UserId userId);

@@ -77,6 +77,11 @@ public class SpringDataBookReviewRepository implements BookReviewRepository {
     }
 
     @Override
+    public List<BookReview> findByBookId(BookId bookId) {
+        return bookReviewRepository.findByBookId(bookId.value()).stream().map(ReviewMapper::fromEntity).toList();
+    }
+
+    @Override
     public Optional<BookReview> tryFindByBookIdAndUserId(BookId bookId, UserId userId) {
         var review = bookReviewRepository.findByBookIdAndUserId(bookId.value(), userId.value());
         return review.map(ReviewMapper::fromEntity);

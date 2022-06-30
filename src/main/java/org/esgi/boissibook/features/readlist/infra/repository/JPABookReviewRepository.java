@@ -9,4 +9,6 @@ public interface JPABookReviewRepository extends JpaRepository<BookReviewEntity,
     Optional<BookReviewEntity> findByBookIdAndUserId(String bookId, String userId);
 
     List<BookReviewEntity> findByUserId(String userId);
+
+    List<BookReviewEntity> findByBookId(String userId);
 }

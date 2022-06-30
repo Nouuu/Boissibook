@@ -4,7 +4,6 @@ import org.esgi.boissibook.features.readlist.domain.BookReview;
 import org.esgi.boissibook.features.readlist.domain.BookReviewRepository;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewExceptionMessage;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
-import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.infra.repository.InMemoryRepository;
 import org.esgi.boissibook.kernel.exception.NotFoundException;
 import org.esgi.boissibook.kernel.repository.BookId;
@@ -23,6 +22,14 @@ public class InMemoryBookReviewRepository extends InMemoryRepository<BookReview,
             .filter(bookReview -> Objects.equals(bookReview.getBookId(), bookId) && Objects.equals(bookReview.getUserId(), userId))
             .findFirst()
             .orElseThrow(() -> new BookReviewNotFoundException(String.format("%s : %s, %s", BookReviewExceptionMessage.REVIEW_NOT_FOUND, bookId, userId)));
+    }
+
+    @Override
+    public List<BookReview> findByBookId(BookId bookId) {
+        return data.values()
+            .stream()
+            .filter(bookReview -> Objects.equals(bookReview.getBookId(), bookId))
+            .toList();
     }
 
     @Override
