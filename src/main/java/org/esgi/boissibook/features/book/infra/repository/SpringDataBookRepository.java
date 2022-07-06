@@ -64,6 +64,6 @@ public class SpringDataBookRepository implements BookRepository {
 
     @Override
     public Book findByApiId(String apiId) {
-        return bookRepository.findByApiId(apiId).orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, apiId)));
+        return BookMapper.mapBookEntityToBook(bookRepository.findByApiId(apiId).orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, apiId))));
     }
 }
