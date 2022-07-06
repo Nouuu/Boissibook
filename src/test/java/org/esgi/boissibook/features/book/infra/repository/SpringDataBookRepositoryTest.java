@@ -148,6 +148,24 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
     }
 
     @Test
+    void findByApiId() {
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+        bookRepository.save(book3);
+
+        assertThat(bookRepository.findByApiId(book2.apiId()))
+            .isEqualTo(book2);
+    }
+
+    @Test
+    void findByApiIdNotFound() {
+        var apiId = "id";
+        assertThatThrownBy(() -> bookRepository.findByApiId(apiId))
+            .isInstanceOf(BookNotFoundException.class)
+            .hasMessage("Book not found : " + apiId);
+    }
+
+    @Test
     void delete() {
         bookRepository.save(book1);
         bookRepository.save(book2);

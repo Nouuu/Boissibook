@@ -42,4 +42,11 @@ class BookQueryHandlerTest {
         assertThat(book)
             .isEqualTo(book1);
     }
+
+    @Test
+    void getBookByApiId() {
+        Book book = bookQueryHandler.getBookByApiId(book1.apiId());
+        assertThat(book)
+            .isEqualTo(book1);
+    }
 }
