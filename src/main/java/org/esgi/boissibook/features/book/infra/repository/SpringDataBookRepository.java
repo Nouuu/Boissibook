@@ -8,12 +8,11 @@ import org.esgi.boissibook.features.book.kernel.exception.BookExceptionMessage;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.kernel.repository.BookId;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public class SpringDataBookRepository implements BookRepository {
-    private final JpaRepository<BookEntity, String> bookRepository;
+    private final JPABookRepository bookRepository;
 
     public SpringDataBookRepository(JPABookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -61,5 +60,10 @@ public class SpringDataBookRepository implements BookRepository {
     @Override
     public BookId nextId() {
         return BookId.nextId();
+    }
+
+    @Override
+    public Book findByApiId(String apiId) {
+        return bookRepository.findByApiId(apiId).orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, apiId)));
     }
 }

@@ -40,4 +40,11 @@ public class InMemoryBookRepository extends InMemoryRepository<Book, BookId> imp
     public BookId nextId() {
         return BookId.nextId();
     }
+
+    @Override
+    public Book findByApiId(String apiId) {
+        return this.data.values().stream().filter(book -> book.apiId().equals(apiId))
+            .findFirst()
+            .orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, apiId)));
+    }
 }
