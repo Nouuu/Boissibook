@@ -20,7 +20,7 @@ public final class BookFileMapper {
     }
 
     public static BookFileResponse mapBookFileToBookFileResponse(BookFile bookFile) {
-        return new BookFileResponse(bookFile.id().value(), bookFile.name(), bookFile.type(), bookFile.bookId().value(), bookFile.userId().value(), bookFile.downloadCount());
+        return new BookFileResponse(bookFile.id().value(), bookFile.name(), bookFile.type(), bookFile.bookId().value(), bookFile.userId() != null ?bookFile.userId().value() : null, bookFile.downloadCount());
     }
 
     public static BookFile mapEntityBookFileToBookFile(BookFileEntity entity) {
@@ -28,6 +28,6 @@ public final class BookFileMapper {
     }
 
     public static BookFileEntity mapBookFileToBookFileEntity(BookFile bookFile) {
-        return BookFileEntity.create(bookFile.id().value(), bookFile.name(), bookFile.type(), bookFile.bookId().value(), bookFile.userId().value(), bookFile.downloadCount(), bookFile.content());
+        return BookFileEntity.create(bookFile.id().value(), bookFile.name(), bookFile.type(), bookFile.bookId().value(), bookFile.userId() != null ?bookFile.userId().value() : null, bookFile.downloadCount(), bookFile.content());
     }
 }
