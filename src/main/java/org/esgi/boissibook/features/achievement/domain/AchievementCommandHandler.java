@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.achievement.domain;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import org.esgi.boissibook.kernel.repository.AchievementId;
 import org.esgi.boissibook.kernel.repository.UserId;
 
 public class AchievementCommandHandler {
@@ -33,12 +34,7 @@ public class AchievementCommandHandler {
             .filter(level -> level.neededCount() == count)
             .findFirst()
             .ifPresent(level -> {
-                var entity = new Achievement()
-                    .setUserId(userId)
-                    .setTitle(title)
-                    .setDescription(description)
-                    .setAchievedAt(ZonedDateTime.now())
-                    .setLevel(level);
+                Achievement entity = new Achievement(AchievementId.nextId(), userId, title, description, ZonedDateTime.now(), level);
                 achievementRepository.save(entity);
             });
     }
