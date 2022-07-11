@@ -1,5 +1,6 @@
 package org.esgi.boissibook.features.readlist.domain;
 
+import org.esgi.boissibook.features.readlist.domain.event.ReviewStatusChangedEvent;
 import org.esgi.boissibook.features.readlist.domain.event.UserAddBookReviewEvent;
 import org.esgi.boissibook.features.readlist.domain.event.UserDeleteReviewEvent;
 import org.esgi.boissibook.kernel.event.EventService;
@@ -43,6 +44,7 @@ public class BookReviewCommandHandler {
     public void updateStatus(BookReviewId id, String status) {
         var bookReview = bookReviewRepository.find(id);
         bookReview.setReadingStatus(ReadingStatus.valueOf(status));
+        eventService.publish(ReviewStatusChangedEvent.of(bookReview));
         bookReviewRepository.save(bookReview);
     }
 

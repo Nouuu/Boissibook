@@ -42,8 +42,8 @@ public class SpringBookFileBeans {
     }
 
     @Bean
-    public BookFileQueryHandler bookFileQueryHandler(BookFileRepository bookFileRepository, FileCompression fileCompression) {
-        return new BookFileQueryHandler(bookFileRepository, fileCompression);
+    public BookFileQueryHandler bookFileQueryHandler(BookFileRepository bookFileRepository, FileCompression fileCompression, EventService eventService) {
+        return new BookFileQueryHandler(bookFileRepository, fileCompression, eventService);
     }
 
     @Bean

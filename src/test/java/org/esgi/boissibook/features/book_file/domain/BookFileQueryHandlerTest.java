@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.book_file.domain;
 
 import org.esgi.boissibook.features.book_file.infra.ZipFileCompression;
 import org.esgi.boissibook.features.book_file.infra.repository.InMemoryBookFileRepository;
+import org.esgi.boissibook.kernel.event.VoidEventService;
 import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ class BookFileQueryHandlerTest {
     @BeforeEach
     void setUp() {
         bookFileRepository = new InMemoryBookFileRepository();
-        bookFileQueryHandler = new BookFileQueryHandler(bookFileRepository, new ZipFileCompression());
+        bookFileQueryHandler = new BookFileQueryHandler(bookFileRepository, new ZipFileCompression(), new VoidEventService());
 
         bookId1 = BookId.nextId();
         bookId2 = BookId.nextId();
