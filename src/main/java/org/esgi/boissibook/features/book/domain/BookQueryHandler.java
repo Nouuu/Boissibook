@@ -18,4 +18,8 @@ public class BookQueryHandler {
     public Book getBook(BookId bookId) {
         return bookRepository.find(bookId);
     }
+
+    public Book getBookByApiId(String apiId) {
+        return bookRepository.findByApiId(apiId);
+    }
 }

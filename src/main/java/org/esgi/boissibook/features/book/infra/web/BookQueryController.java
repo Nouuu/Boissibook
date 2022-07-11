@@ -51,4 +51,14 @@ public class BookQueryController {
     public ResponseEntity<BookResponse> getBookById(@PathVariable("bookId") String bookId) {
         return ResponseEntity.ok(BookMapper.mapBookToBookResponse(bookQueryHandler.getBook(BookId.of(bookId))));
     }
+
+    @Operation(summary = "Get books by api id", description = "Get a book by its api id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = BookResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = BookNotFoundException.class)))
+    })
+    @GetMapping(value = "/api-id/{apiId}")
+    public ResponseEntity<BookResponse> getBookByApiId(@PathVariable("apiId") String apiId) {
+        return ResponseEntity.ok(BookMapper.mapBookToBookResponse(bookQueryHandler.getBookByApiId(apiId)));
+    }
 }
