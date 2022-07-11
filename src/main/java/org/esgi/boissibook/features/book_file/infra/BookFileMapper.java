@@ -16,7 +16,7 @@ public final class BookFileMapper {
     }
 
     public static BookFile mapWebBookFileToBookFile(String bookId, String userId, MultipartFile webFile) throws IOException {
-        return new BookFile(null, webFile.getOriginalFilename(), webFile.getContentType(), BookId.of(bookId), UserId.of(userId), 0, webFile.getBytes());
+        return new BookFile(null, webFile.getOriginalFilename(), webFile.getContentType(), BookId.of(bookId), userId != null ? UserId.of(userId) : null, 0, webFile.getBytes());
     }
 
     public static BookFileResponse mapBookFileToBookFileResponse(BookFile bookFile) {
