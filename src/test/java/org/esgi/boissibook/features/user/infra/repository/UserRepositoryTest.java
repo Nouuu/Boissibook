@@ -50,9 +50,9 @@ class UserRepositoryTest extends PostgresIntegrationTest {
         userRepositories.put(inMemoryUserRepositoryKey, inMemoryUserRepository);
 
 
-        user1 = new User(userRepository.nextId(), "name1", "email1@example.com", "password");
-        user2 = new User(userRepository.nextId(), "name2", "email2@example.com", "password");
-        user3 = new User(userRepository.nextId(), "name3", "email3@example.com", "password");
+        user1 = new User(UserId.nextId(), "name1", "email1@example.com", "password");
+        user2 = new User(UserId.nextId(), "name2", "email2@example.com", "password");
+        user3 = new User(UserId.nextId(), "name3", "email3@example.com", "password");
     }
 
     private static Stream<String> provideRepositories() {

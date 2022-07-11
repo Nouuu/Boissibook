@@ -54,7 +54,7 @@ class BookReviewRepositoryTest extends PostgresIntegrationTest {
         bookReviewRepositories.put(inMemoryBookReviewRepositoryKey, inMemoryBookReviewRepository);
 
         bookReview1 = new BookReview(
-            bookReviewRepository.nextId(),
+            BookReviewId.nextId(),
             BookId.nextId(),
             UserId.nextId(),
             Visibility.PUBLIC,
@@ -64,7 +64,7 @@ class BookReviewRepositoryTest extends PostgresIntegrationTest {
             "review1"
         );
         bookReview2 = new BookReview(
-            bookReviewRepository.nextId(),
+            BookReviewId.nextId(),
             BookId.nextId(),
             UserId.nextId(),
             Visibility.PUBLIC,
@@ -74,7 +74,7 @@ class BookReviewRepositoryTest extends PostgresIntegrationTest {
             "review2"
         );
         bookReview3 = new BookReview(
-            bookReviewRepository.nextId(),
+            BookReviewId.nextId(),
             BookId.nextId(),
             UserId.nextId(),
             Visibility.PUBLIC,
