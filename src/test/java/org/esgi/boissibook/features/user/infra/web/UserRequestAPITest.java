@@ -41,11 +41,6 @@ class UserRequestAPITest extends PostgresIntegrationTest {
         "user2@mail.com",
         "password123");
 
-    final User invalidUser1 = new User(
-        UserId.nextId(),
-        "user1",
-        "user",
-        "password123");
 
     @LocalServerPort
     int port;
@@ -79,12 +74,39 @@ class UserRequestAPITest extends PostgresIntegrationTest {
             );
     }
 
-/*    @Test
-    void getBookByIdNotFound() {
+    @Test
+    void getAllUsersEmpty() {
+
+        var userResources = when()
+            .get("/users")
+            .then()
+            .statusCode(200)
+            .extract()
+            .body().jsonPath().getList(".", UserResponse.class);
+
+        assertThat(userResources).isEmpty();
+    }
+
+    @Test
+    void getUserById() {
+        jpaUserRepository.save(UserMapper.toUserEntity(validUser1));
+
+        var userResource = when()
+            .get("/users/" + validUser1.id().value())
+            .then()
+            .statusCode(200)
+            .extract()
+            .body().jsonPath().getObject(".", UserResponse.class);
+
+        assertThat(userResource).isEqualTo(UserMapper.toUserResponse(validUser1));
+    }
+
+    @Test
+    void getUserByIdNotFound() {
         when()
-            .get("/books/{id}", book1.id().value())
+            .get("/users/" + validUser1.id().value())
             .then()
             .statusCode(404);
-    }*/
+    }
 }
 
