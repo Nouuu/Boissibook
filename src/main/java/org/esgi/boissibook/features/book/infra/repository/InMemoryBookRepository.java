@@ -13,10 +13,12 @@ import java.util.Objects;
 
 public class InMemoryBookRepository extends InMemoryRepository<Book, BookId> implements BookRepository {
 
+    private static final String FORMATTED_EXCEPTION = "%s %s";
+
     @Override
     public BookId save(Book book) {
         if (this.data.values().stream().anyMatch(book1 -> book.apiId().equals(book1.apiId()))) {
-            throw new BookConflictException(String.format("%s : %s", BookExceptionMessage.BOOK_CONFLICT, book.apiId()));
+            throw new BookConflictException(String.format(FORMATTED_EXCEPTION, BookExceptionMessage.BOOK_CONFLICT, book.apiId()));
         }
         return super.save(book);
     }
@@ -25,7 +27,7 @@ public class InMemoryBookRepository extends InMemoryRepository<Book, BookId> imp
     public Book find(BookId id) throws NotFoundException {
         var result = data.get(Objects.requireNonNull(id, "Id can't be null").value());
         if (result == null) {
-            throw new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, id));
+            throw new BookNotFoundException(String.format(FORMATTED_EXCEPTION, BookExceptionMessage.BOOK_NOT_FOUND, id));
         }
         return result;
     }
@@ -33,7 +35,7 @@ public class InMemoryBookRepository extends InMemoryRepository<Book, BookId> imp
     @Override
     public void delete(Book entity) throws NotFoundException {
         if (data.remove(Objects.requireNonNull(entity.id(), "Id can't be null").value()) == null) {
-            throw new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, entity.id()));
+            throw new BookNotFoundException(String.format(FORMATTED_EXCEPTION, BookExceptionMessage.BOOK_NOT_FOUND, entity.id()));
         }
     }
 
@@ -46,6 +48,6 @@ public class InMemoryBookRepository extends InMemoryRepository<Book, BookId> imp
     public Book findByApiId(String apiId) {
         return this.data.values().stream().filter(book -> book.apiId().equals(apiId))
             .findFirst()
-            .orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, apiId)));
+            .orElseThrow(() -> new BookNotFoundException(String.format(FORMATTED_EXCEPTION, BookExceptionMessage.BOOK_NOT_FOUND, apiId)));
     }
 }

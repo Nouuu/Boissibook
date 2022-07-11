@@ -10,6 +10,8 @@ import org.esgi.boissibook.kernel.repository.UserId;
 import java.util.List;
 
 public class SpringDataUserRepository implements UserRepository {
+
+    private static final String FORMATTED_EXCEPTION = "%s %s";
     private final JPAUserRepository userRepository;
 
     public SpringDataUserRepository(JPAUserRepository userRepository) {
@@ -62,7 +64,7 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public User find(UserId id) {
         return UserMapper.toUser(userRepository.findById(id.value())
-            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id.value()))));
+            .orElseThrow(() -> new UserNotFoundException(String.format(FORMATTED_EXCEPTION, UserExceptionMessage.USER_NOT_FOUND, id.value()))));
     }
 
     /**
@@ -74,7 +76,7 @@ public class SpringDataUserRepository implements UserRepository {
     public void delete(User user) {
         userRepository.delete(
             userRepository.findById(user.id().value())
-                .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, user.id())))
+                .orElseThrow(() -> new UserNotFoundException(String.format(FORMATTED_EXCEPTION, UserExceptionMessage.USER_NOT_FOUND, user.id())))
         );
     }
 
@@ -94,6 +96,6 @@ public class SpringDataUserRepository implements UserRepository {
     @Override
     public User findByEmail(String email) {
         return UserMapper.toUser(userRepository.findByEmail(email)
-            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, email))));
+            .orElseThrow(() -> new UserNotFoundException(String.format(FORMATTED_EXCEPTION, UserExceptionMessage.USER_NOT_FOUND, email))));
     }
 }
