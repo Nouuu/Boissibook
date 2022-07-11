@@ -1,5 +1,7 @@
 package org.esgi.boissibook.features.book.infra.repository;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -8,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.util.List;
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "book")
