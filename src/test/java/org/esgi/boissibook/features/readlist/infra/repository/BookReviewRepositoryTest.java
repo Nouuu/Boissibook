@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.readlist.infra.repository;
 
 import org.esgi.boissibook.PostgresIntegrationTest;
 import org.esgi.boissibook.features.readlist.domain.BookReview;
+import org.esgi.boissibook.features.readlist.domain.BookReviewRepository;
 import org.esgi.boissibook.features.readlist.domain.ReadingStatus;
 import org.esgi.boissibook.features.readlist.domain.Visibility;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
@@ -9,12 +10,16 @@ import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.HashMap;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,12 +29,16 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFOR
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
-class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
+class BookReviewRepositoryTest extends PostgresIntegrationTest {
 
     @Autowired
     JPABookReviewRepository jpaBookReviewRepository;
 
-    private SpringDataBookReviewRepository bookReviewRepository;
+    private final static String springDataBookReviewRepositoryKey = "SpringDataBookReviewRepository";
+
+    private final static String inMemoryBookReviewRepositoryKey = "InMemoryBookReviewRepository";
+
+    private HashMap<String, BookReviewRepository> bookReviewRepositories;
 
     BookReview bookReview1;
     BookReview bookReview2;
@@ -37,7 +46,12 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        bookReviewRepository = new SpringDataBookReviewRepository(jpaBookReviewRepository);
+        SpringDataBookReviewRepository bookReviewRepository = new SpringDataBookReviewRepository(jpaBookReviewRepository);
+        InMemoryBookReviewRepository inMemoryBookReviewRepository = new InMemoryBookReviewRepository();
+
+        bookReviewRepositories = new HashMap<>();
+        bookReviewRepositories.put(springDataBookReviewRepositoryKey, bookReviewRepository);
+        bookReviewRepositories.put(inMemoryBookReviewRepositoryKey, inMemoryBookReviewRepository);
 
         bookReview1 = new BookReview(
             bookReviewRepository.nextId(),
@@ -71,23 +85,39 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
         );
     }
 
-    @Test
-    void nextId() {
+    private static Stream<String> provideRepositories() {
+        return Stream.of(
+            springDataBookReviewRepositoryKey,
+            inMemoryBookReviewRepositoryKey
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void nextId(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         assertThat(bookReviewRepository.nextId())
             .isNotNull()
             .isInstanceOf(BookReviewId.class);
     }
 
-    @Test
-    void save() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void save(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
 
         assertThat(bookReviewRepository.find(bookReview1.id()))
             .isEqualTo(bookReview1);
     }
 
-    @Test
-    void count() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void count(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         assertThat(bookReviewRepository.count())
             .isZero();
 
@@ -103,8 +133,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(3);
     }
 
-    @Test
-    void findAll() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findAll(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
         bookReviewRepository.save(bookReview3);
@@ -114,8 +147,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .containsOnly(bookReview1, bookReview2, bookReview3);
     }
 
-    @Test
-    void find() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void find(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
         bookReviewRepository.save(bookReview3);
@@ -124,8 +160,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(bookReview2);
     }
 
-    @Test
-    void findNotFound() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findNotFound(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
         bookReviewRepository.save(bookReview3);
@@ -137,8 +176,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .hasMessage("Review not found : " + bookReviewId);
     }
 
-    @Test
-    void delete() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void delete(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
 
@@ -153,8 +195,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(1);
     }
 
-    @Test
-    void deleteAll() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void deleteAll(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
         bookReviewRepository.save(bookReview3);
@@ -165,8 +210,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .isZero();
     }
 
-    @Test
-    void findByBookIdAndUserId() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findByBookIdAndUserId(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
         bookReviewRepository.save(bookReview3);
@@ -175,8 +223,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(bookReview2);
     }
 
-    @Test
-    void findByBookIdAndUserIdNotFound() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findByBookIdAndUserIdNotFound(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
         bookReviewRepository.save(bookReview3);
@@ -188,8 +239,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .hasMessage("Review not found : " + bookId + ", " + userId);
     }
 
-    @Test
-    void findByUserId() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findByUserId(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReview2.setUserId(bookReview1.getUserId());
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
@@ -200,8 +254,11 @@ class SpringDataBookReviewRepositoryTest extends PostgresIntegrationTest {
             .containsOnly(bookReview1, bookReview2);
     }
 
-    @Test
-    void findByUserIdEmpty() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findByUserIdEmpty(String bookRepositoryKey) {
+        BookReviewRepository bookReviewRepository = bookReviewRepositories.get(bookRepositoryKey);
+
         bookReviewRepository.save(bookReview1);
         bookReviewRepository.save(bookReview2);
         bookReviewRepository.save(bookReview3);
