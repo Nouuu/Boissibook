@@ -52,7 +52,7 @@ class BookRepositoryTest extends PostgresIntegrationTest {
         bookRepositories.put(inMemoryBookRepositoryKey, inMemoryBookRepository);
 
         book1 = new Book(
-            springDataBookRepository.nextId(),
+            BookId.nextId(),
             "123456789",
             "Book 1",
             List.of("Author 1", "Author 2"),
@@ -65,7 +65,7 @@ class BookRepositoryTest extends PostgresIntegrationTest {
             203
         );
         book2 = new Book(
-            springDataBookRepository.nextId(),
+            BookId.nextId(),
             "1234789",
             "Book 2",
             List.of("Author 1", "Author 2"),
@@ -78,7 +78,7 @@ class BookRepositoryTest extends PostgresIntegrationTest {
             203
         );
         book3 = new Book(
-            springDataBookRepository.nextId(),
+            BookId.nextId(),
             "12345678",
             "Book 3",
             List.of("Author 1", "Author 2"),

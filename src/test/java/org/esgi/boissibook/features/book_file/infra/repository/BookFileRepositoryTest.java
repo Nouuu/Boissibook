@@ -52,7 +52,7 @@ class BookFileRepositoryTest extends PostgresIntegrationTest {
         bookFileRepositories.put(inMemoryBookFileRepositoryKey, inMemoryBookFileRepository);
 
         bookFile1 = new BookFile(
-            springDataBookFileRepository.nextId(),
+            BookFileId.nextId(),
             "Book 1",
             "application/epub",
             BookId.nextId(),
@@ -61,7 +61,7 @@ class BookFileRepositoryTest extends PostgresIntegrationTest {
             null
         );
         bookFile2 = new BookFile(
-            springDataBookFileRepository.nextId(),
+            BookFileId.nextId(),
             "Book 2",
             "application/epub",
             BookId.nextId(),
@@ -70,7 +70,7 @@ class BookFileRepositoryTest extends PostgresIntegrationTest {
             null
         );
         bookFile3 = new BookFile(
-            springDataBookFileRepository.nextId(),
+            BookFileId.nextId(),
             "Book 3",
             "application/pdf",
             BookId.nextId(),
