@@ -11,7 +11,7 @@ import org.esgi.boissibook.kernel.repository.UserId;
 import java.util.Objects;
 
 public class InMemoryUserRepository extends InMemoryRepository<User, UserId> implements UserRepository {
-    private static final String FORMATTED_EXCEPTION = "%s %s";
+    private static final String FORMATTED_EXCEPTION = "%s : %s";
     private static final String ID_NOT_NULL = "Id can't be null";
 
     @Override

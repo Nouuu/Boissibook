@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class InMemoryBookRepository extends InMemoryRepository<Book, BookId> implements BookRepository {
 
-    private static final String FORMATTED_EXCEPTION = "%s %s";
+    private static final String FORMATTED_EXCEPTION = "%s : %s";
 
     @Override
     public BookId save(Book book) {

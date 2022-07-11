@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SpringDataUserRepository implements UserRepository {
 
-    private static final String FORMATTED_EXCEPTION = "%s %s";
+    private static final String FORMATTED_EXCEPTION = "%s : %s";
     private final JPAUserRepository userRepository;
 
     public SpringDataUserRepository(JPAUserRepository userRepository) {

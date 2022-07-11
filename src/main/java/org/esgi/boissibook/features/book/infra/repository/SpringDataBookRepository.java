@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SpringDataBookRepository implements BookRepository {
 
-    private static final String FORMATTED_EXCEPTION = "%s %s";
+    private static final String FORMATTED_EXCEPTION = "%s : %s";
     private final JPABookRepository bookRepository;
 
     public SpringDataBookRepository(JPABookRepository bookRepository) {
