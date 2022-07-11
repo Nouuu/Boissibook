@@ -86,7 +86,7 @@ class UserCommandsAPITest extends PostgresIntegrationTest {
             .body().as(HandledExceptionResponse.class);
 
         assertThat(response.message())
-            .contains("email: doit être une adresse électronique syntaxiquement correcte")
+            .contains("email: Invalid email")
             .contains("password: Invalid Password");
     }
 

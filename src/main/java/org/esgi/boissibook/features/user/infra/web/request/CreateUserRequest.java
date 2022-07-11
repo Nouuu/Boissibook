@@ -17,7 +17,7 @@ public record CreateUserRequest(
     @Schema(description = "The user's email", example = "gregory@mail.com", required = true)
     @JsonProperty
     @NotBlank
-    @Email
+    @Email(message = "Invalid email")
     String email,
     @Schema(description = "The user's password", example = "Password.123", required = true)
     @JsonProperty
