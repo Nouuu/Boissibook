@@ -2,6 +2,7 @@ package org.esgi.boissibook.features.user.infra.repository;
 
 import org.esgi.boissibook.features.user.domain.User;
 import org.esgi.boissibook.features.user.domain.UserRepository;
+import org.esgi.boissibook.features.user.infra.UserMapper;
 import org.esgi.boissibook.features.user.kernel.exception.UserExceptionMessage;
 import org.esgi.boissibook.features.user.kernel.exception.UserNotFoundException;
 import org.esgi.boissibook.kernel.repository.UserId;
@@ -23,7 +24,7 @@ public class SpringDataUserRepository implements UserRepository {
      */
     @Override
     public UserId save(User user) {
-        var userEntity = UserEntityMapper.toUserEntity(user);
+        var userEntity = UserMapper.toUserEntity(user);
         userRepository.save(userEntity);
         return user.id();
     }
@@ -48,7 +49,7 @@ public class SpringDataUserRepository implements UserRepository {
     public List<User> findAll() {
         return userRepository.findAll()
             .stream()
-            .map(UserEntityMapper::toUser)
+            .map(UserMapper::toUser)
             .toList();
     }
 
@@ -60,7 +61,7 @@ public class SpringDataUserRepository implements UserRepository {
      */
     @Override
     public User find(UserId id) {
-        return UserEntityMapper.toUser(userRepository.findById(id.value())
+        return UserMapper.toUser(userRepository.findById(id.value())
             .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id.value()))));
     }
 
@@ -92,7 +93,7 @@ public class SpringDataUserRepository implements UserRepository {
 
     @Override
     public User findByEmail(String email) {
-        return UserEntityMapper.toUser(userRepository.findByEmail(email)
+        return UserMapper.toUser(userRepository.findByEmail(email)
             .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, email))));
     }
 }
