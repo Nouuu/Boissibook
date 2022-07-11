@@ -2,17 +2,22 @@ package org.esgi.boissibook.features.book_file.infra.repository;
 
 import org.esgi.boissibook.PostgresIntegrationTest;
 import org.esgi.boissibook.features.book_file.domain.BookFile;
+import org.esgi.boissibook.features.book_file.domain.BookFileRepository;
 import org.esgi.boissibook.features.book_file.kernel.exception.BookFileNotFoundException;
 import org.esgi.boissibook.kernel.repository.BookFileId;
 import org.esgi.boissibook.kernel.repository.BookId;
 import org.esgi.boissibook.kernel.repository.UserId;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.HashMap;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,12 +27,16 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFOR
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
-class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
+class BookFileRepositoryTest extends PostgresIntegrationTest {
 
     @Autowired
     JPABookFileRepository jpaBookFileRepository;
 
-    private SpringDataBookFileRepository bookFileRepository;
+    private final static String springDataBookFileRepositoryKey = "SpringDataBookFileRepository";
+
+    private final static String inMemoryBookFileRepositoryKey = "InMemoryBookFileRepository";
+
+    private HashMap<String, BookFileRepository> bookFileRepositories;
 
     BookFile bookFile1;
     BookFile bookFile2;
@@ -35,10 +44,15 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        bookFileRepository = new SpringDataBookFileRepository(jpaBookFileRepository);
+        SpringDataBookFileRepository springDataBookFileRepository = new SpringDataBookFileRepository(jpaBookFileRepository);
+        InMemoryBookFileRepository inMemoryBookFileRepository = new InMemoryBookFileRepository();
+
+        bookFileRepositories = new HashMap<>();
+        bookFileRepositories.put(springDataBookFileRepositoryKey, springDataBookFileRepository);
+        bookFileRepositories.put(inMemoryBookFileRepositoryKey, inMemoryBookFileRepository);
 
         bookFile1 = new BookFile(
-            bookFileRepository.nextId(),
+            springDataBookFileRepository.nextId(),
             "Book 1",
             "application/epub",
             BookId.nextId(),
@@ -47,7 +61,7 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             null
         );
         bookFile2 = new BookFile(
-            bookFileRepository.nextId(),
+            springDataBookFileRepository.nextId(),
             "Book 2",
             "application/epub",
             BookId.nextId(),
@@ -56,7 +70,7 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             null
         );
         bookFile3 = new BookFile(
-            bookFileRepository.nextId(),
+            springDataBookFileRepository.nextId(),
             "Book 3",
             "application/pdf",
             BookId.nextId(),
@@ -66,16 +80,29 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
         );
     }
 
-    @Test
-    void save() {
+    private static Stream<String> provideRepositories() {
+        return Stream.of(
+            springDataBookFileRepositoryKey,
+            inMemoryBookFileRepositoryKey
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void save(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFileRepository.save(bookFile1);
 
         assertThat(bookFileRepository.find(bookFile1.id()))
             .isEqualTo(bookFile1);
     }
 
-    @Test
-    void count() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void count(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         assertThat(bookFileRepository.count())
             .isZero();
 
@@ -91,8 +118,11 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(3);
     }
 
-    @Test
-    void findAll() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findAll(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFileRepository.save(bookFile1);
         bookFileRepository.save(bookFile2);
         bookFileRepository.save(bookFile3);
@@ -102,8 +132,11 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             .containsOnly(bookFile1, bookFile2, bookFile3);
     }
 
-    @Test
-    void find() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void find(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFileRepository.save(bookFile1);
         bookFileRepository.save(bookFile2);
         bookFileRepository.save(bookFile3);
@@ -113,8 +146,11 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
     }
 
     //test find not found
-    @Test
-    void findNotFound() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findNotFound(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFileRepository.save(bookFile1);
         bookFileRepository.save(bookFile2);
         bookFileRepository.save(bookFile3);
@@ -126,8 +162,11 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             .hasMessage("Book file not found : " + bookFileId);
     }
 
-    @Test
-    void delete() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void delete(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFileRepository.save(bookFile1);
         bookFileRepository.save(bookFile2);
 
@@ -142,8 +181,11 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(1);
     }
 
-    @Test
-    void deleteAll() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void deleteAll(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFileRepository.save(bookFile1);
         bookFileRepository.save(bookFile2);
         bookFileRepository.save(bookFile3);
@@ -154,15 +196,21 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             .isZero();
     }
 
-    @Test
-    void nextId() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void nextId(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         assertThat(bookFileRepository.nextId())
             .isNotNull()
             .isInstanceOf(BookFileId.class);
     }
 
-    @Test
-    void findByBookId() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findByBookId(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFile2.setBookId(bookFile1.bookId());
         bookFileRepository.save(bookFile1);
         bookFileRepository.save(bookFile2);
@@ -176,8 +224,11 @@ class SpringDataBookFileRepositoryTest extends PostgresIntegrationTest {
             .isEmpty();
     }
 
-    @Test
-    void countAllByBookId() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void countAllByBookId(String bookFileRepositoryKey) {
+        BookFileRepository bookFileRepository = bookFileRepositories.get(bookFileRepositoryKey);
+
         bookFile2.setBookId(bookFile1.bookId());
         bookFileRepository.save(bookFile1);
         bookFileRepository.save(bookFile2);

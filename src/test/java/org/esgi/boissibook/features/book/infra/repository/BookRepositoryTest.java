@@ -2,18 +2,22 @@ package org.esgi.boissibook.features.book.infra.repository;
 
 import org.esgi.boissibook.PostgresIntegrationTest;
 import org.esgi.boissibook.features.book.domain.Book;
+import org.esgi.boissibook.features.book.domain.BookRepository;
 import org.esgi.boissibook.features.book.kernel.exception.BookConflictException;
 import org.esgi.boissibook.features.book.kernel.exception.BookNotFoundException;
 import org.esgi.boissibook.kernel.repository.BookId;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -23,12 +27,16 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFOR
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
-class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
+class BookRepositoryTest extends PostgresIntegrationTest {
 
     @Autowired
     JPABookRepository jpaBookRepository;
 
-    private SpringDataBookRepository bookRepository;
+    private static final String springDataBookRepositoryKey = "SpringDataBookRepository";
+
+    private static final String inMemoryBookRepositoryKey = "InMemoryBookRepository";
+
+    private HashMap<String, BookRepository> bookRepositories;
 
     Book book1;
     Book book2;
@@ -36,10 +44,15 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        bookRepository = new SpringDataBookRepository(jpaBookRepository);
+        SpringDataBookRepository springDataBookRepository = new SpringDataBookRepository(jpaBookRepository);
+        InMemoryBookRepository inMemoryBookRepository = new InMemoryBookRepository();
+
+        bookRepositories = new HashMap<>();
+        bookRepositories.put(springDataBookRepositoryKey, springDataBookRepository);
+        bookRepositories.put(inMemoryBookRepositoryKey, inMemoryBookRepository);
 
         book1 = new Book(
-            bookRepository.nextId(),
+            springDataBookRepository.nextId(),
             "123456789",
             "Book 1",
             List.of("Author 1", "Author 2"),
@@ -52,7 +65,7 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             203
         );
         book2 = new Book(
-            bookRepository.nextId(),
+            springDataBookRepository.nextId(),
             "1234789",
             "Book 2",
             List.of("Author 1", "Author 2"),
@@ -65,7 +78,7 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             203
         );
         book3 = new Book(
-            bookRepository.nextId(),
+            springDataBookRepository.nextId(),
             "12345678",
             "Book 3",
             List.of("Author 1", "Author 2"),
@@ -79,16 +92,29 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
         );
     }
 
-    @Test
-    void save() {
+    private static Stream<String> provideRepositories() {
+        return Stream.of(
+            springDataBookRepositoryKey,
+            inMemoryBookRepositoryKey
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void save(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
         bookRepository.save(book1);
 
         assertThat(bookRepository.find(book1.id()))
             .isEqualTo(book1);
     }
 
-    @Test
-    void saveExistingApiId() {
+
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void saveExistingApiId(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         bookRepository.save(book1);
         book2.setApiId(book1.apiId());
 
@@ -96,8 +122,11 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             .isInstanceOf(BookConflictException.class);
     }
 
-    @Test
-    void count() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void count(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         assertThat(bookRepository.count())
             .isZero();
 
@@ -113,8 +142,11 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(3);
     }
 
-    @Test
-    void findAll() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findAll(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         bookRepository.save(book1);
         bookRepository.save(book2);
         bookRepository.save(book3);
@@ -124,8 +156,11 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             .containsExactlyInAnyOrder(book1, book2, book3);
     }
 
-    @Test
-    void find() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void find(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         bookRepository.save(book1);
         bookRepository.save(book2);
         bookRepository.save(book3);
@@ -134,8 +169,11 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(book2);
     }
 
-    @Test
-    void findNotFound() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void findNotFound(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         bookRepository.save(book1);
         bookRepository.save(book2);
         bookRepository.save(book3);
@@ -147,8 +185,11 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             .hasMessage("Book not found : " + bookId);
     }
 
-    @Test
-    void delete() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void delete(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         bookRepository.save(book1);
         bookRepository.save(book2);
 
@@ -163,8 +204,11 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             .isEqualTo(1);
     }
 
-    @Test
-    void deleteAll() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void deleteAll(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         bookRepository.save(book1);
         bookRepository.save(book2);
         bookRepository.save(book3);
@@ -175,10 +219,14 @@ class SpringDataBookRepositoryTest extends PostgresIntegrationTest {
             .isZero();
     }
 
-    @Test
-    void nextId() {
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void nextId(String bookRepositoryKey) {
+        BookRepository bookRepository = bookRepositories.get(bookRepositoryKey);
+
         assertThat(bookRepository.nextId())
             .isNotNull()
             .isInstanceOf(BookId.class);
     }
+
 }
