@@ -21,7 +21,7 @@ public final class UserMapper {
     }
 
     public static UserResponse toUserResponse(User user) {
-        return new UserResponse(user.id().value(), user.name(), user.email());
+        return new UserResponse(user.id().value(), user.email(), user.name());
     }
 
     public static User toUser(UserEntity userEntity) {
