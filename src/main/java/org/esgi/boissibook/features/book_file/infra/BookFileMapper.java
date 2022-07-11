@@ -24,7 +24,7 @@ public final class BookFileMapper {
     }
 
     public static BookFile mapEntityBookFileToBookFile(BookFileEntity entity) {
-        return new BookFile(BookFileId.of(entity.id()), entity.name(), entity.type(), BookId.of(entity.bookId()), UserId.of(entity.userId()), entity.downloadCount(), entity.content());
+        return new BookFile(BookFileId.of(entity.id()), entity.name(), entity.type(), BookId.of(entity.bookId()), entity.userId() != null ? UserId.of(entity.userId()) : null, entity.downloadCount(), entity.content());
     }
 
     public static BookFileEntity mapBookFileToBookFileEntity(BookFile bookFile) {
