@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.user.domain.UserQueryHandler;
+import org.esgi.boissibook.features.user.infra.UserMapper;
 import org.esgi.boissibook.features.user.infra.web.response.UserResponse;
 import org.esgi.boissibook.features.user.infra.web.response.UsersCountResponse;
 import org.esgi.boissibook.infra.web.HandledExceptionResponse;
@@ -37,7 +38,7 @@ public class UserRequestController {
     public ResponseEntity<List<UserResponse>> getUsers() {
         var users = userQueryHandler.getUsers();
         return ResponseEntity.ok(
-            users.stream().map(UserWebMapper::toUserResponse).toList()
+            users.stream().map(UserMapper::toUserResponse).toList()
         );
     }
 
@@ -56,7 +57,7 @@ public class UserRequestController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") String id) {
         var user = userQueryHandler.getUser(UserId.of(id));
-        return ResponseEntity.ok(UserWebMapper.toUserResponse(user));
+        return ResponseEntity.ok(UserMapper.toUserResponse(user));
     }
 
     @Operation(summary = "Get user by email")
@@ -74,7 +75,7 @@ public class UserRequestController {
     @GetMapping(value = "/email/{email}")
     public ResponseEntity<UserResponse> getUserByEmail(@PathVariable("email") String email) {
         var user = userQueryHandler.getUserByEmail(email);
-        return ResponseEntity.ok(UserWebMapper.toUserResponse(user));
+        return ResponseEntity.ok(UserMapper.toUserResponse(user));
     }
 
     @Operation(summary = "Count users")
