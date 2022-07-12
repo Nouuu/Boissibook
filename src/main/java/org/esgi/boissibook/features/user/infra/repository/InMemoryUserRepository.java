@@ -11,13 +11,15 @@ import org.esgi.boissibook.kernel.repository.UserId;
 import java.util.Objects;
 
 public class InMemoryUserRepository extends InMemoryRepository<User, UserId> implements UserRepository {
+    private static final String FORMATTED_EXCEPTION = "%s : %s";
+    private static final String ID_NOT_NULL = "Id can't be null";
 
     @Override
     public User findByEmail(String email) {
         return data.values().stream()
             .filter(user -> user.email().equals(email))
             .findFirst()
-            .orElseThrow(() -> new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, email)));
+            .orElseThrow(() -> new UserNotFoundException(String.format(FORMATTED_EXCEPTION, UserExceptionMessage.USER_NOT_FOUND, email)));
     }
 
     @Override
@@ -27,17 +29,17 @@ public class InMemoryUserRepository extends InMemoryRepository<User, UserId> imp
 
     @Override
     public User find(UserId id) throws NotFoundException {
-        var result = data.get(Objects.requireNonNull(id, "Id can't be null").value());
+        var result = data.get(Objects.requireNonNull(id, ID_NOT_NULL).value());
         if (result == null) {
-            throw new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, id.value()));
+            throw new UserNotFoundException(String.format(FORMATTED_EXCEPTION, UserExceptionMessage.USER_NOT_FOUND, id.value()));
         }
         return result;
     }
 
     @Override
     public void delete(User entity) throws NotFoundException {
-        if (data.remove(Objects.requireNonNull(entity.id(), "Id can't be null").value()) == null) {
-            throw new UserNotFoundException(String.format("%s : %s", UserExceptionMessage.USER_NOT_FOUND, entity.id().value()));
+        if (data.remove(Objects.requireNonNull(entity.id(), ID_NOT_NULL).value()) == null) {
+            throw new UserNotFoundException(String.format(FORMATTED_EXCEPTION, UserExceptionMessage.USER_NOT_FOUND, entity.id().value()));
         }
     }
 }

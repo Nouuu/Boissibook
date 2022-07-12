@@ -4,6 +4,8 @@ import org.esgi.boissibook.kernel.exception.ConflictException;
 import org.esgi.boissibook.kernel.exception.NotFoundBadRequestException;
 import org.esgi.boissibook.kernel.exception.NotFoundException;
 import org.esgi.boissibook.kernel.exception.SearchException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final Logger exceptionHandlerLogger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<UnhandledExceptionResponse> onUnhandled(RuntimeException ex) {
-        ex.printStackTrace();
+        exceptionHandlerLogger.error("Unhandled exception", ex);
         return ResponseEntity.internalServerError()
             .body(new UnhandledExceptionResponse(
                 Arrays.toString(ex.getStackTrace()),

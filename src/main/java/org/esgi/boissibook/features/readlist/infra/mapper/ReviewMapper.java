@@ -12,6 +12,10 @@ import org.esgi.boissibook.kernel.repository.BookReviewId;
 import org.esgi.boissibook.kernel.repository.UserId;
 
 public class ReviewMapper {
+
+    private ReviewMapper() {
+    }
+
     public static BookReview toReview(CreateBookReviewRequest createBookProgressionRequest) {
         return new BookReview(
             null,
