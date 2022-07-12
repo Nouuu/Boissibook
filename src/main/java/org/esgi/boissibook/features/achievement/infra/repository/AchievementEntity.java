@@ -11,7 +11,7 @@ import org.esgi.boissibook.features.achievement.domain.AchievementLevel;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "book")
+@Table(name = "achievements")
 public class AchievementEntity {
     @Id
     private String id;
