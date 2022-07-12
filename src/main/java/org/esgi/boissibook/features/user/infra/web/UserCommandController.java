@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.esgi.boissibook.features.user.domain.UserCommandHandler;
-import org.esgi.boissibook.features.user.domain.UserQueryHandler;
 import org.esgi.boissibook.features.user.infra.web.request.CreateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.request.UpdateUserRequest;
 import org.esgi.boissibook.features.user.infra.web.response.UserIdResponse;
@@ -57,7 +56,7 @@ public class UserCommandController {
     public ResponseEntity<Void> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         var createUser = UserWebMapper.toUser(createUserRequest);
         var userId = userCommandHandler.createUser(createUser);
-        return ResponseEntity.created(linkTo(methodOn(UserQueryHandler.class).getUser(userId)).toUri()).build();
+        return ResponseEntity.created(linkTo(methodOn(UserRequestController.class).getUserById(userId.value())).toUri()).build();
     }
 
     @Operation(summary = "Update existing user")
