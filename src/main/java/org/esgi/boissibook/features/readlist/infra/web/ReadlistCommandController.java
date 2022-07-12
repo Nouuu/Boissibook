@@ -19,7 +19,6 @@ import org.esgi.boissibook.features.readlist.infra.web.request.StatusRequest;
 import org.esgi.boissibook.features.readlist.infra.web.request.UpdateBookReviewRequest;
 import org.esgi.boissibook.features.readlist.infra.web.response.BookReviewIdResponse;
 import org.esgi.boissibook.features.readlist.kernel.exception.BookNotFoundException;
-import org.esgi.boissibook.features.readlist.kernel.exception.BookReviewNotFoundException;
 import org.esgi.boissibook.features.readlist.kernel.exception.ReviewAlreadyExistException;
 import org.esgi.boissibook.features.readlist.kernel.exception.UserNotFoundException;
 import org.esgi.boissibook.features.user.domain.UserRepository;

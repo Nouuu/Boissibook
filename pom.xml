@@ -25,6 +25,7 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.language>java</sonar.language>
         <test-containers.version>1.17.2</test-containers.version>
+        <rest-assured.version>4.4.0</rest-assured.version>
     </properties>
 
     <dependencies>
@@ -89,7 +90,7 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>4.4.0</version>
+            <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
