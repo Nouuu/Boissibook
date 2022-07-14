@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.util.List;
 
 public class SpringDataBookRepository implements BookRepository {
+
+    private static final String FORMATTED_EXCEPTION = "%s : %s";
     private final JPABookRepository bookRepository;
 
     public SpringDataBookRepository(JPABookRepository bookRepository) {
@@ -25,7 +27,7 @@ public class SpringDataBookRepository implements BookRepository {
             bookRepository.save(bookEntity).id();
             return book.id();
         } catch (DataIntegrityViolationException e) {
-            throw new BookConflictException(String.format("%s : %s", BookExceptionMessage.BOOK_CONFLICT, book.apiId()));
+            throw new BookConflictException(String.format(FORMATTED_EXCEPTION, BookExceptionMessage.BOOK_CONFLICT, book.apiId()));
         }
     }
 
@@ -43,7 +45,7 @@ public class SpringDataBookRepository implements BookRepository {
 
     @Override
     public Book find(BookId id) throws BookNotFoundException {
-        return BookMapper.mapBookEntityToBook(bookRepository.findById(id.value()).orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, id))));
+        return BookMapper.mapBookEntityToBook(bookRepository.findById(id.value()).orElseThrow(() -> new BookNotFoundException(String.format(FORMATTED_EXCEPTION, BookExceptionMessage.BOOK_NOT_FOUND, id))));
     }
 
     @Override
@@ -64,6 +66,6 @@ public class SpringDataBookRepository implements BookRepository {
 
     @Override
     public Book findByApiId(String apiId) {
-        return BookMapper.mapBookEntityToBook(bookRepository.findByApiId(apiId).orElseThrow(() -> new BookNotFoundException(String.format("%s : %s", BookExceptionMessage.BOOK_NOT_FOUND, apiId))));
+        return BookMapper.mapBookEntityToBook(bookRepository.findByApiId(apiId).orElseThrow(() -> new BookNotFoundException(String.format(FORMATTED_EXCEPTION, BookExceptionMessage.BOOK_NOT_FOUND, apiId))));
     }
 }
