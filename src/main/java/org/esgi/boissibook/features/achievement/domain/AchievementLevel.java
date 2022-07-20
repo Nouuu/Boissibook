@@ -1,7 +1,7 @@
 package org.esgi.boissibook.features.achievement.domain;
 
 public enum AchievementLevel {
-    SILVER("Not bad !", 10), GOLD("Book amateur", 100), DIAMOND("Book writer", 1000), PLATINUM("Professional book critic", 10000);
+    IRON("Not bad !", 10), GOLD("Book amateur", 100), DIAMOND("Book writer", 1000), NETHERITE("Professional book critic", 10000);
 
     private final String title;
     private final int neededCount;
