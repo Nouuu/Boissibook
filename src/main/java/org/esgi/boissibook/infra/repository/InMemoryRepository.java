@@ -14,11 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryRepository<T extends DomainEntity, U extends DomainId<String>> implements Repository<T, U> {
 
+    private static final String ID_NOT_NULL = "Id can't be null";
+
     protected final Map<String, T> data = new ConcurrentHashMap<>();
 
     @Override
     public U save(T entity) throws ConflictException {
-        data.put(Objects.requireNonNull(entity.id(), "Id can't be null").value(), entity);
+        data.put(Objects.requireNonNull(entity.id(), ID_NOT_NULL).value(), entity);
         return (U) entity.id();
     }
 
@@ -34,7 +36,7 @@ public class InMemoryRepository<T extends DomainEntity, U extends DomainId<Strin
 
     @Override
     public T find(U id) throws NotFoundException {
-        var result = data.get(Objects.requireNonNull(id, "Id can't be null").value());
+        var result = data.get(Objects.requireNonNull(id, ID_NOT_NULL).value());
         if (result == null) {
             throw new NotFoundException("No entity for " + id.value());
         }
@@ -43,7 +45,7 @@ public class InMemoryRepository<T extends DomainEntity, U extends DomainId<Strin
 
     @Override
     public void delete(T entity) throws NotFoundException {
-        if (data.remove(Objects.requireNonNull(entity.id(), "Id can't be null").value()) == null) {
+        if (data.remove(Objects.requireNonNull(entity.id(), ID_NOT_NULL).value()) == null) {
             throw new NotFoundException("No entity for " + entity.id().value());
         }
     }
