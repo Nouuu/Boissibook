@@ -38,7 +38,11 @@ on ne le possède pas grâce à un utilitaire intégré (de mieux en mieux !).
 - [Application Swift](https://github.com/RemyMach/boissibook-swift)
 - [Scrapper Zlib](https://github.com/RemyMach/Boissibook-scraper)
 
-## Architecture Google Cloud Platform
+## Architecture Google Cloud Platform & CI/CD
+
+L'application est entièrement déployée sur Google Cloud Platform, avec une infrastructure de déploiement automatique.
+
+![](./doc/README-1658772052065.png)
 
 ## Features
 
@@ -273,10 +277,11 @@ Scrapper python, utilisé par l’application Spring pour parcourir Zlib et tél
 Une fois le fichier du livre récupéré
 → [Téléchargement / Envoie du livre ](#téléchargement-et-envoie-du-livre)
 
-
 ## Choix d'implémentations
 
 ### Hexagonal architecture
+
+### Domain ID (No primitive obsession)
 
 ### Diagrammes de séquence
 
