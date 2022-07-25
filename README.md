@@ -3,18 +3,7 @@
 | [![Quality Gate Status](https://sonar.nospy.fr/api/project_badges/measure?branch=dev&project=Nouuu_Boissibook&metric=alert_status&token=679473caa97f7d7d9df109022b2db2d90c5fea1f)](https://sonar.nospy.fr/dashboard?id=Nouuu_Boissibook&branch=dev) | [![Reliability Rating](https://sonar.nospy.fr/api/project_badges/measure?branch=dev&project=Nouuu_Boissibook&metric=reliability_rating&token=679473caa97f7d7d9df109022b2db2d90c5fea1f)](https://sonar.nospy.fr/dashboard?id=Nouuu_Boissibook&branch=dev) | [![Security Rating](https://sonar.nospy.fr/api/project_badges/measure?branch=dev&project=Nouuu_Boissibook&metric=security_rating&token=679473caa97f7d7d9df109022b2db2d90c5fea1f)](https://sonar.nospy.fr/dashboard?id=Nouuu_Boissibook&branch=dev) | [![Technical Debt](https://sonar.nospy.fr/api/project_badges/measure?branch=dev&project=Nouuu_Boissibook&metric=sqale_index&token=679473caa97f7d7d9df109022b2db2d90c5fea1f)](https://sonar.nospy.fr/dashboard?id=Nouuu_Boissibook&branch=dev) | [![Bugs](https://sonar.nospy.fr/api/project_badges/measure?branch=dev&project=Nouuu_Boissibook&metric=bugs&token=679473caa97f7d7d9df109022b2db2d90c5fea1f)](https://sonar.nospy.fr/dashboard?id=Nouuu_Boissibook&branch=dev) | [![Code Smells](https://sonar.nospy.fr/api/project_badges/measure?branch=dev&project=Nouuu_Boissibook&metric=code_smells&token=679473caa97f7d7d9df109022b2db2d90c5fea1f)](https://sonar.nospy.fr/dashboard?id=Nouuu_Boissibook&branch=dev) | [![Coverage](https://sonar.nospy.fr/api/project_badges/measure?branch=dev&project=Nouuu_Boissibook&metric=coverage&token=679473caa97f7d7d9df109022b2db2d90c5fea1f)](https://sonar.nospy.fr/dashboard?id=Nouuu_Boissibook&branch=dev) |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
-- [Concept](#concept)
-  * [Idées de nom d’app](#idées-de-nom)
-  * [Repo Github](#repo-github)
-  * [Plateforme](#plateforme)
-  * [BDD](#bdd)
-  * [Api de recherche de livres](#api-de-recherche-de-livres)
-- [Features](#features)
-  * [Gestion des utilisateurs](#gestion-des-utilisateurs)
-  * [Gestion des livres](#gestion-des-livres)
-  * [Readlist](#readlist)
-  * [Téléchargement et envoie du livre](#téléchargement-et-envoie-du-livre)
-  * [Scrapper Zlib](#scrapper-zlib)
+<!-- toc -->
 
 <!-- tocstop -->
 
@@ -37,79 +26,241 @@ on ne le possède pas grâce à un utilitaire intégré (de mieux en mieux !).
 - Kindle surprise, Kindle bueno, maxi ... 😏
 - ...
 
-### Repo Github
-
-### Plateforme
-
-Google Cloud Platform ou AWS (Si GCP trop dur à utiliser)
-
-### BDD
-
-PostgreSQL (ou MongoDB ?)
-
 ### Api de recherche de livres
 
 [Google Books APIs](https://developers.google.com/books/docs/v1/using)
 
 [Open Library](https://openlibrary.org/)
 
+## Dépôts Github
+
+- [Boissibook](https://github.com/Nouuu/Boissibook)
+- [Application Swift](https://github.com/RemyMach/boissibook-swift)
+- [Scrapper Zlib](https://github.com/RemyMach/Boissibook-scraper)
+
+## Architecture Google Cloud Platform
+
 ## Features
 
 ### Gestion des utilisateurs
 
-- Les use-cases
-    - Inscription
-    - Connexion
-    - Récupération de ses informations
-    - Déconnexion
-    - Modification
+Ce usecase est assez classique, elle permet de gérer les utilisateurs.
+
+Un utilisateur est défini par les propriétés suivantes :
+
+```json
+{
+  "userId": {
+    "type": "string",
+    "description": "The user's id"
+  },
+  "email": {
+    "type": "string",
+    "description": "The user's email",
+    "example": "gregory@mail.com"
+  },
+  "name": {
+    "type": "string",
+    "description": "The user's name",
+    "example": "Gregory"
+  }
+}
+```
+
+#### Fonctionnalités
+
+Les différentes fonctions sont les suivantes :
+
+- Créer un utilisateur
+- Modifier un utilisateur
+- Supprimer un utilisateur
+- Supprimer tous les utilisateurs
+- Récupérer un utilisateur
+- Récupérer un utilisateur par son email
+- Récupérer la liste des utilisateurs
+- Compter le nombre d’utilisateurs
 
 ### Gestion des livres
 
 Feature permettant de chercher un livre, l’ajouter à la base s’il n’existe pas encore et récupérer les informations de
-ce dernier (y compris sa note et les commentaires publiques laissés par les utilisateurs).
+ce dernier (y compris sa note et les commentaires publics laissés par les utilisateurs).
 
-- Les use-cases
-    - Chercher un livre en une ligne (qui pourra prendre aussi bien le nom d’un livre que celui d’un auteur, d’un genre).
-    - Chercher en ligne par ISBN
-    - Enregistrer un livre en base (par ISBN)
-    - Chercher un livre en base en une ligne (qui pourra prendre aussi bien le nom d’un livre que celui d’un auteur,
-      d’un genre).
-    - Récupérer les informations d’un livre en base (par ISBN)
-    - Récupérer les commentaires (public) d’un livre en base (par ISBN)
+Un livre est défini par les propriétés suivantes :
+
+```json
+{
+  "id": {
+    "type": "string"
+  },
+  "title": {
+    "type": "string"
+  },
+  "authors": {
+    "type": "array",
+    "items": {
+      "type": "string"
+    }
+  },
+  "publisher": {
+    "type": "string"
+  },
+  "publishedDate": {
+    "type": "string"
+  },
+  "description": {
+    "type": "string"
+  },
+  "isbn13": {
+    "type": "string"
+  },
+  "language": {
+    "type": "string"
+  },
+  "imgUrl": {
+    "type": "string"
+  },
+  "pages": {
+    "type": "integer",
+    "format": "int32"
+  }
+}
+```
+
+#### Fonctionnalités
+
+Les différentes fonctions sont les suivantes :
+
+- Chercher un livre en une ligne (qui pourra prendre aussi bien le nom d’un livre que celui d’un auteur, d’un genre)
+  .
+- Chercher en ligne par ISBN
+- Enregistrer un livre en base (par ISBN)
+- Chercher un livre en base en une ligne (qui pourra prendre aussi bien le nom d’un livre que celui d’un auteur,
+  d’un genre).
+- Supprimer un livre en base
+- Récupérer les informations d’un livre en base (par ISBN)
+- Récupérer les commentaires (public) d’un livre en base (par ISBN)
 
 ### Readlist
 
 Feature permettant à un utilisateur de gérer sa bibliothèque et ses livres en cours de lecture.
 
-- Les propriétés
-    - Visibilité
-    - Status de lecture (plan to read, reading, completed, on hold, dropped)
-    - Chapitre en cours
-    - Note donnée (sur 10)
-    - Commentaire
-- Les use-cases
-    - Récupérer ses livres enregistrés
-    - Récupérer un livre enregistré
-    - Ajouter un livre dans sa liste
-    - Modifier un livre dans sa liste
-    - Incrémenter le nombre de chapitres lus (idée de cocher séparément les chapitre lus ?)
-    - Noter le livre
-    - Changer le commentaire
-    - Changer le statut
-    - Retirer le livre de sa liste
+Une review est définie par les propriétés suivantes :
+
+```json
+{
+  "bookProgressionId": {
+    "type": "string",
+    "description": "The id of the readlist item",
+    "example": "7bd1b206-833d-4378-8064-05b162d80764"
+  },
+  "bookId": {
+    "type": "string",
+    "description": "The id of the book",
+    "example": "7bd1b206-833d-4378-8064-05b162d80764"
+  },
+  "userId": {
+    "type": "string",
+    "description": "The id of the user",
+    "example": "7bd1b206-833d-4378-8064-05b162d80764"
+  },
+  "readingStatus": {
+    "type": "string",
+    "description": "The reading status of the book",
+    "example": "READING"
+  },
+  "visibility": {
+    "type": "string",
+    "description": "The visibility of the review",
+    "example": "PUBLIC"
+  },
+  "currentPage": {
+    "type": "integer",
+    "description": "The number of the current page",
+    "format": "int32",
+    "example": 12
+  },
+  "note": {
+    "type": "integer",
+    "description": "The note given to the book",
+    "format": "int32",
+    "example": 5
+  },
+  "comment": {
+    "type": "string",
+    "description": "The comment of the review",
+    "example": "This book is awesome"
+  }
+}
+```
+
+#### Fonctionnalités
+
+Les différentes fonctions sont les suivantes :
+
+- Récupérer une review par son id
+- Mettre à jour sa review sur un livre
+- Supprimer sa review sur un livre
+- Ajouter une review sur un livre
+- Mettre à jour son statut de lecture sur un livre
+- Mettre à jour sa note sur un livre
+- Mettre à jour son commentaire sur un livre
+- Mettre à jour sa progression sur un livre
+- Récupérer toutes les reviews d’un utilisateur
+- Récupérer toutes les reviews d’un livre
 
 ### Téléchargement et envoie du livre
 
-- Stockage du livre dans un S3 et lien en base
-- L’utilisateur peut également ajouter lui-même le livre s’il le possède
-- Les uses cases
-    - Trouver un fichier via Zlib
-      → [Scrapper Zlib](#scrapper-zlib)
-    - Récupérer la liste des liens de téléchargement (ordonnée par nombre de téléchargements)
-    - Ajouter un fichier livre
-    - Supprimer un fichier livre
-    - Télécharger le livre
+La fonctionnalité phare et tout à fait légale (🤡) de Boissibook. Il est possible d'ajouter sa propre version numérique
+d'un livre.<br/>
+Si vous ne possédez pas le livre, pas de problème ! Un autre utilisateur l'a peut être déjà ajouté à votre place. Sinon,
+vous pouvez demander à Boissibook de tenter de le télécharger pour vous (dans la limite du quota de 5 par jours).
+
+Un fichier de livre est défini par les propriétés suivantes :
+
+```json
+ {
+  "id": {
+    "type": "string",
+    "description": "Book file id"
+  },
+  "name": {
+    "type": "string",
+    "description": "Book file name"
+  },
+  "type": {
+    "type": "string",
+    "description": "Book file type"
+  },
+  "bookId": {
+    "type": "string",
+    "description": "Book id"
+  },
+  "userId": {
+    "type": "string",
+    "description": "User who uploaded id"
+  },
+  "downloadCount": {
+    "type": "integer",
+    "description": "File download count",
+    "format": "int32"
+  }
+}
+```
+
+#### Fonctionnalités
+
+- Ajouter sa version numérique d'un livre
+- Trouver un fichier via Zlib
+  → [Scrapper Zlib](#scrapper-zlib)
+- Récupérer la liste des liens de téléchargement (ordonnée par nombre de téléchargements) d'un livre
+- Récupérer le nombre de fichiers de livres disponibles pour un livre
+- Supprimer un fichier livre
+- Télécharger un livre
+
+### Achievements
+
+Pour un peu plus de FUN, Boissibook propose des achievements. Ces derniers s'obtiennent lorsque vous avez terminé un
+certain nombre de livres ou qu'un de vos livres ajouté à la bibliothèque a été téléchargé plusieurs fois.
 
 ### Scrapper Zlib
 
@@ -121,3 +272,20 @@ Scrapper python, utilisé par l’application Spring pour parcourir Zlib et tél
 
 Une fois le fichier du livre récupéré
 → [Téléchargement / Envoie du livre ](#téléchargement-et-envoie-du-livre)
+
+
+## Choix d'implémentations
+
+### Hexagonal architecture
+
+### Diagrammes de séquence
+
+### Tests
+
+#### Tests d'architecture
+
+#### Tests unitaires
+
+#### Tests de contrat avec test container
+
+#### Tests E2E
