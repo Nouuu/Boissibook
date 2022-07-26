@@ -5,6 +5,36 @@
 
 <!-- toc -->
 
+- [Concept](#concept)
+  * [Idées de nom](#idées-de-nom)
+  * [Api de recherche de livres](#api-de-recherche-de-livres)
+- [Dépôts Github](#dépôts-github)
+- [Architecture Google Cloud Platform & CI/CD](#architecture-google-cloud-platform--cicd)
+- [Features](#features)
+  * [Gestion des utilisateurs](#gestion-des-utilisateurs)
+    + [Fonctionnalités](#fonctionnalités)
+  * [Gestion des livres](#gestion-des-livres)
+    + [Fonctionnalités](#fonctionnalités-1)
+  * [Readlist](#readlist)
+    + [Fonctionnalités](#fonctionnalités-2)
+  * [Téléchargement et envoie du livre](#téléchargement-et-envoie-du-livre)
+    + [Fonctionnalités](#fonctionnalités-3)
+  * [Achievements](#achievements)
+  * [Scrapper Zlib](#scrapper-zlib)
+- [Application frontend](#application-frontend)
+- [Choix d'implémentations](#choix-d'implémentations)
+  * [Hexagonal architecture](#hexagonal-architecture)
+    + [Architecture en couche](#architecture-en-couche)
+  * [Diagrammes de séquence](#diagrammes-de-séquence)
+    + [Ajout d'un utilisateur](#ajout-dun-utilisateur)
+    + [Recherche d'un livre](#recherche-dun-livre)
+    + [Ajout d'une review sur un livre](#ajout-dune-review-sur-un-livre)
+  * [Tests](#tests)
+    + [Tests d'architecture](#tests-d'architecture)
+    + [Tests unitaires](#tests-unitaires)
+    + [Tests de contrat avec test container](#tests-de-contrat-avec-test-container)
+    + [Tests E2E](#tests-e2e)
+
 <!-- tocstop -->
 
 ## Concept
