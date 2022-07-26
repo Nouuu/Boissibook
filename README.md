@@ -292,8 +292,6 @@ sorties et d’autre part, les adaptateurs qui sont des objets adaptant le monde
 L’architecture hexagonale préconise une version simplifiée de l’architecture en couches pour séparer la logique métier
 des processus techniques.
 
-![Layer_Architecture_-_Hexagonal_Architecture.png](./doc/README-1658825410490.png)
-
 La logique métier doit se trouver à l’intérieur de l’hexagone. Nous prenons plusieurs concepts en compte pour affiner
 cette architecture tel que :
 
@@ -305,16 +303,284 @@ cette architecture tel que :
 La couche applicative ne doit contenir que le métier de notre application, toutes ses dépendances doivent ainsi être des
 interfaces métiers, qui seront ensuite injectées et implémentées par la couche infrastructure.
 
-![Hexagonal_Architecture-1.png](./doc/README-1658825959474.png)
+| Couches                                                                            | Couche Applicative                                              |
+|------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| ![Layer_Architecture_-_Hexagonal_Architecture.png](./doc/README-1658825410490.png) | ![Hexagonal_Architecture-1.png](./doc/README-1658825959474.png) |
 
 ### Diagrammes de séquence
 
+Voici quelques diagrammes de séquence montrant un workflow "Classique" de nos cas d'utilisations.
+
+#### Ajout d'un utilisateur
+
+Lors de l'ajout d'un utilisateur, plusieurs choses se déroulent :
+
+1. Transformation de l'objet utilisateur provenant de la requête en un objet utilisateur métier.
+2. Appel du service métier d'enregistrement de l'utilisateur.
+3. Récupération d'un nouvel ID pour l'enregistrement de l'utilisateur.
+4. Enregistrement de l'utilisateur dans la base de données.
+5. Envoie d'un événement de création d'utilisateur.
+6. Retour au client de confirmation de l'enregistrement de l'utilisateur, avec en en-tête le lien pour consulter
+   l'utilisateur créé.
+
+![](doc/UserCommandController_createUser.svg)
+
+#### Recherche d'un livre
+
+Lorsque l'on cherche un livre à travers l'API (Recherche google), plusieurs choses se déroulent :
+
+1. Récupération du terme de la recherche
+2. Appel du service métier de recherche de livre.
+3. Appel du moteur de recherche (en l'occurrence, celui de Google)
+4. Récupération des résultats de la recherche.
+5. Transformation de l'objet de résultat de la recherche en un objet de résultat de recherche métier.
+6. Renvoie des résultats de la recherche au client.
+
+![](doc/BookSearchRequestController_search.svg)
+
+#### Ajout d'une review sur un livre
+
+L'ajout d'une review sur un livre se passe comme suit :
+
+1. Transformation de l'objet review provenant de la requête en un objet review métier.
+2. Vérification de l'existence du livre
+3. Vérification de l'existence de l'utilisateur
+4. Vérification de l'existence d'une précédente review pour cet utilisateur sur ce livre (Si c'est le cas on déclenche
+   une erreur).
+5. Appel du service métier d'enregistrement de la review.
+6. Récupération d'un nouvel ID pour l'enregistrement de la review.
+7. Enregistrement de la review dans la base de données.
+8. Envoie d'un événement de création de review.
+9. Retour au client de confirmation de l'enregistrement de la review, avec en en-tête le lien pour consulter la review
+   créée.
+
+![](doc/ReadlistCommandController_createBookReview.svg)
+
 ### Tests
+
+Afin de garantir que notre application fonctionne correctement, nous avons mis en place plusieurs types de tests.
+Ces derniers sont automatiquement exécutés lorsque nous faisons un nouveau déploiement et peut interrompre ce dernier
+s'ils ne se valident pas tous.
 
 #### Tests d'architecture
 
+Grâce à la librairie **Arch Unit**, nous vérifions que notre application respecte les spécifications de l'architecture
+hexagonale.
+
+Pour ce faire, nous allons valider trois choses :
+
+- Les éléments du domaine ne doivent jamais importer d'éléments du framework **Spring** ou **Javax**
+- Les éléments du kernel ne doivent jamais importer d'éléments du framework **Spring** ou **Javax**
+- L'infra peut importer des éléments du framework **Spring** ou **Javax** ou du domaine, mais pas l'inverse.
+
+> Exemple d'un test avec **Arch Unit**
+
+```java
+class ArchitectureTest {
+    @Test
+    void should_domain_never_be_linked_with_frameworks() {
+        var ruleNoFramework = noClasses().that().resideInAPackage("..domain..")
+                .should().dependOnClassesThat().resideInAPackage("..springframework..")
+                .orShould().dependOnClassesThat().resideInAPackage("javax..");
+
+        ruleNoFramework.check(projectClasses);
+    }
+}
+```
+
 #### Tests unitaires
+
+Nous avons décidé de mettre en place des tests unitaires pour nos classes de domaine.
+Nos tests unitaires sont complètement séparés du framework **Spring** et **Javax**, ce dernier n'est absolument pas
+présent.
+
+> Exemple de tests unitaires sur la partie utilisateur
+
+```java
+class UserCommandHandlerTest {
+    // ...
+    @BeforeEach
+    void setUp() {
+        userRepository = new InMemoryUserRepository();
+        userCommandHandler = new UserCommandHandler(userRepository, new VoidEventService());
+        // ...
+    }
+
+    @Test
+    void createUser() {
+        var userId = userCommandHandler.createUser(user1);
+
+        assertThat(userId).isNotNull();
+        assertThat(userRepository.find(userId))
+                .isNotNull()
+                .isEqualTo(user1.setId(userId));
+    }
+
+    @Test
+    void updateUser() {
+        userRepository.save(user1.setId(userRepository.nextId()));
+
+        user1.setName("newName")
+                .setPassword(null);
+
+        userCommandHandler.updateUser(user1);
+        assertThat(userRepository.find(user1.id()))
+                .isEqualTo(user1.setPassword("password"));
+    }
+    // ...
+}
+```
 
 #### Tests de contrat avec test container
 
+Dans le cas de nos implémentations de nos interfaces de **Repository**, nous souhaitons tester le bon fonctionnement de
+nos méthodes faisant appel à la base de donnée. Pour se mettre en situation réelle, il nous faut donc une vraie base de
+donnée pour effectuer nos tests.
+
+De plus, nous avons également une implémentation de nos **Repositories** en mémoire et nous devons nous assurer que
+cette dernière a le même comportement que la base de donnée. Ainsi nous nous assurons de ne pas avoir de comportements
+inattendus en changeant d'une implémentation à l'autre.
+
+Cela nous permet également pour les autres tests unitaires de n'utiliser que la base en mémoire pour nous affranchir
+totalement de Spring, sans prendre le risque de passer à côté de quelque chose.
+
+Pour ce faire, nous allons utiliser la librairie [Testcontainers](https://www.testcontainers.org) pour pouvoir monter à
+la volée un conteneur Docker d'une base de donnée entièrement dédiée aux tests.
+
+Lorsqu'une classe de tests nécessite une base de donnée, nous allons lui faire implémenter l'interface suivante afin de
+lui faire monter un conteneur docker.
+
+> PostgresIntegrationTest
+
+```java
+public abstract class PostgresIntegrationTest {
+    private static final PostgreSQLContainer POSTGRES_SQL_CONTAINER;
+
+    static {
+        POSTGRES_SQL_CONTAINER = new PostgreSQLContainer<>(DockerImageName.parse("postgres:14-alpine"));
+        POSTGRES_SQL_CONTAINER.start();
+    }
+
+    @DynamicPropertySource
+    static void overrideTestProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", POSTGRES_SQL_CONTAINER::getJdbcUrl);
+        registry.add("spring.datasource.username", POSTGRES_SQL_CONTAINER::getUsername);
+        registry.add("spring.datasource.password", POSTGRES_SQL_CONTAINER::getPassword);
+    }
+}
+```
+
+Cette dernière va venir surcharger les paramètres Spring pour lui faire se connecter à la base de donnée
+automatiquement.
+
+> UserRepositoryTest
+
+```java
+
+@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
+@Testcontainers
+@SpringBootTest
+@ActiveProfiles("test")
+class UserRepositoryTest extends PostgresIntegrationTest {
+
+    @Autowired
+    JPAUserRepository jpaUserRepository;
+
+    private final static String springDataUserRepositoryKey = "SpringDataUserRepository";
+
+    private final static String inMemoryUserRepositoryKey = "InMemoryUserRepository";
+
+    private HashMap<String, UserRepository> userRepositories;
+
+    // ...
+
+    @BeforeEach
+    void setUp() {
+        SpringDataUserRepository userRepository = new SpringDataUserRepository(jpaUserRepository);
+        InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
+
+        userRepositories = new HashMap<>();
+        userRepositories.put(springDataUserRepositoryKey, userRepository);
+        userRepositories.put(inMemoryUserRepositoryKey, inMemoryUserRepository);
+
+        // ...
+    }
+
+    private static Stream<String> provideRepositories() {
+        return Stream.of(
+                springDataUserRepositoryKey,
+                inMemoryUserRepositoryKey
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideRepositories")
+    void save(String userRepositoryKey) {
+        UserRepository userRepository = userRepositories.get(userRepositoryKey);
+
+        userRepository.save(user1);
+
+        assertThat(userRepository.find(user1.id()))
+                .isEqualTo(user1);
+    }
+}
+```
+
+Grâce aux `ParameterizedTest`, nous allons jouer les mêmes tests aussi bien sur la base de donnée réelle que celle en
+mémoire, afin de nous assurer que chacune valide exactement les mêmes tests.
+
 #### Tests E2E
+
+Afin de pouvoir tester les fonctionnalités de notre application, nous devons tester que l'application fonctionne de bout
+en bout avec un cas d'utilisation réel. Il faut alors lancer l'application avec tout le context **Spring**, ainsi
+qu'avec **Testcontainers** pour avoir un comportement réel. Nous nous servons ensuite de la
+librairie [RestAssured](https://rest-assured.io) pour faire des requêtes sur l'API afin de s'assurer que le comportement
+est bien celui attendu.
+
+> UserCommandsAPITest
+
+```java
+
+@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
+@Testcontainers
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+@ActiveProfiles("test")
+class UserCommandsAPITest extends PostgresIntegrationTest {
+    //...
+    @LocalServerPort
+    int port;
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.port = port;
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+    }
+
+    @Test
+    void createUser() {
+
+        var getUserUri = given()
+                .contentType(JSON)
+                .body(validUser1)
+                .when()
+                .post("/users")
+                .then()
+                .statusCode(201)
+                .extract()
+                .header("location");
+
+        var user = given()
+                .baseUri(getUserUri)
+                .when()
+                .get()
+                .then().statusCode(200)
+                .extract()
+                .body().as(UserResponse.class);
+
+        assertThat(user.userId()).isNotNull();
+        assertThat(user.email()).isEqualTo(validUser1.email());
+        assertThat(user.name()).isEqualTo(validUser1.name());
+    }
+    //...
+}
+```
