@@ -281,7 +281,31 @@ Une fois le fichier du livre récupéré
 
 ### Hexagonal architecture
 
-### Domain ID (No primitive obsession)
+L’objectif principal de l’architecture hexagonale est de découpler la partie métier d’une application de ses services
+techniques. Ceci dans le but de préserver la partie métier pour qu’elle ne contienne que des éléments liés aux
+traitements fonctionnels. Cette architecture est aussi appelée “Ports et Adaptateurs” car l’interface entre la partie
+métier et l’extérieur se fait, d’une part, en utilisant les ports qui sont des interfaces définissant les entrées ou
+sorties et d’autre part, les adaptateurs qui sont des objets adaptant le monde extérieur à la partie métier.
+
+#### Architecture en couche
+
+L’architecture hexagonale préconise une version simplifiée de l’architecture en couches pour séparer la logique métier
+des processus techniques.
+
+![Layer_Architecture_-_Hexagonal_Architecture.png](./doc/README-1658825410490.png)
+
+La logique métier doit se trouver à l’intérieur de l’hexagone. Nous prenons plusieurs concepts en compte pour affiner
+cette architecture tel que :
+
+- Inversion de dépendances
+- Couche applicative
+- Couche infrastructure
+- ...
+
+La couche applicative ne doit contenir que le métier de notre application, toutes ses dépendances doivent ainsi être des
+interfaces métiers, qui seront ensuite injectées et implémentées par la couche infrastructure.
+
+![Hexagonal_Architecture-1.png](./doc/README-1658825959474.png)
 
 ### Diagrammes de séquence
 
