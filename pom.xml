@@ -11,7 +11,7 @@
 
     <groupId>org.esgi</groupId>
     <artifactId>boissibook</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>boissibook</name>
     <description>A handy tool to manage our book collection and reading list.</description>
 
