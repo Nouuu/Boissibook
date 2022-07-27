@@ -27,7 +27,7 @@ public class BookFileQueryHandler {
         bookFile.setDownloadCount(bookFile.downloadCount() + 1);
         bookFileRepository.save(bookFile);
         bookFile.setContent(fileCompression.decompress(bookFile.name(), bookFile.content()));
-        if (bookFile.userId() != null) {
+        if (bookFile.userId() != null && bookFile.userId().value() != null && bookFile.userId().value().length() > 0) {
             eventService.publish(BookFileDownloadedEvent.of(bookFile));
         }
         return bookFile;
